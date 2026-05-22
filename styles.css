@@ -530,3 +530,327 @@ img.logo[src*="placeholder"] {
         padding: 12px 20px; 
     }
 }
+/* ── Sub-Form Layout Navigation Extensions ── */
+.back-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 600 !important;
+}
+
+/* Form Banner Block styles */
+.form-banner {
+    background-color: var(--primary-green);
+    color: var(--white);
+    padding: 30px 0 45px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.form-banner h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+}
+
+/* Step tracker matrix styles */
+.step-tracker {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 14px 20px;
+    border-radius: 10px;
+}
+
+.step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.5;
+}
+
+.step-active {
+    opacity: 1;
+    font-weight: 700;
+}
+
+.step-num {
+    background: var(--white);
+    color: var(--primary-green);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.step-label {
+    font-size: 0.9rem;
+}
+
+/* Dual Column Registration Workspace Arrangement grid */
+.registration-layout {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+    margin-top: 30px;
+    margin-bottom: 60px;
+    align-items: start;
+}
+
+.form-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 36px;
+    box-shadow: var(--card-shadow);
+}
+
+.form-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1.5px solid #EAECEF;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+}
+
+.form-card-header .material-icons {
+    font-size: 32px;
+    background: #EAECEF;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.header-text-block h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.ref-code-display {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+
+/* Form Matrix fields structures rules */
+.interactive-form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+@media (max-width: 540px) {
+    .interactive-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.form-group label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.form-group input,
+.form-group select {
+    padding: 12px 14px;
+    border: 1.5px solid #d0d5dd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    background: #fafafa;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--card-green);
+    box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.15);
+    background: var(--white);
+}
+
+/* Modern Accessible Flat Alternative Choice Blocks UI [cite: 383, 475] */
+.radio-card-group {
+    display: flex;
+    gap: 12px;
+}
+
+.radio-card {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1.5px solid #d0d5dd;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.95rem;
+    background: #fafafa;
+    user-select: none;
+}
+
+.radio-card input {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--card-green);
+}
+
+/* Privacy Consent Block Styles Rules */
+.form-privacy-notice {
+    display: flex;
+    gap: 12px;
+    background: #f8f9fa;
+    border: 1.5px solid #EAECEF;
+    padding: 16px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.form-privacy-notice p {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+}
+
+/* Navigation button container */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.next-step-btn {
+    background: var(--card-green);
+    color: var(--white);
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.next-step-btn:hover { background: #2a8a43; }
+.next-step-btn:active { transform: scale(0.98); }
+
+/* Sidebar Widget Elements Styles rules */
+.sidebar-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.widget-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.tracker-widget h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--text-mid);
+}
+
+.progress-ring-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.mock-progress-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(var(--card-green) 25%, #EAECEF 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--primary-green);
+}
+
+.progress-steps-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.p-step {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.active-p {
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+.p-step .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #EAECEF;
+}
+
+.active-p .dot {
+    background: var(--card-green);
+}
+
+.info-widget {
+    background: #eef6f0;
+    border: 1px solid rgba(52,168,83,0.15);
+    display: flex;
+    gap: 12px;
+}
+
+.info-widget p {
+    font-size: 0.85rem;
+    color: #2b5e37;
+    line-height: 1.5;
+}
+
+.info-icon { color: var(--primary-green); }
+
+/* Responsive break adjustments rules */
+@media (max-width: 900px) {
+    .registration-layout {
+        grid-template-columns: 1fr;
+    }
+    .sidebar-layout {
+        order: -1; /* Pushes progress ring up on small portable screen interfaces */
+    }
+}

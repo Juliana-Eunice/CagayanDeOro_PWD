@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Registration — CDO PWD Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="grid-container nav-wrapper">
+            <div class="nav-brand">
+                <h1>CDO PWD Portal</h1>
+                <span>Cagayan de Oro City</span>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html" class="back-link"><span class="material-icons">arrow_back</span> Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="form-banner">
+        <div class="grid-container">
+            <h2>Start your PWD ID application</h2>
+            <div class="step-tracker">
+                <div class="step step-active">
+                    <span class="step-num">1</span>
+                    <span class="step-label">Personal Information</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Disability Type</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Documents</span>
+                </div>
+                <div class="step">
+                    <span class="step-num">4</span>
+                    <span class="step-label">Review & Submit</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="grid-container registration-layout">
+        
+        <section class="form-card">
+            <div class="form-card-header">
+                <span class="material-icons text-light">person</span>
+                <div class="header-text-block">
+                    <h3>Personal Information</h3>
+                    <p class="ref-code-display">Reference Code: <strong class="text-dark">597437A</strong></p>
+                </div>
+            </div>
+
+            <form action="#" method="POST" class="interactive-form">
+                
+                <div class="form-group full-width">
+                    <label>Application Type</label>
+                    <div class="radio-card-group">
+                        <label class="radio-card">
+                            <input type="radio" name="app_type" value="new" checked>
+                            <span>New</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="app_type" value="renew">
+                            <span>Renew</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="app_type" value="lost">
+                            <span>Lost ID</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" name="first_name" placeholder="e.g. Juan" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" name="last_name" placeholder="e.g. Dela Cruz" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="middle-name">Middle Name</label>
+                    <input type="text" id="middle-name" name="middle_name" placeholder="e.g. Santos">
+                </div>
+
+                <div class="form-group">
+                    <label for="birth-date">Date of Birth</label>
+                    <input type="date" id="birth-date" name="birth_date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sex">Sex</label>
+                    <select id="sex" name="sex" required>
+                        <option value="" disabled selected>Select Sex</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="civil-status">Civil Status</label>
+                    <select id="civil-status" name="civil_status" required>
+                        <option value="" disabled selected>Select Status</option>
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="widowed">Widowed</option>
+                        <option value="separated">Separated</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="address">Complete Address</label>
+                    <input type="text" id="address" name="address" placeholder="#117 Corregidor Street, Brgy. Holy Spirit" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="barangay">Barangay</label>
+                    <input type="text" id="barangay" name="barangay" placeholder="e.g. Agusan" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="place-birth">Place of Birth</label>
+                    <input type="text" id="place-birth" name="place_birth" placeholder="City / Province" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="blood-type">Blood Type</label>
+                    <select id="blood-type" name="blood_type">
+                        <option value="none">None / Unknown</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="religion">Religion</label>
+                    <input type="text" id="religion" name="religion" placeholder="e.g. Roman Catholic">
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" name="mobile" placeholder="e.g. 0912-123-4567" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="e.g. juandelacruz@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="income-source">Source of Income</label>
+                    <input type="text" id="income-source" name="income_source" placeholder="e.g. Employed, None">
+                </div>
+
+                <div class="form-group">
+                    <label>COMELEC Registered Voter?</label>
+                    <div class="radio-card-group">
+                        <label class="radio-card">
+                            <input type="radio" name="comelec_registered" value="yes">
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="comelec_registered" value="no" checked>
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-privacy-notice full-width">
+                    <span class="material-icons text-light">gavel</span>
+                    <p>By submitting data here, you consent to the collection, processing, storage, and retention of your personal and sensitive personal information by the City Social Welfare & Development Department for purposes described in this application system.</p>
+                </div>
+
+                <div class="form-actions full-width">
+                    <button type="submit" class="next-step-btn">
+                        Next: Disability Type <span class="material-icons">arrow_forward</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <aside class="sidebar-layout">
+            <div class="widget-card tracker-widget">
+                <h4>Your Progress</h4>
+                <div class="progress-ring-block">
+                    <div class="mock-progress-circle">25%</div>
+                    <div class="progress-steps-list">
+                        <p class="p-step active-p"><span class="dot"></span> Personal Info</p>
+                        <p class="p-step"><span class="dot"></span> Disability Details</p>
+                        <p class="p-step"><span class="dot"></span> Documentation Upload</p>
+                        <p class="p-step"><span class="dot"></span> System Finalization</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="widget-card info-widget">
+                <span class="material-icons info-icon">help_outline</span>
+                <p>Need support filling details out? Tap back to reach out directly to the CSWD PWD Section.</p>
+            </div>
+        </aside>
+
+    </main>
+
+</body>
+</html>

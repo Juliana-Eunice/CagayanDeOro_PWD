@@ -32,4 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
             e.target.style.display = 'none';
         }
     });
+
+    const btnStart = document.getElementById('btn-start');
+
+    if(btnStart) {
+        btnStart.addEventListener('click', () => {
+            window.location.href = 'registration.html';
+        });
+    }
+
 });
