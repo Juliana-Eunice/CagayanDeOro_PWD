@@ -18,7 +18,10 @@
                 <h1>CDO PWD Portal</h1>
                 <span>Cagayan de Oro City</span>
             </div>
-            <nav class="nav-links">
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="nav-links" id="nav-links">
                 <a href="index.html">Home</a>
                 <a href="faqs.html">FAQs</a>
                 <a href="about.html" class="active">About Us</a>
@@ -199,6 +202,45 @@
         </div>
     </div>
 
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navLinks  = document.getElementById('nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                const isOpen = hamburger.classList.toggle('open');
+                hamburger.setAttribute('aria-expanded', isOpen);
+                if (isOpen) {
+                    navLinks.style.display = 'flex';
+                    requestAnimationFrame(() => navLinks.classList.add('open'));
+                } else {
+                    navLinks.classList.remove('open');
+                    navLinks.addEventListener('transitionend', () => {
+                        if (!navLinks.classList.contains('open')) navLinks.style.display = 'none';
+                    }, { once: true });
+                }
+            });
+            navLinks.querySelectorAll('a').forEach(a =>
+                a.addEventListener('click', () => {
+                    hamburger.classList.remove('open');
+                    hamburger.setAttribute('aria-expanded', false);
+                    navLinks.classList.remove('open');
+                    navLinks.addEventListener('transitionend', () => {
+                        navLinks.style.display = 'none';
+                    }, { once: true });
+                })
+            );
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                    hamburger.classList.remove('open');
+                    hamburger.setAttribute('aria-expanded', false);
+                    navLinks.classList.remove('open');
+                    navLinks.addEventListener('transitionend', () => {
+                        navLinks.style.display = 'none';
+                    }, { once: true });
+                }
+            });
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

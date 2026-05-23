@@ -566,13 +566,36 @@ img.logo[src*="placeholder"] {
 }
 
 /* ── Responsive tweaks ── */
-@media (max-width: 900px) {
-    .action-cards-container {
-        gap: 16px;              /* Tightens card gaps before resorting to breaking rows */
+@media (max-width:768px){
+
+    .hero{
+        min-height:auto;
+        padding:40px 0;
     }
-    .hero-text h2 { 
-        font-size: 2rem; 
+
+    .hero-content{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        align-items:center;
+        gap:10px;
     }
+
+    .logo{
+        width:70px;
+        height:70px;
+        flex:0 0 auto;
+    }
+
+    .hero-text{
+        flex:none;          /* override old flex:0 1 600px */
+        width:100%;         /* full row */
+        order:1;            /* below logos */
+        text-align:center;
+        padding:0;
+        margin-top:8px;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -1093,6 +1116,33 @@ img.logo[src*="placeholder"] {
 /* ==========================================================================
    ── RESPONSIVE COLLAPSE RULES (RESPONSIVE ONLY) ──
    ========================================================================== */
+/* ── Hero logo visibility helpers ── */
+.hero-logos-mobile { display: none; }   /* hidden on desktop */
+
+@media (max-width: 768px) {
+    /* Hide individual desktop logos */
+    .logo-desktop-only { display: none; }
+
+    /* Hero stacks: logos row on top, text below */
+    .hero-content {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
+
+    /* Show the mobile logo pair, side by side */
+    .hero-logos-mobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        order: -1;          /* logos row appears above the text */
+    }
+
+    .hero-text h2 { font-size: 1.8rem; }
+    .hero-text p  { font-size: 1rem; }
+}
+
 @media (max-width: 960px) {
     .registration-layout,
     .documentation-layout {
@@ -1132,5 +1182,104 @@ img.logo[src*="placeholder"] {
     }
     .sub-form-section-divider {
         grid-column: span 1;
+    }
+}
+/* ── Hamburger button ── */
+.navbar { position: relative; z-index: 100; }
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background 0.15s;
+}
+.hamburger:hover { background: rgba(255,255,255,0.12); }
+.hamburger span {
+    display: block;
+    width: 24px;
+    height: 2.5px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s ease;
+    transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+
+    /* Slide-down panel — floats as a compact card below the bar */
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 6px;
+        position: absolute;
+        top: calc(100% + 8px);   /* small gap below navbar */
+        right: 16px;             /* anchored to the right like a proper dropdown */
+        left: auto;              /* NOT full-width */
+        width: 200px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+        z-index: 200;
+        padding: 8px;
+        /* Smooth slide-in */
+        opacity: 0;
+        transform: translateY(-6px) scale(0.97);
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        pointer-events: none;
+    }
+    .nav-links.open {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        pointer-events: all;
+    }
+
+    /* Arrow pip pointing up toward the hamburger */
+    .nav-links::before {
+        content: '';
+        position: absolute;
+        top: -7px;
+        right: 18px;
+        width: 14px;
+        height: 14px;
+        background: #ffffff;
+        border-radius: 3px 0 0 0;
+        transform: rotate(45deg);
+        box-shadow: -2px -2px 5px rgba(0,0,0,0.06);
+    }
+
+    .nav-links a {
+        padding: 11px 16px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-dark) !important;
+        border-radius: 8px;
+        border-bottom: none;
+        opacity: 1;
+        transition: background 0.15s ease, color 0.15s ease;
+    }
+    .nav-links a:hover {
+        background: #f0f7f0;
+        color: var(--primary-green) !important;
+    }
+    .nav-links a:active {
+        background: #ddf0dd;
+    }
+    .nav-links a.active {
+        background: #e8f5e8;
+        color: var(--primary-green) !important;
+        font-weight: 700;
+        border-bottom: none;
+        padding-bottom: 11px;
     }
 }
