@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+    document.addEventListener('DOMContentLoaded', () => {
 
     const btnContinue = document.getElementById('btn-continue');
     const btnStatus = document.getElementById('btn-status');
@@ -38,10 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const VALID_SAMPLE_CODE = "8228DD1D3A";
 
     function validateField(inputElement) {
-        if (!inputElement) return false;
         const value = inputElement.value.trim();
 
-        // Check if field is blank or doesn't match the valid tracking sample format
         if (value === "" || value !== VALID_SAMPLE_CODE) {
             inputElement.classList.add('input-field-error');
             inputElement.placeholder = "Please input a valid code...";
@@ -52,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
 
-    // Remove the error styling layout instantly when the user begins retyping data entries
     [continueInput, statusInput].forEach(input => {
         if (input) {
             input.addEventListener('input', () => {
@@ -70,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Capture submit events
     if (submitContinue && continueInput) {
         submitContinue.addEventListener('click', () => {
             if (validateField(continueInput)) {
@@ -89,17 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Listen for keys pressed while typing in the "Continue Registration" field
     if (continueInput && submitContinue) {
         continueInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                event.preventDefault(); 
-                submitContinue.click(); 
+                event.preventDefault();
+                submitContinue.click();
             }
         });
     }
 
-    // Listen for keys pressed while typing in the "Registration Status" field
     if (statusInput && submitStatus) {
         statusInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
@@ -115,9 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let isClickScrolling = false;
 
     sidebarAnchors.forEach(anchor => {
-        anchor.addEventListener('click', function() {
+        anchor.addEventListener('click', function(e) {
             isClickScrolling = true;
-
             sidebarAnchors.forEach(link => link.classList.remove('active-anchor'));
             this.classList.add('active-anchor');
 
@@ -128,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('scroll', () => {
-        if (isClickScrolling || !contentBlocks.length) return;
+        if (isClickScrolling) return;
 
         let currentActiveId = "";
         
@@ -150,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // For feedback and suggestions
     const btnFeedback = document.querySelector('.feedback-btn');
     const modalFeedback = document.getElementById('modal-feedback');
     const submitFeedback = document.getElementById('submit-feedback');
@@ -166,23 +159,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const nameField = document.getElementById('feedback-name');
             const commentField = document.getElementById('feedback-comments');
 
-            if (commentField && commentField.value.trim() === "") {
+            if (commentField.value.trim() === "") {
                 commentField.classList.add('input-field-error');
                 commentField.placeholder = "Please enter your comments before submitting...";
-            } else if (commentField) {
+            } else {
                 commentField.classList.remove('input-field-error');
                 alert("Thank you! Your feedback has been sent to Cheryl and the CSWDD team.");
-                
-                if (nameField) nameField.value = "";
-                const contactField = document.getElementById('feedback-contact');
-                if (contactField) contactField.value = "";
+                nameField.value = "";
+                document.getElementById('feedback-contact').value = "";
                 commentField.value = "";
                 modalFeedback.style.display = 'none';
             }
         });
     }
 
-    // For registration process
     const wizardPanels = document.querySelectorAll('.form-wizard-panel');
     const stepIndicators = document.querySelectorAll('.step-tracker .step');
     const progressCircle = document.getElementById('wizard-progress-circle');
@@ -225,13 +215,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Are you sure you want to go home?
     const backToHomeLink = document.querySelector('.back-link');
 
     if (backToHomeLink) {
         backToHomeLink.addEventListener('click', (event) => {
             event.preventDefault();
-
             const referenceCode = "8228DD1D3A";
             const userConfirmed = confirm(
                 `Are you sure you want to leave?\n\nYou can continue your application later using your reference code: ${referenceCode}`
@@ -247,14 +235,12 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const targetNextStep = parseInt(btn.getAttribute('data-next'));
             const currentForm = btn.closest('.form-wizard-panel');
-            if (!currentForm) return;
-
             const inputsInside = currentForm.querySelectorAll('input[required], select[required]');
             let panelIsValid = true;
 
             inputsInside.forEach(input => {
                 if (!input.checkValidity()) {
-                    input.reportValidity(); 
+                    input.reportValidity();
                     panelIsValid = false;
                 }
             });
@@ -272,68 +258,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ==========================================================================
-       ── FORM SUBMISSION HANDLING ──
-       ========================================================================== */
     const primaryFormAsset = document.getElementById('pwd-application-form');
     if (primaryFormAsset) {
         primaryFormAsset.addEventListener('submit', (e) => {
-            e.preventDefault(); 
+            e.preventDefault();
             alert("Application Form Packed Successfully! Sent to Persons with Disability Affairs Office (PDAO) for data review validation.");
             window.location.href = "index.html";
         });
     }
 
-    /* ==========================================================================
-       ── CONSOLIDATED MOBILE NAVBAR SYSTEM ──
-       ========================================================================== */
-    const mobileMenuHamburger = document.getElementById('hamburger');
-    const mobileMenuLinksContainer = document.getElementById('nav-links');
-    
-    const isMobileMenu = () => mobileMenuHamburger && window.getComputedStyle(mobileMenuHamburger).display !== 'none';
+    // ── FORGOT REFERENCE CODE INTERACTIVE FLOW ──
+    const triggerForgotLinks = document.querySelectorAll('.forgot-code-link');
+    const modalForgotCode = document.getElementById('modal-forgot-code');
+    const forgotStepPhone = document.getElementById('forgot-step-phone');
+    const forgotStepSuccess = document.getElementById('forgot-step-success');
+    const forgotPhoneInput = document.getElementById('forgot-phone-input');
+    const submitForgotPhone = document.getElementById('submit-forgot-phone');
 
-    if (mobileMenuHamburger && mobileMenuLinksContainer) {
-        mobileMenuHamburger.addEventListener('click', () => {
-            if (!isMobileMenu()) return; 
+    triggerForgotLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
             
-            const isOpen = mobileMenuHamburger.classList.toggle('open');
-            mobileMenuHamburger.setAttribute('aria-expanded', isOpen);
-            if (isOpen) {
-                mobileMenuLinksContainer.style.display = 'flex';
-                requestAnimationFrame(() => mobileMenuLinksContainer.classList.add('open'));
-            } else {
-                mobileMenuLinksContainer.classList.remove('open');
-                mobileMenuLinksContainer.addEventListener('transitionend', () => {
-                    if (!mobileMenuLinksContainer.classList.contains('open')) mobileMenuLinksContainer.style.display = 'none';
-                }, { once: true });
+            const activeModal = link.closest('.modal');
+            const isFromStatus = activeModal && activeModal.id === 'modal-status';
+            
+            if (activeModal) activeModal.style.display = 'none';
+            
+            forgotStepPhone.style.display = 'block';
+            forgotStepSuccess.style.display = 'none';
+            if (forgotPhoneInput) {
+                forgotPhoneInput.value = "";
+                forgotPhoneInput.classList.remove('input-field-error');
+                forgotPhoneInput.placeholder = "e.g. 09XXXXXXXXX";
             }
+            
+            // Dynamic Color Selection Theme
+            if (isFromStatus) {
+                forgotStepPhone.className = "modal-content modal-red";
+                submitForgotPhone.className = "modal-submit btn-red";
+            } else {
+                forgotStepPhone.className = "modal-content modal-blue";
+                submitForgotPhone.className = "modal-submit btn-blue";
+            }
+            
+            if (modalForgotCode) modalForgotCode.style.display = 'flex';
+        });
+    });
+
+    if (submitForgotPhone && forgotPhoneInput) {
+        submitForgotPhone.addEventListener('click', () => {
+            const phoneValue = forgotPhoneInput.value.trim();
+            const phoneRegex = /^(09|\+639)\d{9}$/;
+
+            if (!phoneRegex.test(phoneValue)) {
+                forgotPhoneInput.classList.add('input-field-error');
+                forgotPhoneInput.value = "";
+                forgotPhoneInput.placeholder = "Please enter a valid 11-digit phone number...";
+                return;
+            }
+
+            forgotPhoneInput.classList.remove('input-field-error');
+            forgotStepPhone.style.display = 'none';
+            forgotStepSuccess.style.display = 'block';
         });
 
-        mobileMenuLinksContainer.querySelectorAll('a').forEach(linkItem =>
-            linkItem.addEventListener('click', () => {
-                if (!isMobileMenu()) return; 
-                
-                mobileMenuHamburger.classList.remove('open');
-                mobileMenuHamburger.setAttribute('aria-expanded', false);
-                mobileMenuLinksContainer.classList.remove('open');
-                mobileMenuLinksContainer.addEventListener('transitionend', () => {
-                    if (!mobileMenuLinksContainer.classList.contains('open')) mobileMenuLinksContainer.style.display = 'none';
-                }, { once: true });
-            })
-        );
-
-        // SAFE OUTSIDE CLICK HANDLER: Ensures modal elements don't get trapped by menu loops
-        document.addEventListener('click', (e) => {
-            if (!isMobileMenu() || !mobileMenuLinksContainer.classList.contains('open')) return; 
-            
-            if (!mobileMenuHamburger.contains(e.target) && !mobileMenuLinksContainer.contains(e.target)) {
-                mobileMenuHamburger.classList.remove('open');
-                mobileMenuHamburger.setAttribute('aria-expanded', false);
-                mobileMenuLinksContainer.classList.remove('open');
-                mobileMenuLinksContainer.addEventListener('transitionend', () => {
-                    if (!mobileMenuLinksContainer.classList.contains('open')) mobileMenuLinksContainer.style.display = 'none';
-                }, { once: true });
+        forgotPhoneInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitForgotPhone.click();
             }
+        });
+    }
+
+    if (forgotPhoneInput) {
+        forgotPhoneInput.addEventListener('input', () => {
+            forgotPhoneInput.classList.remove('input-field-error');
         });
     }
 });

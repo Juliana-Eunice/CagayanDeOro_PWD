@@ -1282,4 +1282,171 @@ img.logo[src*="placeholder"] {
         border-bottom: none;
         padding-bottom: 11px;
     }
+    /* ──────────────────────────────────────────────────────────────────────────
+   MOBILE & TABLET RESPONSIVE STYLES (Screens 768px and below)
+   ────────────────────────────────────────────────────────────────────────── */
+@media screen and (max-width: 768px) {
+    
+    /* Global Layout Reset */
+    .grid-container {
+        width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box;
+    }
+
+    /* Navbar Adjustment */
+    .nav-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+        padding: 12px;
+    }
+    .nav-links {
+        display: flex;
+        gap: 16px;
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Hero Section Split & Image Sizing */
+    .hero-content, .header-split-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+        padding: 30px 16px;
+    }
+    .hero-content .logo, .deck-logo-img, .deck-logo-img-alt {
+        max-height: 70px;
+        width: auto;
+    }
+    .logo-display-deck {
+        justify-content: center;
+        gap: 12px;
+    }
+
+    /* Action Cards (Stacking) */
+    .action-cards-container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+    }
+    .card {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .card .icon-circle {
+        margin: 0 auto 12px auto;
+    }
+
+    /* Split Documentation & Form Layouts (Sidebar Stacking) */
+    .documentation-layout, .registration-layout {
+        display: flex;
+        flex-direction: column !important;
+        gap: 20px;
+    }
+
+    .sticky-sidebar-menu {
+        position: static !important;
+        width: 100% !important;
+        order: -1; /* Places tracking data above workspace on mobile */
+    }
+
+    /* Form Fields Matrix */
+    .form-fields-matrix, .checkbox-options-grid, .disability-matrix-grid {
+        display: flex;
+        flex-direction: column !important;
+        gap: 12px;
+    }
+    .form-group, .form-group.full-width {
+        width: 100% !important;
+    }
+
+    /* Step Tracker Progress Bar */
+    .step-tracker {
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+    }
+    .step .step-label {
+        display: none;
+    }
+    .step-active .step-label {
+        display: inline-block;
+        font-size: 0.8rem;
+    }
+
+    /* File Upload Rows */
+    .file-attachment-upload-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+        padding: 12px;
+    }
+    .file-attachment-upload-row input[type="file"] {
+        width: 100%;
+    }
+
+    /* Modals Adaptation */
+    .modal-content {
+        width: 92% !important;
+        margin: 20px auto !important;
+        padding: 16px !important;
+    }
+    .modal-input-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    .modal-input-row label {
+        width: 100% !important;
+        text-align: left;
+    }
+
+    /* Footer Alignment */
+    .help-content {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 24px 16px;
+    }
+    .feedback-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   DYNAMIC COMPONENT HELPER COLOR STYLES
+   ────────────────────────────────────────────────────────────────────────── */
+    .modal-green {
+        border-top: 6px solid var(--card-green, #2ecc71) !important;
+    }
+    .btn-green {
+        background-color: var(--card-green, #2ecc71) !important;
+        color: white;
+        border: none;
+    }
+    .modal-red {
+        border-top: 6px solid var(--card-red, #e74c3c) !important;
+    }  
+    .btn-red {
+        background-color: var(--card-red, #e74c3c) !important;
+        color: white;
+        border: none;
+    }
+    .btn-red:hover {
+        background-color: #c0392b !important;
+    }  
 }

@@ -507,6 +507,37 @@
 
     </main>
 
+    <div class="modal" id="modal-forgot-code">
+        <div class="modal-content modal-blue" id="forgot-step-phone">
+            <div class="modal-header">
+                <h3>Recover Reference Code</h3>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="forgot-phone-input">Registered Phone Number</label>
+                <input type="tel" id="forgot-phone-input" placeholder="e.g. 09XXXXXXXXX" autocomplete="off">
+                
+                <div class="modal-field-footer">
+                    <small>Enter the mobile number linked to your registration profile.</small>
+                </div>
+                
+                <button class="modal-submit btn-blue" id="submit-forgot-phone">Send Verification Code</button>
+            </div>
+        </div>
+
+        <div class="modal-content modal-green" id="forgot-step-success" style="display: none;">
+            <div class="modal-header">
+                <h3>Success!</h3>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body" style="text-align: center; padding: 20px 0;">
+                <span class="material-icons" style="font-size: 56px; color: var(--card-green, #2ecc71); margin-bottom: 12px;">check_circle</span>
+                <p style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">Reference Code Sent Successfully!</p>
+                <p style="color: #666; font-size: 0.9rem; margin-bottom: 4px;">Please check your SMS inbox for your active application reference number.</p>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
