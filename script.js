@@ -1,5 +1,8 @@
 
     document.addEventListener('DOMContentLoaded', () => {
+    
+    // For development/testing purposes, we can clear the localStorage to reset draft flags
+    //localStorage.clear(); // Wipes out all saved draft flags instantly
 
     const btnContinue = document.getElementById('btn-continue');
     const btnStatus = document.getElementById('btn-status');
@@ -24,9 +27,16 @@
         }
     });
 
+    /* ==========================================================================
+       ── NEW REGISTRATION ENTRY ROUTER ──
+       ========================================================================== */
     const btnStart = document.getElementById('btn-start');
     if (btnStart) {
         btnStart.addEventListener('click', () => {
+            // Clears any old step numbers ONLY when starting completely fresh
+            localStorage.removeItem('isDraftSaved');
+            localStorage.removeItem('activeStepNum');
+            
             window.location.href = 'registration.html';
         });
     }
@@ -37,6 +47,9 @@
     const statusInput = document.getElementById('status-input');
 
     const VALID_SAMPLE_CODE = "8228DD1D3A";
+    
+    // --- SAVE DRAFT TRACKING STATE WITH PERSISTENT STORAGE ---
+    let isDraftSaved = localStorage.getItem('isDraftSaved') === 'true';
 
     function validateField(inputElement) {
         const value = inputElement.value.trim();
@@ -71,7 +84,9 @@
     if (submitContinue && continueInput) {
         submitContinue.addEventListener('click', () => {
             if (validateField(continueInput)) {
-                window.location.href = 'registration.html';
+                // Check if there's a saved step bookmark, otherwise default to step 1
+                const savedStep = localStorage.getItem('activeStepNum') || '1';
+                window.location.href = `registration.html?step=${savedStep}`;
                 clearErrors(); 
             }
         });
@@ -180,6 +195,9 @@
     const prevButtons = document.querySelectorAll('.prev-btn');
 
     function updateWizardProgress(targetStepNum) {
+        // Save the current step number bookmark into the browser storage
+        localStorage.setItem('activeStepNum', targetStepNum);
+
         wizardPanels.forEach(panel => panel.classList.remove('panel-active'));
         const activePanel = document.getElementById(`panel-step-${targetStepNum}`);
         if (activePanel) activePanel.classList.add('panel-active');
@@ -215,21 +233,67 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    /* ==========================================================================
+       ── DEEP-LINKING URL PARAMETER CHECK ──
+       ========================================================================== */
+    const urlParams = new URLSearchParams(window.location.search);
+    const stepParam = urlParams.get('step');
+    if (stepParam) {
+        const targetStep = parseInt(stepParam);
+        if (targetStep >= 1 && targetStep <= 4) {
+            updateWizardProgress(targetStep);
+        }
+    }
+
+    /* ==========================================================================
+       ── LEAVE PAGE CONFIRMATION MODAL ──
+       ========================================================================== */
     const backToHomeLink = document.querySelector('.back-link');
+    const modalExitConfirm = document.getElementById('modal-exit-confirm');
+    const exitModalText = document.getElementById('exit-modal-text');
+    const btnConfirmExit = document.getElementById('btn-confirm-exit');
+    const btnCancelExit = document.getElementById('btn-cancel-exit');
+    const closeExitModal = document.getElementById('close-exit-modal');
 
-    if (backToHomeLink) {
+    if (backToHomeLink && modalExitConfirm && exitModalText) {
         backToHomeLink.addEventListener('click', (event) => {
-            event.preventDefault();
-            const referenceCode = "8228DD1D3A";
-            const userConfirmed = confirm(
-                `Are you sure you want to leave?\n\nYou can continue your application later using your reference code: ${referenceCode}`
-            );
-
-            if (userConfirmed) {
-                window.location.href = backToHomeLink.getAttribute('href');
+            event.preventDefault(); // Stop page from leaving right away
+            
+            // Choose friendly text based on whether they saved their draft
+            if (!isDraftSaved) {
+                exitModalText.innerHTML = `<strong>Warning: Your progress has not been saved yet!</strong><br><br>Are you sure you want to leave? Click 'Save Draft' near the progress tracker if you want to keep your information saved.`;
+            } else {
+                exitModalText.innerHTML = `<strong>Your draft is saved!</strong><br><br>You can finish your application whenever you return using your Reference Code: <strong>8228DD1D3A</strong>.<br><br>Go back to the homepage?`;
             }
+
+            // Open the custom green modal popup
+            modalExitConfirm.style.display = 'flex';
         });
     }
+
+    // If they click "Yes, Leave", send them home
+    if (btnConfirmExit && backToHomeLink) {
+        btnConfirmExit.addEventListener('click', () => {
+            modalExitConfirm.style.display = 'none';
+            window.location.href = backToHomeLink.getAttribute('href');
+        });
+    }
+
+    // Close the popup if they click "Stay Here" or the "X" button
+    [btnCancelExit, closeExitModal].forEach(closeBtn => {
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modalExitConfirm.style.display = 'none';
+            });
+        }
+    });
+
+    // Close the popup if they click outside the white box on the dark background
+    window.addEventListener('click', (e) => {
+        if (e.target === modalExitConfirm) {
+            modalExitConfirm.style.display = 'none';
+        }
+    });
 
     nextButtons.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -275,6 +339,11 @@
         primaryFormAsset.addEventListener('submit', (e) => {
             e.preventDefault();
             alert("Application Form Packed Successfully! Sent to Persons with Disability Affairs Office (PDAO) for data review validation.");
+            
+            // Clear the draft and step bookmarks since the form is officially finished
+            localStorage.removeItem('isDraftSaved');
+            localStorage.removeItem('activeStepNum');
+            
             window.location.href = "index.html";
         });
     }
@@ -345,6 +414,155 @@
     if (forgotPhoneInput) {
         forgotPhoneInput.addEventListener('input', () => {
             forgotPhoneInput.classList.remove('input-field-error');
+        });
+    }
+
+   /* ==========================================================================
+       ── SAVE DRAFT MODAL CONTROLS ──
+       ========================================================================== */
+    const btnSaveDraft = document.getElementById('btn-save-draft');
+    const modalSaveDraft = document.getElementById('modal-save-draft');
+    const draftStepPhone = document.getElementById('draft-step-phone');
+    const draftStepSuccess = document.getElementById('draft-step-success');
+    const draftPhoneInput = document.getElementById('draft-phone-input');
+    const submitDraftPhone = document.getElementById('submit-draft-phone');
+    const closeDraftModal = document.getElementById('close-draft-modal');
+    const closeDraftSuccessModal = document.getElementById('close-draft-success-modal');
+
+    if (btnSaveDraft && modalSaveDraft) {
+        btnSaveDraft.onclick = () => {
+            if (!isDraftSaved) {
+                // FIRST TIME SAVING: Show the phone number input screen
+                draftStepPhone.style.display = 'block';
+                draftStepSuccess.style.display = 'none';
+                if (draftPhoneInput) {
+                    draftPhoneInput.value = "";
+                    draftPhoneInput.classList.remove('input-field-error');
+                    draftPhoneInput.placeholder = "e.g. 09XXXXXXXXX";
+                }
+                modalSaveDraft.style.display = 'flex';
+            } else {
+                // NEXT TIME SAVING: Skip the input screen and show the success screen
+                draftStepPhone.style.display = 'none';
+                draftStepSuccess.style.display = 'block';
+                modalSaveDraft.style.display = 'flex';
+            }
+        };
+    }
+
+    // Handle clicking the "Save Draft" button inside the popup
+    if (submitDraftPhone && draftPhoneInput) {
+        submitDraftPhone.addEventListener('click', () => {
+            const phoneValue = draftPhoneInput.value.trim();
+            const phoneRegex = /^09\d{9}$/;
+
+            if (!phoneRegex.test(phoneValue)) {
+                draftPhoneInput.classList.add('input-field-error');
+                draftPhoneInput.value = "";
+                draftPhoneInput.placeholder = "Please enter a valid phone number...";
+                return;
+            }
+
+            // Save the draft status flag in the browser storage
+            isDraftSaved = true;
+            localStorage.setItem('isDraftSaved', 'true');
+
+            // Switch to the success screen
+            draftStepPhone.style.display = 'none';
+            draftStepSuccess.style.display = 'block';
+        });
+
+        // Let users press Enter to submit their number
+        draftPhoneInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submitDraftPhone.click();
+            }
+        });
+    }
+
+    // Remove red highlight errors when typing
+    if (draftPhoneInput) {
+        draftPhoneInput.addEventListener('input', () => {
+            draftPhoneInput.classList.remove('input-field-error');
+        });
+    }
+
+    // Close buttons handler (the "X" icon)
+    [closeDraftModal, closeDraftSuccessModal].forEach(closeBtn => {
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                modalSaveDraft.style.display = 'none';
+            });
+        }
+    });
+
+    // Close the popup if clicking anywhere outside the white box
+    window.addEventListener('click', (e) => {
+        if (e.target === modalSaveDraft) {
+            modalSaveDraft.style.display = 'none';
+        }
+    });
+
+    /* ==========================================================================
+       ── AUTOMATIC INPUT DATA RETENTION ENGINE ──
+       ========================================================================== */
+    const mainForm = document.getElementById('pwd-application-form');
+
+    // 1. CONDITIONAL LOAD: Only restore data if explicitly returning via the 'Continue' route
+    if (mainForm) {
+        const urlParamsCheck = new URLSearchParams(window.location.search);
+        const comingFromContinueRoute = urlParamsCheck.has('step');
+
+        if (comingFromContinueRoute) {
+            // User clicked "Continue Existing Application" -> Restore their data
+            const savedData = JSON.parse(localStorage.getItem('pwdFormDraftData')) || {};
+            
+            Object.keys(savedData).forEach(fieldId => {
+                const inputField = document.getElementById(fieldId);
+                if (inputField) {
+                    if (inputField.type === 'checkbox') {
+                        inputField.checked = savedData[fieldId];
+                    } else if (inputField.type === 'radio') {
+                        const radioOption = mainForm.querySelector(`input[name="${inputField.name}"][value="${savedData[fieldId]}"]`);
+                        if (radioOption) radioOption.checked = true;
+                    } else {
+                        inputField.value = savedData[fieldId];
+                    }
+                }
+            });
+        } else {
+            // User clicked "Start New Registration" -> Clear old logs for a fresh form
+            localStorage.removeItem('pwdFormDraftData');
+            localStorage.removeItem('isDraftSaved');
+            localStorage.removeItem('activeStepNum');
+        }
+
+        // 2. SAVE DATA ON THE FLY: Listen for inputs across the entire form
+        mainForm.addEventListener('input', (e) => {
+            const target = e.target;
+            if (!target.id && !target.name) return;
+
+            let currentDraft = JSON.parse(localStorage.getItem('pwdFormDraftData')) || {};
+
+            if (target.type === 'checkbox') {
+                currentDraft[target.id || target.name] = target.checked;
+            } else if (target.type === 'radio') {
+                currentDraft[target.name] = target.value;
+            } else {
+                currentDraft[target.id] = target.value;
+            }
+
+            localStorage.setItem('pwdFormDraftData', JSON.stringify(currentDraft));
+        });
+    }
+
+    // 3. WIPE CLEAN ON COMPLETED SUBMISSION: Clear everything when the form is submitted successfully
+    if (mainForm) {
+        mainForm.addEventListener('submit', () => {
+            localStorage.removeItem('pwdFormDraftData');
+            localStorage.removeItem('isDraftSaved');
+            localStorage.removeItem('activeStepNum');
         });
     }
 });

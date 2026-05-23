@@ -106,7 +106,7 @@
                                 <option value="" disabled selected>--SELECT--</option>
 
                                 <!--Grouping District 2-->
-                                <optgroup label="DISTIRCT 2">
+                                <optgroup label="DISTRICT 2">
                                     <option value="AGUSAN">AGUSAN</option>
                                     <option value="BAIKINGON">BAIKINGON</option>
                                     <option value="BALUBAL">BALUBAL</option>
@@ -274,9 +274,9 @@
 
                     <div class="sub-form-section-divider">MEMBERSHIP</div>
                     <div class="checkbox-options-grid">
-                        <label class="checkbox-tile"><input type="checkbox" name="member_sss"> <span>SSS</span></label>
-                        <label class="checkbox-tile"><input type="checkbox" name="member_gsis"> <span>GSIS</span></label>
-                        <label class="checkbox-tile"><input type="checkbox" name="member_philhealth"> <span>PhilHealth</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="member-sss" name="member_sss"> <span>SSS</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="member-gsis" name="member_gsis"> <span>GSIS</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="member-philhealth" name="member_philhealth"> <span>PhilHealth</span></label>
                     </div>
 
                     <div class="sub-form-section-divider">GUARDIAN</div>
@@ -309,57 +309,57 @@
                     <div class="disability-matrix-grid">
                         <div class="disability-cat-block">
                             <div class="cat-block-title">LEARNING DISABILITIES</div>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="ADHD"> <span>ADHD</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Dyslexia"> <span>Dyslexia</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Dyscalculia"> <span>Dyscalculia</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Dysgraphia"> <span>Dysgraphia</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-adhd" name="disability_types" value="ADHD"> <span>ADHD</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-dyslexia" name="disability_types" value="Dyslexia"> <span>Dyslexia</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-dyscalculia" name="disability_types" value="Dyscalculia"> <span>Dyscalculia</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-dysgraphia" name="disability_types" value="Dysgraphia"> <span>Dysgraphia</span></label>
                         </div>
                         
                         <div class="disability-cat-block">
                             <div class="cat-block-title">PSYCHOSOCIAL DISABILITIES</div>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Mentally Ill"> <span>Mentally Ill</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Brain Injury"> <span>Brain Injury</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Schizophrenia"> <span>Schizophrenia</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-mentally-ill" name="disability_types" value="Mentally Ill"> <span>Mentally Ill</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-brain-injury" name="disability_types" value="Brain Injury"> <span>Brain Injury</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-schizophrenia" name="disability_types" value="Schizophrenia"> <span>Schizophrenia</span></label>
                         </div>
 
                         <div class="disability-cat-block">
                             <div class="cat-block-title">VISUAL DISABILITY</div>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Total Blindness"> <span>Total</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Partial Blindness"> <span>Partial</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Low Vision"> <span>Low Vision</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-total-blind" name="disability_types" value="Total Blindness"> <span>Total</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-partial-blind" name="disability_types" value="Partial Blindness"> <span>Partial</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-low-vision" name="disability_types" value="Low Vision"> <span>Low Vision</span></label>
                         </div>
 
                         <div class="disability-cat-block">
                             <div class="cat-block-title">DEVELOPMENTAL DISABILITIES</div>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Mental Retardation"> <span>Mental Retardation</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Down Syndrome"> <span>Down Syndrome</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Cerebral Palsy"> <span>Cerebral Palsy</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Autism"> <span>Autism</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-mental-retardation" name="disability_types" value="Mental Retardation"> <span>Mental Retardation</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-down-syndrome" name="disability_types" value="Down Syndrome"> <span>Down Syndrome</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-cerebral-palsy" name="disability_types" value="Cerebral Palsy"> <span>Cerebral Palsy</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-autism" name="disability_types" value="Autism"> <span>Autism</span></label>
                         </div>
 
                         <div class="disability-cat-block">
                             <div class="cat-block-title">DEAF & OTHERS</div>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Hard of Hearing"> <span>Hard of Hearing</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Deaf"> <span>Deaf</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Speech Impairment"> <span>Speech Impairment</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-hard-hearing" name="disability_types" value="Hard of Hearing"> <span>Hard of Hearing</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-deaf" name="disability_types" value="Deaf"> <span>Deaf</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-speech-impairment" name="disability_types" value="Speech Impairment"> <span>Speech Impairment</span></label>
                         </div>
 
                         <div class="disability-cat-block">
                             <div class="cat-block-title">ORTHOPEDIC / MUSCULOSKELETAL</div>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Polio"> <span>Polio</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Stroke/Paralyzed"> <span>Stroke / Paralyzed</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Amputee"> <span>Amputee</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" name="disability_types" value="Underdeveloped"> <span>Underdeveloped</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-polio" name="disability_types" value="Polio"> <span>Polio</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-stroke" name="disability_types" value="Stroke/Paralyzed"> <span>Stroke / Paralyzed</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-amputee" name="disability_types" value="Amputee"> <span>Amputee</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="disab-underdeveloped" name="disability_types" value="Underdeveloped"> <span>Underdeveloped</span></label>
                         </div>
                     </div>
 
                     <div class="sub-form-section-divider">ASSISTIVE DEVICES USED</div>
                     <div class="checkbox-options-grid">
-                        <label class="checkbox-tile"><input type="checkbox" value="Wheel Chair"> <span>Wheel Chair</span></label>
-                        <label class="checkbox-tile"><input type="checkbox" value="Crutches"> <span>Crutches</span></label>
-                        <label class="checkbox-tile"><input type="checkbox" value="Walker"> <span>Walker</span></label>
-                        <label class="checkbox-tile"><input type="checkbox" value="Hearing Aid"> <span>Hearing Aid</span></label>
-                        <label class="checkbox-tile"><input type="checkbox" value="Corrective Glasses"> <span>Corrective Eye Glasses</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="device-wheelchair" name="assistive_devices" value="Wheel Chair"> <span>Wheel Chair</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="device-crutches" name="assistive_devices" value="Crutches"> <span>Crutches</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="device-walker" name="assistive_devices" value="Walker"> <span>Walker</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="device-hearing-aid" name="assistive_devices" value="Hearing Aid"> <span>Hearing Aid</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" id="device-glasses" name="assistive_devices" value="Corrective Glasses"> <span>Corrective Eye Glasses</span></label>
                     </div>
 
                     <div class="panel-action-bar">
@@ -433,14 +433,14 @@
                     <div class="disability-matrix-grid">
                         <div class="disability-cat-block">
                             <div class="cat-block-title">HOUSE AND LOT</div>
-                            <label class="checkbox-tile"><input type="checkbox" value="Owned House & Lot"> <span>Owned House & Lot</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" value="Rented Home/Lot"> <span>Rented Home/Lot</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" value="Share with relatives"> <span>Shared with Relatives</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="house-owned" name="household_type" value="Owned House & Lot"> <span>Owned House & Lot</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="house-rented" name="household_type" value="Rented Home/Lot"> <span>Rented Home/Lot</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="house-shared" name="household_type" value="Share with relatives"> <span>Shared with Relatives</span></label>
                         </div>
                         <div class="disability-cat-block">
                             <div class="cat-block-title">WATER CONNECTION</div>
-                            <label class="checkbox-tile"><input type="checkbox" value="Standard Water System"> <span>Standard Water System</span></label>
-                            <label class="checkbox-tile"><input type="checkbox" value="Deep Well"> <span>Deep Well</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="water-standard" name="water_type" value="Standard Water System"> <span>Standard Water System</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" id="water-well" name="water_type" value="Deep Well"> <span>Deep Well</span></label>
                         </div>
                     </div>
 
@@ -501,11 +501,65 @@
                         <span>Reference Code:</span>
                         <strong>8228DD1D3A</strong>
                     </div>
+
+                    <button type="button" id="btn-save-draft" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 18px; padding: 12px 16px; background-color: #2B7A2B; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(43,122,43,0.15); transition: background-color 0.2s ease, transform 0.1s ease; -webkit-appearance: none; appearance: none;">
+                        <span class="material-icons">save</span> Save Draft
+                    </button>
+                    
                 </div>
             </div>
         </aside>
 
     </main>
+
+    <div class="modal" id="modal-save-draft">
+        <div class="modal-content modal-green" id="draft-step-phone">
+            <div class="modal-header">
+                <h3>Save Progress</h3>
+                <span class="close-btn" id="close-draft-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <label for="draft-phone-input">Phone Number</label>
+                <input type="tel" id="draft-phone-input" placeholder="e.g. 09XXXXXXXXX" autocomplete="off">
+                
+                <div class="modal-field-footer">
+                    <small>Enter your 11-digit phone number so you can return to your form later.</small>
+                </div>
+                
+                <button type="button" class="modal-submit btn-green" id="submit-draft-phone">Save Draft</button>
+            </div>
+        </div>
+
+        <div class="modal-content modal-green" id="draft-step-success" style="display: none;">
+            <div class="modal-header">
+                <h3>Draft Saved!</h3>
+                <span class="close-btn" id="close-draft-success-modal">&times;</span>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <span class="material-icons" style="font-size: 56px; color: var(--card-green); margin-bottom: 12px;">check_circle</span>
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 8px;">Your draft has been saved!</p>
+                <small style="color: var(--text-light); line-height: 1.5;">We sent your Reference Code (8228DD1D3A) to your phone via SMS.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-exit-confirm">
+        <div class="modal-content modal-red">
+            <div class="modal-header">
+                <h3>Leave Page?</h3>
+                <span class="close-btn" id="close-exit-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p id="exit-modal-text" style="text-align: center; line-height: 1.6; color: var(--text-mid); margin-bottom: 20px;"></p>
+                
+                <div style="display: flex; gap: 12px; width: 100%;">
+                    <button type="button" class="modal-submit btn-red" id="btn-confirm-exit" style="flex: 1;">Yes, Leave</button>
+                    
+                    <button type="button" class="modal-submit btn-green" id="btn-cancel-exit" style="flex: 1;">Stay Here</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal" id="modal-forgot-code">
         <div class="modal-content modal-blue" id="forgot-step-phone">

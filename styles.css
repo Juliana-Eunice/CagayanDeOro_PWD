@@ -428,7 +428,7 @@ img.logo[src*="placeholder"] {
 
 .modal-blue .modal-header { background: linear-gradient(135deg, #5c99fc, #2468e0); }
 .modal-red  .modal-header { background: linear-gradient(135deg, #f57067, #c42516); }
-
+.modal-green .modal-header { background: linear-gradient(135deg, #47c767, var(--card-green)); }
 .close-btn {
     font-size: 26px;
     cursor: pointer;
@@ -493,6 +493,7 @@ img.logo[src*="placeholder"] {
 
 .btn-blue { background: linear-gradient(135deg, #5c99fc, #2468e0); }
 .btn-red  { background: linear-gradient(135deg, #f57067, #c42516); }
+.btn-green { background: linear-gradient(135deg, #47c767, var(--card-green)); }
 
 /* ── Modal Yellow Theme Variables ── */
 .modal-yellow .modal-header { 
