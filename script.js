@@ -235,15 +235,27 @@
         btn.addEventListener('click', () => {
             const targetNextStep = parseInt(btn.getAttribute('data-next'));
             const currentForm = btn.closest('.form-wizard-panel');
+            if (!currentForm) return;
+
             const inputsInside = currentForm.querySelectorAll('input[required], select[required]');
             let panelIsValid = true;
 
             inputsInside.forEach(input => {
                 if (!input.checkValidity()) {
-                    input.reportValidity();
+                    input.reportValidity(); 
                     panelIsValid = false;
                 }
             });
+
+            // --- OUR NEW CHECK FOR STEP 2 START ---
+            if (currentForm.getAttribute('id') === 'panel-step-2' && panelIsValid) {
+                const checkedBoxes = currentForm.querySelectorAll('input[name="disability_types"]:checked');
+                if (checkedBoxes.length === 0) {
+                    alert("Error: You must check at least one type of disability category to proceed.");
+                    panelIsValid = false;
+                }
+            }
+            // --- OUR NEW CHECK FOR STEP 2 END ---
 
             if (panelIsValid) {
                 updateWizardProgress(targetNextStep);
