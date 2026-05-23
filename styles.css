@@ -1327,3 +1327,46 @@ img.logo[src*="placeholder"] {
 .faq-answer p {
     margin-bottom: 0 !important; /* Keep nested text from shifting card base spacing */
 }
+
+/* ── Modal Bottom Alignment Row Extensions ── */
+.modal-field-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px; /* Replaces the input margin bottom */
+}
+
+/* Ensure helper text doesn't clash with the button space */
+.modal-field-footer small {
+    margin-bottom: 0 !important;
+    flex: 1;
+}
+
+.modal-bottom-links {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 14px; /* Creates clean spatial separation below the button block */
+}
+
+/* Forgot code interactive styling link elements */
+.forgot-code-link {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.forgot-code-link:hover {
+    color: var(--primary-green);
+    text-decoration: underline;
+}
+
+/* Style states when an invalid input is flagged dynamically */
+.input-field-error {
+    border-color: var(--card-red) !important;
+    box-shadow: 0 0 0 3px rgba(234, 67, 53, 0.15) !important;
+    background-color: #FFF5F5 !important;
+}

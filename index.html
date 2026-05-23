@@ -123,9 +123,17 @@
             </div>
             <div class="modal-body">
                 <label>Reference Code</label>
-                <input type="text" placeholder="e.g. REF-2024-XXXX">
-                <small>Use the reference code given after starting your registration.</small>
-                <button class="modal-submit btn-blue">Continue Registration</button>
+                <input type="text" id="continue-input" placeholder="e.g. 8228DD1D3A" autocomplete="off">
+                
+                <div class="modal-field-footer">
+                    <small>Use the reference code given after starting your registration.</small>
+                </div>
+                
+                <button class="modal-submit btn-blue" id="submit-continue">Continue Registration</button>
+                
+                <div class="modal-bottom-links">
+                    <a href="#" class="forgot-code-link">Forgot Code?</a>
+                </div>
             </div>
         </div>
     </div>
@@ -139,9 +147,17 @@
             </div>
             <div class="modal-body">
                 <label>Reference Code</label>
-                <input type="text" placeholder="e.g. REF-2024-XXXX">
-                <small>Use the reference code given after registration.</small>
-                <button class="modal-submit btn-red">Retrieve Status</button>
+                <input type="text" id="status-input" placeholder="e.g. 8228DD1D3A" autocomplete="off">
+                
+                <div class="modal-field-footer">
+                    <small>Use the reference code given after registration.</small>
+                </div>
+                
+                <button class="modal-submit btn-red" id="submit-status">Retrieve Status</button>
+                
+                <div class="modal-bottom-links">
+                    <a href="#" class="forgot-code-link">Forgot Code?</a>
+                </div>
             </div>
         </div>
     </div>
