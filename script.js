@@ -155,4 +155,145 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+    
+    // For feedback and suggestions
+    const btnFeedback = document.querySelector('.feedback-btn');
+    const modalFeedback = document.getElementById('modal-feedback');
+    const submitFeedback = document.getElementById('submit-feedback');
+    
+    // Add these alongside your existing button click handlers:
+    if (btnFeedback && modalFeedback) {
+        btnFeedback.addEventListener('click', () => {
+            modalFeedback.style.display = 'flex';
+        });
+    }
+
+    // Handles the submission validation check
+    if (submitFeedback) {
+        submitFeedback.addEventListener('click', () => {
+            const nameField = document.getElementById('feedback-name');
+            const commentField = document.getElementById('feedback-comments');
+
+            if (commentField.value.trim() === "") {
+                commentField.classList.add('input-field-error');
+                commentField.placeholder = "Please enter your comments before submitting...";
+            } else {
+                commentField.classList.remove('input-field-error');
+                alert("Thank you! Your feedback has been sent to Cheryl and the CSWDD team.");
+                
+                // Clear and close modal safely
+                nameField.value = "";
+                document.getElementById('feedback-contact').value = "";
+                commentField.value = "";
+                modalFeedback.style.display = 'none';
+            }
+        });
+    }
+
+    // for registration process
+    const wizardPanels = document.querySelectorAll('.form-wizard-panel');
+    const stepIndicators = document.querySelectorAll('.step-tracker .step');
+    const progressCircle = document.getElementById('wizard-progress-circle');
+    const nextButtons = document.querySelectorAll('.next-btn');
+    const prevButtons = document.querySelectorAll('.prev-btn');
+
+    function updateWizardProgress(targetStepNum) {
+        wizardPanels.forEach(panel => panel.classList.remove('panel-active'));
+        const activePanel = document.getElementById(`panel-step-${targetStepNum}`);
+        if (activePanel) activePanel.classList.add('panel-active');
+
+        stepIndicators.forEach(indicator => {
+            const indStep = parseInt(indicator.getAttribute('data-step'));
+            if (indStep === targetStepNum) {
+                indicator.classList.add('step-active');
+                indicator.style.opacity = "1";
+            } else {
+                indicator.classList.remove('step-active');
+                indicator.style.opacity = "0.5";
+            }
+        });
+
+        const percentValue = targetStepNum * 25;
+        if (progressCircle) {
+            progressCircle.textContent = `${percentValue}%`;
+            
+            progressCircle.style.background = `radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(var(--card-green) ${percentValue}%, #EAECEF 0)`;
+        }
+
+        for (let i = 1; i <= 4; i++) {
+            const sidebarItem = document.getElementById(`sidebar-step-${i}`);
+            if (sidebarItem) {
+                if (i === targetStepNum) {
+                    sidebarItem.classList.add('active-p');
+                } else {
+                    sidebarItem.classList.remove('active-p');
+                }
+            }
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Are you sure you want to go home?
+    const backToHomeLink = document.querySelector('.back-link');
+
+    if (backToHomeLink) {
+        backToHomeLink.addEventListener('click', (event) => {
+            // Stop the browser from immediately jumping to index.html
+            event.preventDefault();
+
+            // Display a native confirmation prompt with your sample reference code
+            const referenceCode = "8228DD1D3A";
+            const userConfirmed = confirm(
+                `Are you sure you want to leave?\n\nYou can continue your application later using your reference code: ${referenceCode}`
+            );
+
+            // If the user clicks "OK", proceed back to the homepage
+            if (userConfirmed) {
+                window.location.href = backToHomeLink.getAttribute('href');
+            }
+            // If they click "Cancel", the code does nothing and they stay exactly where they are on the form
+        });
+    }
+
+    // Attach click listener arrays onto forwarding action controls
+    nextButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetNextStep = parseInt(btn.getAttribute('data-next'));
+            
+            // Check HTML5 verification parameters prior to permitting advancement jumps
+            const currentForm = btn.closest('.form-wizard-panel');
+            const inputsInside = currentForm.querySelectorAll('input[required], select[required]');
+            let panelIsValid = true;
+
+            inputsInside.forEach(input => {
+                if (!input.checkValidity()) {
+                    input.reportValidity(); // Highlight system validation tooltips
+                    panelIsValid = false;
+                }
+            });
+
+            if (panelIsValid) {
+                updateWizardProgress(targetNextStep);
+            }
+        });
+    });
+
+    // Attach click listener arrays onto retreating previous buttons controls
+    prevButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetPrevStep = parseInt(btn.getAttribute('data-prev'));
+            updateWizardProgress(targetPrevStep);
+        });
+    });
+
+    // Catch final comprehensive form packaging transmission events execution triggers
+    const primaryFormAsset = document.getElementById('pwd-application-form');
+    if (primaryFormAsset) {
+        primaryFormAsset.addEventListener('submit', (e) => {
+            e.preventDefault(); // Stop standard blank page reload loops
+            alert("Application Form Packed Successfully! Sent to Persons with Disability Affairs Office (PDAO) for data review validation.");
+            window.location.href = "index.html";
+        });
+    }
 });

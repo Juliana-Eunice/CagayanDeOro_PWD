@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Registration — CDO PWD Portal</title>
+    <title>Registration Wizard — CDO PWD Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -26,23 +26,23 @@
 
     <section class="form-banner">
         <div class="grid-container">
-            <h2>Start your PWD ID application</h2>
+            <h2>PWD ID Online Application</h2>
             <div class="step-tracker">
-                <div class="step step-active">
+                <div class="step step-active" data-step="1">
                     <span class="step-num">1</span>
-                    <span class="step-label">Personal Information</span>
+                    <span class="step-label">Identifying Details</span>
                 </div>
-                <div class="step">
+                <div class="step" data-step="2">
                     <span class="step-num">2</span>
-                    <span class="step-label">Disability Type</span>
+                    <span class="step-label">Disability Categories</span>
                 </div>
-                <div class="step">
+                <div class="step" data-step="3">
                     <span class="step-num">3</span>
-                    <span class="step-label">Documents</span>
+                    <span class="step-label">Education & Work</span>
                 </div>
-                <div class="step">
+                <div class="step" data-step="4">
                     <span class="step-num">4</span>
-                    <span class="step-label">Review & Submit</span>
+                    <span class="step-label">Core Attachments</span>
                 </div>
             </div>
         </div>
@@ -51,172 +51,368 @@
     <main class="grid-container registration-layout">
         
         <section class="form-card">
-            <div class="form-card-header">
-                <span class="material-icons text-light">person</span>
-                <div class="header-text-block">
-                    <h3>Personal Information</h3>
-                    <p class="ref-code-display">Reference Code: <strong class="text-dark">597437A</strong></p>
-                </div>
-            </div>
-
-            <form action="#" method="POST" class="interactive-form">
+            <form id="pwd-application-form" action="#" method="POST" class="interactive-form">
                 
-                <div class="form-group full-width">
-                    <label>Application Type</label>
-                    <div class="radio-card-group">
-                        <label class="radio-card">
-                            <input type="radio" name="app_type" value="new" checked>
-                            <span>New</span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="app_type" value="renew">
-                            <span>Renew</span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="app_type" value="lost">
-                            <span>Lost ID</span>
-                        </label>
+                <div class="form-wizard-panel panel-active" id="panel-step-1">
+                    <div class="panel-inner-header">
+                        <span class="material-icons">assignment_ind</span>
+                        <h4>Step 1: Identifying Information</h4>
+                    </div>
+
+                    <div class="form-fields-matrix">
+                        <div class="form-group full-width">
+                            <label>Application Type <span class="required-asterisk">*</span></label>
+                            <div class="radio-card-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="app_type" value="new" checked> <span>New</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="app_type" value="renew"> <span>Renew</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="app_type" value="lost"> <span>Lost ID</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="last-name">Last Name <span class="required-asterisk">*</span></label>
+                            <input type="text" id="last-name" required placeholder="Dela Cruz">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="first-name">First Name <span class="required-asterisk">*</span></label>
+                            <input type="text" id="first-name" required placeholder="Juan">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="middle-name">Middle Name</label>
+                            <input type="text" id="middle-name" placeholder="Abad">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name-ext">Name Extension</label>
+                            <input type="text" id="name-ext" placeholder="e.g., Jr., III">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="address-street">Address Street <span class="required-asterisk">*</span></label>
+                            <input type="text" id="address-street" required placeholder="House No., Street Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="barangay">Barangay <span class="required-asterisk">*</span></label>
+                            <select id="barangay" required>
+                                <option value="" disabled selected>--SELECT--</option>
+                                <option value="BALUBAL">BALUBAL</option>
+                                <option value="AGUSAN">AGUSAN</option>
+                                <option value="NAZARETH">NAZARETH</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birth-date">Birth Date <span class="required-asterisk">*</span></label>
+                            <input type="date" id="birth-date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birth-place">Birth Place</label>
+                            <input type="text" id="birth-place" placeholder="City or Province">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="civil-status">Civil Status <span class="required-asterisk">*</span></label>
+                            <select id="civil-status" required>
+                                <option value="" disabled selected>--SELECT--</option>
+                                <option value="SINGLE">SINGLE</option>
+                                <option value="MARRIED">MARRIED</option>
+                                <option value="WIDOWED">WIDOWED</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="religion">Religion <span class="required-asterisk">*</span></label>
+                            <select id="religion" required>
+                                <option value="" disabled selected>--SELECT--</option>
+                                <option value="Protestants">Protestants</option>
+                                <option value="Roman Catholic">Roman Catholic</option>
+                                <option value="Islam">Islam</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sex">Sex <span class="required-asterisk">*</span></label>
+                            <select id="sex" required>
+                                <option value="" disabled selected>--SELECT--</option>
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="blood-type">Blood Type <span class="required-asterisk">*</span></label>
+                            <select id="blood-type" required>
+                                <option value="NONE">NONE</option>
+                                <option value="A+">A+</option>
+                                <option value="B+">B+</option>
+                                <option value="O+">O+</option>
+                                <option value="AB+">AB+</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-no">Contact No. <span class="required-asterisk">*</span></label>
+                            <input type="tel" id="contact-no" required placeholder="09XXXXXXXX">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>COMELEC Registered Voter?</label>
+                            <div class="radio-card-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="comelec_reg" value="Yes"> <span>Yes</span>
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="comelec_reg" value="No" checked> <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sub-form-section-divider">MEMBERSHIP</div>
+                    <div class="checkbox-options-grid">
+                        <label class="checkbox-tile"><input type="checkbox" name="member_sss"> <span>SSS</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" name="member_gsis"> <span>GSIS</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" name="member_philhealth"> <span>PhilHealth</span></label>
+                    </div>
+
+                    <div class="sub-form-section-divider">GUARDIAN</div>
+                    <div class="form-fields-matrix">
+                        <div class="form-group"><label for="guard-name">Guardian's Name</label><input type="text" id="guard-name"></div>
+                        <div class="form-group"><label for="guard-rel">Relationship</label><input type="text" id="guard-rel"></div>
+                        <div class="form-group"><label for="guard-phone">Contact #</label><input type="tel" id="guard-phone"></div>
+                        <div class="form-group"><label for="guard-addr">Address</label><input type="text" id="guard-addr"></div>
+                    </div>
+
+                    <div class="sub-form-section-divider">ORGANIZATION AFFILIATED</div>
+                    <div class="form-fields-matrix">
+                        <div class="form-group"><label for="org-name">Organization Name</label><input type="text" id="org-name"></div>
+                        <div class="form-group"><label for="org-pres">Contact Person</label><input type="text" id="org-pres"></div>
+                        <div class="form-group"><label for="org-cell">Cel. No.</label><input type="tel" id="org-cell"></div>
+                    </div>
+
+                    <div class="panel-action-bar">
+                        <button type="button" class="wizard-nav-btn next-btn" data-next="2">Next Step <span class="material-icons">arrow_forward</span></button>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" name="first_name" placeholder="e.g. Juan" required>
-                </div>
+                <div class="form-wizard-panel" id="panel-step-2">
+                    <div class="panel-inner-header">
+                        <span class="material-icons">accessible</span>
+                        <h4>Step 2: Type of Disability & Assistive Devices</h4>
+                    </div>
+                    <p class="panel-instructions-text">Select all applicable disability categories and specified conditions:</p>
 
-                <div class="form-group">
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="last_name" placeholder="e.g. Dela Cruz" required>
-                </div>
+                    <div class="disability-matrix-grid">
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">LEARNING DISABILITIES</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="ADHD"> <span>ADHD</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Dyslexia"> <span>Dyslexia</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Dyscalculia"> <span>Dyscalculia</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Dysgraphia"> <span>Dysgraphia</span></label>
+                        </div>
 
-                <div class="form-group">
-                    <label for="middle-name">Middle Name</label>
-                    <input type="text" id="middle-name" name="middle_name" placeholder="e.g. Santos">
-                </div>
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">PSYCHOSOCIAL DISABILITIES</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Mentally Ill"> <span>Mentally Ill</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Brain Injury"> <span>Brain Injury</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Schizophrenia"> <span>Schizophrenia</span></label>
+                        </div>
 
-                <div class="form-group">
-                    <label for="birth-date">Date of Birth</label>
-                    <input type="date" id="birth-date" name="birth_date" required>
-                </div>
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">VISUAL DISABILITY</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Total Blindness"> <span>Total</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Partial Blindness"> <span>Partial</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Low Vision"> <span>Low Vision</span></label>
+                        </div>
 
-                <div class="form-group">
-                    <label for="sex">Sex</label>
-                    <select id="sex" name="sex" required>
-                        <option value="" disabled selected>Select Sex</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">DEVELOPMENTAL DISABILITIES</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Mental Retardation"> <span>Mental Retardation</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Down Syndrome"> <span>Down Syndrome</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Cerebral Palsy"> <span>Cerebral Palsy</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Autism"> <span>Autism</span></label>
+                        </div>
 
-                <div class="form-group">
-                    <label for="civil-status">Civil Status</label>
-                    <select id="civil-status" name="civil_status" required>
-                        <option value="" disabled selected>Select Status</option>
-                        <option value="single">Single</option>
-                        <option value="married">Married</option>
-                        <option value="widowed">Widowed</option>
-                        <option value="separated">Separated</option>
-                    </select>
-                </div>
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">DEAF & OTHERS</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Hard of Hearing"> <span>Hard of Hearing</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Deaf"> <span>Deaf</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Speech Impairment"> <span>Speech Impairment</span></label>
+                        </div>
 
-                <div class="form-group full-width">
-                    <label for="address">Complete Address</label>
-                    <input type="text" id="address" name="address" placeholder="#117 Corregidor Street, Brgy. Holy Spirit" required>
-                </div>
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">ORTHOPEDIC / MUSCULOSKELETAL</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Polio"> <span>Polio</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Stroke/Paralyzed"> <span>Stroke / Paralyzed</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Amputee"> <span>Amputee</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Underdeveloped"> <span>Underdeveloped</span></label>
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="barangay">Barangay</label>
-                    <input type="text" id="barangay" name="barangay" placeholder="e.g. Agusan" required>
-                </div>
+                    <div class="sub-form-section-divider">ASSISTIVE DEVICES USED</div>
+                    <div class="checkbox-options-grid">
+                        <label class="checkbox-tile"><input type="checkbox" value="Wheel Chair"> <span>Wheel Chair</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" value="Crutches"> <span>Crutches</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" value="Walker"> <span>Walker</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" value="Hearing Aid"> <span>Hearing Aid</span></label>
+                        <label class="checkbox-tile"><input type="checkbox" value="Corrective Glasses"> <span>Corrective Eye Glasses</span></label>
+                    </div>
 
-                <div class="form-group">
-                    <label for="place-birth">Place of Birth</label>
-                    <input type="text" id="place-birth" name="place_birth" placeholder="City / Province" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="blood-type">Blood Type</label>
-                    <select id="blood-type" name="blood_type">
-                        <option value="none">None / Unknown</option>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="religion">Religion</label>
-                    <input type="text" id="religion" name="religion" placeholder="e.g. Roman Catholic">
-                </div>
-
-                <div class="form-group">
-                    <label for="mobile">Mobile Number</label>
-                    <input type="tel" id="mobile" name="mobile" placeholder="e.g. 0912-123-4567" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="e.g. juandelacruz@gmail.com">
-                </div>
-
-                <div class="form-group">
-                    <label for="income-source">Source of Income</label>
-                    <input type="text" id="income-source" name="income_source" placeholder="e.g. Employed, None">
-                </div>
-
-                <div class="form-group">
-                    <label>COMELEC Registered Voter?</label>
-                    <div class="radio-card-group">
-                        <label class="radio-card">
-                            <input type="radio" name="comelec_registered" value="yes">
-                            <span>Yes</span>
-                        </label>
-                        <label class="radio-card">
-                            <input type="radio" name="comelec_registered" value="no" checked>
-                            <span>No</span>
-                        </label>
+                    <div class="panel-action-bar">
+                        <button type="button" class="wizard-nav-btn prev-btn" data-prev="1"><span class="material-icons">arrow_back</span> Previous</button>
+                        <button type="button" class="wizard-nav-btn next-btn" data-next="3">Next Step <span class="material-icons">arrow_forward</span></button>
                     </div>
                 </div>
 
-                <div class="form-privacy-notice full-width">
-                    <span class="material-icons text-light">gavel</span>
-                    <p>By submitting data here, you consent to the collection, processing, storage, and retention of your personal and sensitive personal information by the City Social Welfare & Development Department for purposes described in this application system.</p>
+                <div class="form-wizard-panel" id="panel-step-3">
+                    <div class="panel-inner-header">
+                        <span class="material-icons">work</span>
+                        <h4>Step 3: Employment and Education Status</h4>
+                    </div>
+
+                    <div class="form-fields-matrix">
+                        <div class="form-group full-width">
+                            <label>Employment Status <span class="required-asterisk">*</span></label>
+                            <div class="radio-card-group flex-column-layout">
+                                <label class="radio-card"><input type="radio" name="emp_status" value="Employed" checked> <span>Employed</span></label>
+                                <label class="radio-card"><input type="radio" name="emp_status" value="Unemployed"> <span>Unemployed</span></label>
+                                <label class="radio-card"><input type="radio" name="emp_status" value="Resigned"> <span>Resigned</span></label>
+                                <label class="radio-card"><input type="radio" name="emp_status" value="Retired"> <span>Retired</span></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type-employment">Type of Employment</label>
+                            <select id="type-employment">
+                                <option value="">--SELECT--</option>
+                                <option value="Permanent">Permanent</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                                <option value="Contractual">Contractual</option>
+                                <option value="Seasonal">Seasonal</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nature-employer">Nature of Employer</label>
+                            <select id="nature-employer">
+                                <option value="">--SELECT--</option>
+                                <option value="Private">Private</option>
+                                <option value="Government">Government</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="highest-educ">Highest Educational Attainment <span class="required-asterisk">*</span></label>
+                            <select id="highest-educ" required>
+                                <option value="" disabled selected>--SELECT--</option>
+                                <option value="Elementary">Elementary Graduate</option>
+                                <option value="High School">High School Graduate</option>
+                                <option value="College">College Graduate</option>
+                                <option value="Vocational">Vocational Training</option>
+                                <option value="None">None</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="panel-action-bar">
+                        <button type="button" class="wizard-nav-btn prev-btn" data-prev="2"><span class="material-icons">arrow_back</span> Previous</button>
+                        <button type="button" class="wizard-nav-btn next-btn" data-next="4">Next Step <span class="material-icons">arrow_forward</span></button>
+                    </div>
                 </div>
 
-                <div class="form-actions full-width">
-                    <button type="submit" class="next-step-btn">
-                        Next: Disability Type <span class="material-icons">arrow_forward</span>
-                    </button>
+                <div class="form-wizard-panel" id="panel-step-4">
+                    <div class="panel-inner-header">
+                        <span class="material-icons">cloud_upload</span>
+                        <h4>Step 4: Utilities Household & Document Uploads</h4>
+                    </div>
+
+                    <div class="disability-matrix-grid">
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">HOUSE AND LOT</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Owned House & Lot"> <span>Owned House & Lot</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Rented Home/Lot"> <span>Rented Home/Lot</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Share with relatives"> <span>Shared with Relatives</span></label>
+                        </div>
+                        <div class="disability-cat-block">
+                            <div class="cat-block-title">WATER CONNECTION</div>
+                            <label class="checkbox-tile"><input type="checkbox" value="Standard Water System"> <span>Standard Water System</span></label>
+                            <label class="checkbox-tile"><input type="checkbox" value="Deep Well"> <span>Deep Well</span></label>
+                        </div>
+                    </div>
+
+                    <div class="sub-form-section-divider">REQUIRED ATTACHMENTS FILE SELECTIONS</div>
+                    
+                    <div class="file-attachment-upload-row">
+                        <div class="file-meta-info">
+                            <h6>1x1 ID Picture <span class="required-asterisk">*</span></h6>
+                            <p>Recent portrait image frame with a plain white background</p>
+                        </div>
+                        <input type="file" id="file-id-pic" required class="custom-file-input">
+                    </div>
+
+                    <div class="file-attachment-upload-row">
+                        <div class="file-meta-info">
+                            <h6>Medical Certificate <span class="required-asterisk">*</span></h6>
+                            <p>Official diagnosis validating the client's permanent disability condition</p>
+                        </div>
+                        <input type="file" id="file-med-cert" required class="custom-file-input">
+                    </div>
+
+                    <div class="file-attachment-upload-row">
+                        <div class="file-meta-info">
+                            <h6>Barangay Certificate of Residency <span class="required-asterisk">*</span></h6>
+                            <p>Verification indicating present physical location residency in CDO</p>
+                        </div>
+                        <input type="file" id="file-brgy-cert" required class="custom-file-input">
+                    </div>
+
+                    <div class="form-privacy-notice" style="margin-top: 30px;">
+                        <span class="material-icons text-light">gavel</span>
+                        <p>By finalizing your submission request, you authorize the local CSWDD and Persons with Disability Affairs Office evaluating officers to log and process your data parameters in compliance with the Data Privacy Act of 2012[cite: 594, 596].</p>
+                    </div>
+
+                    <div class="panel-action-bar">
+                        <button type="button" class="wizard-nav-btn prev-btn" data-prev="3"><span class="material-icons">arrow_back</span> Previous</button>
+                        <button type="submit" class="final-submit-btn">Submit Application Form <span class="material-icons">check_circle</span></button>
+                    </div>
                 </div>
+
             </form>
         </section>
 
-        <aside class="sidebar-layout">
-            <div class="widget-card tracker-widget">
-                <h4>Your Progress</h4>
-                <div class="progress-ring-block">
-                    <div class="mock-progress-circle">25%</div>
-                    <div class="progress-steps-list">
-                        <p class="p-step active-p"><span class="dot"></span> Personal Info</p>
-                        <p class="p-step"><span class="dot"></span> Disability Details</p>
-                        <p class="p-step"><span class="dot"></span> Documentation Upload</p>
-                        <p class="p-step"><span class="dot"></span> System Finalization</p>
+        <aside class="sticky-sidebar-menu">
+            <div class="sidebar-card">
+                <div class="sidebar-header-title">Application Status</div>
+                <div class="widget-card-body-padding">
+                    <div class="progress-ring-block" style="gap: 14px;">
+                        <div class="mock-progress-circle" id="wizard-progress-circle">25%</div>
+                        <div class="progress-steps-list">
+                            <p class="p-step active-p" id="sidebar-step-1"><span class="dot"></span> 1. Identifying Details</p>
+                            <p class="p-step" id="sidebar-step-2"><span class="dot"></span> 2. Disability Categories</p>
+                            <p class="p-step" id="sidebar-step-3"><span class="dot"></span> 3. Education & Work</p>
+                            <p class="p-step" id="sidebar-step-4"><span class="dot"></span> 4. Core Attachments</p>
+                        </div>
+                    </div>
+                    <div class="portal-reference-tag-card">
+                        <span>Reference Code:</span>
+                        <strong>8228DD1D3A</strong>
                     </div>
                 </div>
-            </div>
-
-            <div class="widget-card info-widget">
-                <span class="material-icons info-icon">help_outline</span>
-                <p>Need support filling details out? Tap back to reach out directly to the CSWD PWD Section.</p>
             </div>
         </aside>
 
     </main>
 
+    <script src="script.js"></script>
 </body>
 </html>
