@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const VALID_SAMPLE_CODE = "8228DD1D3A";
 
     function validateField(inputElement) {
+        if (!inputElement) return false;
         const value = inputElement.value.trim();
 
         // Check if field is blank or doesn't match the valid tracking sample format
@@ -73,10 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (submitContinue && continueInput) {
         submitContinue.addEventListener('click', () => {
             if (validateField(continueInput)) {
-                // Successful verification match route link
                 window.location.href = 'registration.html';
-                
-                // Clear out the input state field if they click back later
                 clearErrors(); 
             }
         });
@@ -86,8 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
         submitStatus.addEventListener('click', () => {
             if (validateField(statusInput)) {
                 alert("Valid Code! Redirecting to tracking records lookup panel...");
-                
-                // FIXED: Automatically wipes out the valid code and error markers from the view popup modal
                 clearErrors(); 
             }
         });
@@ -97,8 +93,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (continueInput && submitContinue) {
         continueInput.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Stop the browser from firing generic reload actions
-                submitContinue.click(); // Programmatically fire the button's verification logic
+                event.preventDefault(); 
+                submitContinue.click(); 
             }
         });
     }
@@ -119,10 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let isClickScrolling = false;
 
     sidebarAnchors.forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function() {
             isClickScrolling = true;
 
-            // Highlight the clicked menu item
             sidebarAnchors.forEach(link => link.classList.remove('active-anchor'));
             this.classList.add('active-anchor');
 
@@ -133,13 +128,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('scroll', () => {
-        if (isClickScrolling) return;
+        if (isClickScrolling || !contentBlocks.length) return;
 
         let currentActiveId = "";
         
         contentBlocks.forEach(block => {
             const rect = block.getBoundingClientRect();
-            
             if (rect.top <= 160) {
                 currentActiveId = block.getAttribute('id');
             }
@@ -161,36 +155,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalFeedback = document.getElementById('modal-feedback');
     const submitFeedback = document.getElementById('submit-feedback');
     
-    // Add these alongside your existing button click handlers:
     if (btnFeedback && modalFeedback) {
         btnFeedback.addEventListener('click', () => {
             modalFeedback.style.display = 'flex';
         });
     }
 
-    // Handles the submission validation check
     if (submitFeedback) {
         submitFeedback.addEventListener('click', () => {
             const nameField = document.getElementById('feedback-name');
             const commentField = document.getElementById('feedback-comments');
 
-            if (commentField.value.trim() === "") {
+            if (commentField && commentField.value.trim() === "") {
                 commentField.classList.add('input-field-error');
                 commentField.placeholder = "Please enter your comments before submitting...";
-            } else {
+            } else if (commentField) {
                 commentField.classList.remove('input-field-error');
                 alert("Thank you! Your feedback has been sent to Cheryl and the CSWDD team.");
                 
-                // Clear and close modal safely
-                nameField.value = "";
-                document.getElementById('feedback-contact').value = "";
+                if (nameField) nameField.value = "";
+                const contactField = document.getElementById('feedback-contact');
+                if (contactField) contactField.value = "";
                 commentField.value = "";
                 modalFeedback.style.display = 'none';
             }
         });
     }
 
-    // for registration process
+    // For registration process
     const wizardPanels = document.querySelectorAll('.form-wizard-panel');
     const stepIndicators = document.querySelectorAll('.step-tracker .step');
     const progressCircle = document.getElementById('wizard-progress-circle');
@@ -216,7 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const percentValue = targetStepNum * 25;
         if (progressCircle) {
             progressCircle.textContent = `${percentValue}%`;
-            
             progressCircle.style.background = `radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(var(--card-green) ${percentValue}%, #EAECEF 0)`;
         }
 
@@ -239,36 +230,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (backToHomeLink) {
         backToHomeLink.addEventListener('click', (event) => {
-            // Stop the browser from immediately jumping to index.html
             event.preventDefault();
 
-            // Display a native confirmation prompt with your sample reference code
             const referenceCode = "8228DD1D3A";
             const userConfirmed = confirm(
                 `Are you sure you want to leave?\n\nYou can continue your application later using your reference code: ${referenceCode}`
             );
 
-            // If the user clicks "OK", proceed back to the homepage
             if (userConfirmed) {
                 window.location.href = backToHomeLink.getAttribute('href');
             }
-            // If they click "Cancel", the code does nothing and they stay exactly where they are on the form
         });
     }
 
-    // Attach click listener arrays onto forwarding action controls
     nextButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetNextStep = parseInt(btn.getAttribute('data-next'));
-            
-            // Check HTML5 verification parameters prior to permitting advancement jumps
             const currentForm = btn.closest('.form-wizard-panel');
+            if (!currentForm) return;
+
             const inputsInside = currentForm.querySelectorAll('input[required], select[required]');
             let panelIsValid = true;
 
             inputsInside.forEach(input => {
                 if (!input.checkValidity()) {
-                    input.reportValidity(); // Highlight system validation tooltips
+                    input.reportValidity(); 
                     panelIsValid = false;
                 }
             });
@@ -279,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Attach click listener arrays onto retreating previous buttons controls
     prevButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetPrevStep = parseInt(btn.getAttribute('data-prev'));
@@ -287,13 +272,68 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Catch final comprehensive form packaging transmission events execution triggers
+    /* ==========================================================================
+       ── FORM SUBMISSION HANDLING ──
+       ========================================================================== */
     const primaryFormAsset = document.getElementById('pwd-application-form');
     if (primaryFormAsset) {
         primaryFormAsset.addEventListener('submit', (e) => {
-            e.preventDefault(); // Stop standard blank page reload loops
+            e.preventDefault(); 
             alert("Application Form Packed Successfully! Sent to Persons with Disability Affairs Office (PDAO) for data review validation.");
             window.location.href = "index.html";
+        });
+    }
+
+    /* ==========================================================================
+       ── CONSOLIDATED MOBILE NAVBAR SYSTEM ──
+       ========================================================================== */
+    const mobileMenuHamburger = document.getElementById('hamburger');
+    const mobileMenuLinksContainer = document.getElementById('nav-links');
+    
+    const isMobileMenu = () => mobileMenuHamburger && window.getComputedStyle(mobileMenuHamburger).display !== 'none';
+
+    if (mobileMenuHamburger && mobileMenuLinksContainer) {
+        mobileMenuHamburger.addEventListener('click', () => {
+            if (!isMobileMenu()) return; 
+            
+            const isOpen = mobileMenuHamburger.classList.toggle('open');
+            mobileMenuHamburger.setAttribute('aria-expanded', isOpen);
+            if (isOpen) {
+                mobileMenuLinksContainer.style.display = 'flex';
+                requestAnimationFrame(() => mobileMenuLinksContainer.classList.add('open'));
+            } else {
+                mobileMenuLinksContainer.classList.remove('open');
+                mobileMenuLinksContainer.addEventListener('transitionend', () => {
+                    if (!mobileMenuLinksContainer.classList.contains('open')) mobileMenuLinksContainer.style.display = 'none';
+                }, { once: true });
+            }
+        });
+
+        mobileMenuLinksContainer.querySelectorAll('a').forEach(linkItem =>
+            linkItem.addEventListener('click', () => {
+                if (!isMobileMenu()) return; 
+                
+                mobileMenuHamburger.classList.remove('open');
+                mobileMenuHamburger.setAttribute('aria-expanded', false);
+                mobileMenuLinksContainer.classList.remove('open');
+                mobileMenuLinksContainer.addEventListener('transitionend', () => {
+                    if (!mobileMenuLinksContainer.classList.contains('open')) mobileMenuLinksContainer.style.display = 'none';
+                }, { once: true });
+            })
+        );
+
+        // SAFE OUTSIDE CLICK HANDLER: Ensures modal elements don't get trapped by menu loops
+        document.addEventListener('click', (e) => {
+            if (!isMobileMenu() || !mobileMenuLinksContainer.classList.contains('open')) return; 
+            
+            if (!mobileMenuHamburger.contains(e.target) && !mobileMenuLinksContainer.contains(e.target)) {
+                mobileMenuHamburger.classList.remove('open');
+                mobileMenuHamburger.setAttribute('aria-expanded', false);
+                mobileMenuLinksContainer.classList.remove('open');
+                mobileMenuLinksContainer.addEventListener('transitionend', () => {
+                    if (!mobileMenuLinksContainer.classList.contains('open')) mobileMenuLinksContainer.style.display = 'none';
+                }, { once: true });
+            }
         });
     }
 });
