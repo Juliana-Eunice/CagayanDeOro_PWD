@@ -1147,6 +1147,25 @@ img.logo[src*="placeholder"] {
     margin-top: 2px;
 }
 
+.agency-with-icon-layout {
+    display: flex;
+    gap: 16px;
+    align-items: center; 
+    margin-top: 10px;
+}
+
+.agency-badge-image {
+    width: 48px;        
+    height: 48px;      
+    object-fit: fill;
+    flex-shrink: 0;     
+}
+
+.agency-with-icon-layout p {
+    margin-bottom: 0;
+    line-height: 1.6;
+}
+
 /* Legal text block extensions modifications formatting rules */
 .doc-content-block h4 {
     font-size: 1.15rem;
