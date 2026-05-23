@@ -171,6 +171,34 @@
         </div>
     </footer>
 
+    <!-- ── Modal: Feedback and Suggestions ── -->
+    <div class="modal" id="modal-feedback">
+        <div class="modal-content modal-yellow">
+            <div class="modal-header">
+                <h3>Feedback / Suggestions</h3>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-row">
+                    <label for="feedback-name">Name</label>
+                    <input type="text" id="feedback-name" placeholder="Enter Name" autocomplete="off">
+                </div>
+
+                <div class="modal-input-row">
+                    <label for="feedback-contact">Contact No.</label>
+                    <input type="tel" id="feedback-contact" placeholder="Enter Contact Number" autocomplete="off">
+                </div>
+
+                <div class="modal-input-row">
+                    <label for="feedback-comments">Comments / Suggestions</label>
+                    <textarea id="feedback-comments" placeholder="Enter Comments" rows="5"></textarea>
+                </div>
+                
+                <button class="modal-submit btn-yellow" id="submit-feedback">Submit</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
