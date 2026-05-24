@@ -889,15 +889,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewClickZones = document.querySelectorAll('.single-preview-frame, .sub-option-box');
     const allPreviewImages = document.querySelectorAll('#modal-visual-preview img');
 
-    // 1. OPEN TRIGGER: Clicking the parent box handles expanding the target graphic asset
+    // 1. OPEN TRIGGER: Uses target tracking to grab the EXACT image asset being clicked
     previewClickZones.forEach(zone => {
         zone.addEventListener('click', (e) => {
-            const targetImg = zone.querySelector('img');
+            // Target the exact image element that your mouse pointer or thumb clicked on
+            const targetImg = e.target.closest('img');
             
-            // Only toggle open if there is no image actively running fullscreen mode right now
-            if (targetImg && !targetImg.classList.contains('image-fullscreen-active')) {
-                e.stopPropagation(); // Holds event inside parent box matrix boundaries
-                targetImg.classList.add('image-fullscreen-active');
+            // Safety Check: If the user clicked the blank space in the card frame instead of the image, grab the first image available
+            const finalImg = targetImg || zone.querySelector('img');
+            
+            // Only toggle open if an image exists and it isn't already expanded full screen
+            if (finalImg && !finalImg.classList.contains('image-fullscreen-active')) {
+                e.stopPropagation(); 
+                finalImg.classList.add('image-fullscreen-active');
             }
         });
     });
