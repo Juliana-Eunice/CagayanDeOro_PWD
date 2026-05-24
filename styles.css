@@ -31,8 +31,9 @@ body {
     color: var(--white);
     padding: 14px 0;    /* Side padding handled by grid-container now */
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    position: relative;
-    z-index: 10;
+    position: sticky;
+    top: 0;
+    z-index: 200;
 }
 
 .nav-wrapper {
@@ -1151,8 +1152,13 @@ img.logo[src*="placeholder"] {
         gap: 30px;
     }
     .sticky-sidebar-menu {
-        position: relative !important;
-        top: 0 !important;
+        position: sticky !important;
+        top: 80px !important;
+        z-index: 50;
+    }
+    .sidebar-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.10);
     }
     .sidebar-links-list {
         display: flex;
@@ -1185,9 +1191,8 @@ img.logo[src*="placeholder"] {
         grid-column: span 1;
     }
 }
-/* ── Hamburger button ── */
-.navbar { position: relative; z-index: 100; }
 
+/* ── Hamburger button ── */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -1283,7 +1288,9 @@ img.logo[src*="placeholder"] {
         border-bottom: none;
         padding-bottom: 11px;
     }
-    /* ──────────────────────────────────────────────────────────────────────────
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
    MOBILE & TABLET RESPONSIVE STYLES (Screens 768px and below)
    ────────────────────────────────────────────────────────────────────────── */
 @media screen and (max-width: 768px) {
@@ -1296,25 +1303,8 @@ img.logo[src*="placeholder"] {
         box-sizing: border-box;
     }
 
-    /* Navbar Adjustment */
-    .nav-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        text-align: center;
-        padding: 12px;
-    }
-    .nav-links {
-        display: flex;
-        gap: 16px;
-        width: 100%;
-        justify-content: center;
-    }
-
     /* Hero Section Split & Image Sizing */
     .hero-content, .header-split-wrapper {
-        display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -1330,20 +1320,18 @@ img.logo[src*="placeholder"] {
         gap: 12px;
     }
 
-    /* Action Cards (Stacking) */
+    /* Action Cards (Stacking) — cancel desktop negative margin, space cards cleanly */
     .action-cards-container {
-        display: flex;
         flex-direction: column;
-        gap: 16px;
-        padding: 16px;
+        align-items: center;
+        margin-top: 0 !important;
+        gap: 56px;
+        padding: 60px 16px 24px;
     }
     .card {
-        flex-direction: column;
+        width: 100%;
+        max-width: 340px;
         text-align: center;
-        padding: 20px;
-    }
-    .card .icon-circle {
-        margin: 0 auto 12px auto;
     }
 
     /* Split Documentation & Form Layouts (Sidebar Stacking) */
@@ -1354,9 +1342,10 @@ img.logo[src*="placeholder"] {
     }
 
     .sticky-sidebar-menu {
-        position: static !important;
+        position: sticky !important;
+        top: 80px !important;
         width: 100% !important;
-        order: -1; /* Places tracking data above workspace on mobile */
+        order: -1;
     }
 
     /* Form Fields Matrix */
@@ -1418,7 +1407,7 @@ img.logo[src*="placeholder"] {
     .help-content {
         display: flex;
         flex-direction: column;
-        text-align: center;
+        text-align: left;
         gap: 20px;
         padding: 24px 16px;
     }
@@ -1431,23 +1420,22 @@ img.logo[src*="placeholder"] {
 /* ──────────────────────────────────────────────────────────────────────────
    DYNAMIC COMPONENT HELPER COLOR STYLES
    ────────────────────────────────────────────────────────────────────────── */
-    .modal-green {
-        border-top: 6px solid var(--card-green, #2ecc71) !important;
-    }
-    .btn-green {
-        background-color: var(--card-green, #2ecc71) !important;
-        color: white;
-        border: none;
-    }
-    .modal-red {
-        border-top: 6px solid var(--card-red, #e74c3c) !important;
-    }  
-    .btn-red {
-        background-color: var(--card-red, #e74c3c) !important;
-        color: white;
-        border: none;
-    }
-    .btn-red:hover {
-        background-color: #c0392b !important;
-    }  
+.modal-green {
+    border-top: 6px solid var(--card-green, #2ecc71) !important;
+}
+.btn-green {
+    background-color: var(--card-green, #2ecc71) !important;
+    color: white;
+    border: none;
+}
+.modal-red {
+    border-top: 6px solid var(--card-red, #e74c3c) !important;
+}
+.btn-red {
+    background-color: var(--card-red, #e74c3c) !important;
+    color: white;
+    border: none;
+}
+.btn-red:hover {
+    background-color: #c0392b !important;
 }
