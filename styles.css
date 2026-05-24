@@ -1417,6 +1417,27 @@ img.logo[src*="placeholder"] {
         text-align: left;
     }
 
+    .side-by-side-layout {
+        display: flex !important;
+        flex-direction: column !important; /* Stacks the logo on top of the paragraph */
+        align-items: center !important;
+        gap: 20px !important;
+        width: 100% !important;
+    }
+
+    .framework-logo-container {
+        width: 140px !important;
+        height: 100px !important;
+        margin: 0 auto !important;
+        flex-shrink: 0 !important;
+    }
+
+    .framework-text-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: left;
+    }
+
     /* Footer Alignment */
     .help-section {
         padding: 32px 28px !important; 
