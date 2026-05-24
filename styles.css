@@ -29,7 +29,7 @@ body {
 .navbar {
     background-color: var(--primary-green);
     color: var(--white);
-    padding: 14px 0;    /* Side padding handled by grid-container now */
+    padding: 14px 0;    
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     position: sticky;
     top: 0;
@@ -600,9 +600,9 @@ img.logo[src*="placeholder"] {
     }
 
     .hero-text{
-        flex:none;          /* override old flex:0 1 600px */
-        width:100%;         /* full row */
-        order:1;            /* below logos */
+        flex:none;          
+        width:100%;         
+        order:1;           
         text-align:center;
         padding:0;
         margin-top:8px;
@@ -1417,16 +1417,40 @@ img.logo[src*="placeholder"] {
     }
 
     /* Footer Alignment */
+    .help-section {
+        padding: 32px 28px !important; 
+    }
     .help-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: column !important;
         text-align: left;
         gap: 20px;
-        padding: 24px 16px;
+        padding: 0 !important;
+        width: 100%;
+        align-items: flex-start;
     }
     .feedback-btn {
         width: 100%;
-        justify-content: center;
+        height: 48px;             
+        display: inline-flex;     
+        justify-content: center;   
+        align-items: center;      
+        gap: 6px; 
+        padding: 0 12px;           
+        box-sizing: border-box;
+        font-size: clamp(0.8rem, 3.5vw, 0.95rem); 
+        white-space: nowrap;
+    }
+    .feedback-btn .material-icons {
+        font-size: clamp(16px, 4vw, 20px) !important;
+    }
+    .contact-info p:first-of-type {
+        display: block !important;    
+        line-height: 1.6 !important;  
+    }
+    .contact-info p strong { /* makes the title separate from the person */
+        display: block;           
+        margin-bottom: 2px;
     }
 }
 
