@@ -703,4 +703,74 @@ document.addEventListener('DOMContentLoaded', () => {
             fabCard.classList.remove('is-open');
         }
     });
+
+    /* ==========================================================================
+       ── ENHANCED FILE ATTACHMENT VALIDATION ENGINE ──
+       ========================================================================== */
+    const uploadRules = {
+        'file-id-pic': { 
+            maxSize: 2 * 1024 * 1024, 
+            allowedTypes: ['image/jpeg', 'image/jpg', 'image/png'], 
+            previewId: 'preview-id-pic', 
+            rowId: 'row-id-pic' 
+        },
+        'file-med-cert': { 
+            maxSize: 5 * 1024 * 1024, 
+            allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], 
+            previewId: 'preview-med-cert', 
+            rowId: 'row-med-cert' 
+        },
+        'file-brgy-cert': { 
+            maxSize: 5 * 1024 * 1024, 
+            allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], 
+            previewId: 'preview-brgy-cert', 
+            rowId: 'row-brgy-cert' 
+        }
+    };
+
+    Object.keys(uploadRules).forEach(inputId => {
+        const fileInput = document.getElementById(inputId);
+        if (!fileInput) return;
+
+        fileInput.addEventListener('change', function() {
+            const rule = uploadRules[inputId];
+            const previewEl = document.getElementById(rule.previewId);
+            const rowEl = document.getElementById(rule.rowId);
+            
+            if (this.files.length === 0) {
+                if (previewEl) previewEl.textContent = "No file chosen";
+                if (rowEl) rowEl.classList.remove('file-row-success');
+                return;
+            }
+
+            const file = this.files[0];
+            
+            // 1. Validate File Size
+            if (file.size > rule.maxSize) {
+                const maxMb = rule.maxSize / (1024 * 1024);
+                alert(`Error: "${file.name}" exceeds the maximum limit size of ${maxMb}MB.`);
+                this.value = ""; // Clear out input data log stream safely
+                if (previewEl) previewEl.textContent = "No file chosen";
+                if (rowEl) rowEl.classList.remove('file-row-success');
+                return;
+            }
+
+            // 2. Validate File Type Extension
+            if (!rule.allowedTypes.includes(file.type) && file.type !== "") {
+                alert(`Error: Invalid file format type. Please upload approved documents only.`);
+                this.value = ""; 
+                if (previewEl) previewEl.textContent = "No file chosen";
+                if (rowEl) rowEl.classList.remove('file-row-success');
+                return;
+            }
+
+            // 3. Update preview states on clean validation matches
+            if (previewEl) {
+                previewEl.textContent = file.name;
+            }
+            if (rowEl) {
+                rowEl.classList.add('file-row-success');
+            }
+        });
+    });
 });

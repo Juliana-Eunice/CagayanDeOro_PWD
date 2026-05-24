@@ -1591,3 +1591,108 @@ img.logo[src*="placeholder"] {
     }
     .fab-close-x-btn:hover { opacity: 1; }
 }
+
+/* ==========================================================================
+   ── ENHANCED FILE UPLOAD COMPONENT STYLES ──
+   ========================================================================== */
+.file-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.file-attachment-upload-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    border: 1.5px solid #E4E7EB;
+    border-radius: 12px;
+    padding: 20px;
+    background: #FFFFFF;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.file-attachment-upload-row:hover {
+    border-color: #b0bec5;
+}
+
+/* Dropzone Interface Mechanics */
+.custom-file-dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+    width: 240px;
+}
+
+/* Hide the raw ugly browser file choose button input */
+.custom-file-input {
+    display: none !important;
+}
+
+.dropzone-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background-color: #f1f3f5;
+    border: 1.5px solid #cfd4da;
+    border-radius: 8px;
+    color: var(--text-mid);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.dropzone-label:hover {
+    background-color: #e2e6ea;
+    border-color: #adb5bd;
+    color: var(--text-dark);
+}
+
+.upload-icon {
+    font-size: 18px !important;
+    color: var(--text-light);
+}
+
+.file-preview-name {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    max-width: 240px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+
+/* Active Success Upload Decorator State */
+.file-row-success {
+    border-color: rgba(52, 168, 83, 0.4) !important;
+    background-color: #fafffa !important;
+}
+.file-row-success .upload-icon,
+.file-row-success .file-preview-name {
+    color: var(--card-green) !important;
+}
+
+/* Responsive breakout adjustments */
+@media screen and (max-width: 768px) {
+    .file-attachment-upload-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 16px !important;
+    }
+    .custom-file-dropzone {
+        width: 100% !important;
+        align-items: flex-start !important;
+    }
+    .file-preview-name {
+        text-align: left !important;
+        max-width: 100% !important;
+    }
+}
