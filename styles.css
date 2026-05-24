@@ -1028,7 +1028,7 @@ img.logo[src*="placeholder"] {
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     border: 1.5px solid rgba(0,0,0,0.04);
-    scroll-margin-top: 40px;
+    scroll-margin-top: 240px;
 }
 
 .doc-content-block h3 { font-size: 1.6rem; font-weight: 700; color: var(--text-dark); margin-bottom: 12px; }
@@ -1494,6 +1494,9 @@ img.logo[src*="placeholder"] {
 }
 
 /* ── Dynamic Component Helper Color Styles ── */
+.modal-blue {
+    border-top: 6px solid var(--card-blue, #4285F4) !important;
+}
 .modal-green {
     border-top: 6px solid var(--card-green, #2ecc71) !important;
 }

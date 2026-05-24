@@ -242,22 +242,38 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- STABILIZED MOBILE SIDEBAR INTERSECTION OBSERVER ---
     window.addEventListener('scroll', () => {
         if (isClickScrolling) return;
 
         let currentActiveId = "";
         
+        const isMobileSize = window.innerWidth <= 960;
+        const detectionThreshold = isMobileSize ? 280 : 160; 
+
         contentBlocks.forEach(block => {
             const rect = block.getBoundingClientRect();
-            if (rect.top <= 160) {
+            // Detects which panel header is crossing into view dynamically
+            if (rect.top <= detectionThreshold) {
                 currentActiveId = block.getAttribute('id');
             }
         });
+        
+        if (window.scrollY < 50) {
+            currentActiveId = contentBlocks[0].getAttribute('id');
+        }
 
         if (currentActiveId) {
             sidebarAnchors.forEach(anchor => {
                 if (anchor.getAttribute('href') === `#${currentActiveId}`) {
                     anchor.classList.add('active-anchor');
+                    
+                    // ACCESSIBILITY ENHANCEMENT FOR MOBILE SYSTEM:
+                    // Automatically scrolls the active tab option panel horizontally into focus 
+                    // inside the tab system if it wraps out of view!
+                    if (isMobileSize) {
+                        anchor.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
                 } else {
                     anchor.classList.remove('active-anchor');
                 }
