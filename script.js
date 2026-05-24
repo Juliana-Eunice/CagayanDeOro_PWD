@@ -773,4 +773,147 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    /* ==========================================================================
+       ── VISUAL PREVIEW MODAL INTERACTIVE LOGIC ──
+       ========================================================================== */
+    const linkPreviewId = document.getElementById('link-preview-id'); // Hero ID Link
+    const modalVisualPreview = document.getElementById('modal-visual-preview');
+    const previewTitle = document.getElementById('preview-modal-title');
+    const previewDesc = document.getElementById('preview-modal-description');
+    const closePreviewModal = document.getElementById('close-preview-modal');
+
+    // Structural Display Layout Selectors
+    const singlePreviewBox = document.getElementById('single-preview-box');
+    const multiPreviewBox = document.getElementById('multi-preview-box');
+
+    // Individual Asset Image Selectors
+    const previewImgSingle = document.getElementById('preview-modal-img');
+    const previewImgBrgy = document.getElementById('preview-img-brgy');
+    const previewImgIdFront = document.getElementById('preview-img-idfront');
+    const previewImgIdBack = document.getElementById('preview-img-idback');
+
+    // Requirement Grid Item Click Action Selectors
+    const reqTriggerPhoto = document.getElementById('req-trigger-photo');
+    const reqTriggerMedical = document.getElementById('req-trigger-medical');
+    const reqTriggerBarangay = document.getElementById('req-trigger-barangay');
+
+    // Modular helper function to launch the preview frame smoothly
+    function displayVisualSample(title, description, toggleBoxType, assignImagesCallback) {
+        if (!modalVisualPreview || !previewTitle || !previewDesc || !singlePreviewBox || !multiPreviewBox) return;
+        
+        previewTitle.textContent = title;
+        previewDesc.innerHTML = description;
+        
+        if (toggleBoxType === 'single') {
+            multiPreviewBox.style.display = "none";
+            singlePreviewBox.style.display = "flex";
+        } else if (toggleBoxType === 'multi') {
+            singlePreviewBox.style.display = "none";
+            multiPreviewBox.style.display = "flex";
+        }
+        
+        assignImagesCallback();
+        modalVisualPreview.style.display = 'flex';
+    }
+
+    // 1. New Trigger: Physical PWD ID Card Sample (From Hero Section)
+    if (linkPreviewId) {
+        linkPreviewId.addEventListener('click', (e) => {
+            e.preventDefault();
+            displayVisualSample(
+                "Physical PWD ID Card Sample",
+                "• Official card format issued by the Cagayan de Oro City Government.<br>• Features your unique control number, photo, and disability classification.",
+                "single",
+                () => { previewImgSingle.src = "sampleID.png"; }
+            );
+        });
+    }
+
+    // 2. Requirement Item Row 1: 1x1 Photo
+    if (reqTriggerPhoto) {
+        reqTriggerPhoto.addEventListener('click', () => {
+            displayVisualSample(
+                "1×1 Photo Specifications",
+                "• Recent photo with a plain white background.<br>• Face must look straight forward with clear, clear lighting.<br>• Avoid dark sunglasses, hats, or heavy filters.",
+                "single",
+                () => { previewImgSingle.src = "1x1sample.jpg"; }
+            );
+        });
+    }
+
+    // 3. Requirement Item Row 2: Medical Certificate
+    if (reqTriggerMedical) {
+        reqTriggerMedical.addEventListener('click', () => {
+            displayVisualSample(
+                "Medical Certificate Reference Layout",
+                "• Must be signed by a licensed physician or clinic specialist.<br>• Explicitly confirms your specific disability classification group.<br>• Text logs, doctor signature, and license numbers must be fully legible.",
+                "single",
+                () => { previewImgSingle.src = "medcertsample.png"; }
+            );
+        });
+    }
+
+    // 4. Requirement Item Row 3: Residency Proof (Multi-Asset View)
+    if (reqTriggerBarangay) {
+        reqTriggerBarangay.addEventListener('click', () => {
+            displayVisualSample(
+                "Identity & Residency Verification Options",
+                "• <strong>Option A:</strong> Standard Barangay Clearance certificate issued within the last 6 months.<br>• <strong>Option B:</strong> Front and Back copy of your official Government National ID proving your local residency.",
+                "multi",
+                () => {
+                    previewImgBrgy.src = "brgycertsample.jpg";
+                    previewImgIdFront.src = "NatID_front.png";
+                    previewImgIdBack.src = "NatID_back.png";
+                }
+            );
+        });
+    }
+
+    // Reusable Close Operations Click Interfaces
+    if (closePreviewModal) {
+        closePreviewModal.addEventListener('click', () => {
+            if (modalVisualPreview) modalVisualPreview.style.display = 'none';
+        });
+    }
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modalVisualPreview) {
+            modalVisualPreview.style.display = 'none';
+        }
+    });
+
+    /* ==========================================================================
+       ── CLICK-TO-FULLSCREEN ENHANCEMENT ENGINE ──
+       ========================================================================== */
+    // Select every image container mounted inside our requirement preview system block
+    const previewImages = document.querySelectorAll('#modal-visual-preview img');
+
+    previewImages.forEach(img => {
+        img.addEventListener('click', (e) => {
+            // Stop the event from bubbling up and instantly breaking modal bounds
+            e.stopPropagation(); 
+            
+            // Toggle the full-screen utility class assignment layout state
+            img.classList.toggle('image-fullscreen-active');
+        });
+    });
+
+    // If an image is currently expanded full-screen, clicking anywhere else closes it safely
+    document.addEventListener('click', () => {
+        previewImages.forEach(img => {
+            img.classList.remove('image-fullscreen-active');
+        });
+    });
+
+    // Also close full-screen mode instantly if the user presses the 'Escape' key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            previewImages.forEach(img => {
+                img.classList.remove('image-fullscreen-active');
+            });
+        }
+    });
+
+    
 });

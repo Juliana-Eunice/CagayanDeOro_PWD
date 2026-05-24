@@ -38,7 +38,9 @@
             <div class="hero-text">
                 <h2>PWD ID Online Registration</h2>
                 <p>Apply for your ID, save your progress, and check your application status 
-                    — anytime, anywhere, no log-in required.</p>
+                    — anytime, anywhere, no log-in required.
+                    <br><a href="#" id="link-preview-id" style="color: #ffeb3b; font-weight: 600; text-decoration: underline; font-size: 0.95rem; display: inline-block; margin-top: 8px; cursor: pointer;">View Physical PWD ID Card Sample</a>
+                </p>
             </div>
             
             <img src="pwd.png" alt="PWD Logo" class="logo logo-desktop-only">
@@ -90,23 +92,55 @@
     <section class="requirements-section">
         <div class="requirements-card">
             <h2>Registration Requirements</h2>
-            <p>Please prepare the following documents to ensure a smooth process.</p>
+            <p>Please prepare the following documents to ensure a smooth process. Click any item to see a sample layout.</p>
             <ul class="req-list">
-                <li>
+                <li id="req-trigger-photo" style="cursor: pointer;">
                     <span class="material-icons req-icon">portrait</span>
                     1×1 Picture of Applicant
                 </li>
-                <li>
+                <li id="req-trigger-medical" style="cursor: pointer;">
                     <span class="material-icons req-icon">medical_information</span>
                     Medical Certificate / Clinical Abstract
                 </li>
-                <li>
+                <li id="req-trigger-barangay" style="cursor: pointer;">
                     <span class="material-icons req-icon">article</span>
                     Barangay Certificate / Valid ID
                 </li>
             </ul>
         </div>
     </section>
+
+    <!-- ── Modal: Requirements ── -->
+    <div class="modal" id="modal-visual-preview">
+        <div class="modal-content modal-green modal-preview-card">
+            <div class="modal-header">
+                <h3 id="preview-modal-title">Visual Layout Spec</h3>
+                <span class="close-btn" id="close-preview-modal">&times;</span>
+            </div>
+            <div class="modal-body preview-body-layout">
+                <p id="preview-modal-description" class="preview-text-desc"></p>
+                
+                <div id="single-preview-box" class="single-preview-frame">
+                    <img id="preview-modal-img" src="" alt="Sample Document Asset" class="preview-fluid-img">
+                </div>
+
+                <div id="multi-preview-box" class="multi-preview-stack">
+                    <div class="sub-option-box">
+                        <span class="sub-option-title">Option A: Barangay Document Proof</span>
+                        <img id="preview-img-brgy" src="" alt="Barangay Proof Sample" class="preview-fluid-img-fixed">
+                    </div>
+                    
+                    <div class="sub-option-box">
+                        <span class="sub-option-title">Option B: Government National ID Card (Front & Back)</span>
+                        <div class="national-id-grid">
+                            <img id="preview-img-idfront" src="" alt="National ID Front">
+                            <img id="preview-img-idback" src="" alt="National ID Back">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ── Footer / Help ── -->
     <footer class="help-section">
