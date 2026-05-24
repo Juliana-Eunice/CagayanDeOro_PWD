@@ -802,6 +802,7 @@ img.logo[src*="placeholder"] {
 .radio-card-group {
     display: flex;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .radio-card {
@@ -1451,6 +1452,36 @@ img.logo[src*="placeholder"] {
     .contact-info p strong { /* makes the title separate from the person */
         display: block;           
         margin-bottom: 2px;
+    }
+
+    .radio-card-group {
+        flex-direction: column !important; /* Converts row direction into a vertical stack */
+        width: 100% !important;
+        gap: 10px !important;            
+    }
+    .radio-card {
+        width: 100% !important;            /* Ensures every button spans the full form width */
+        max-width: none !important;
+        box-sizing: border-box;            /* Protects cards from exceeding container walls */
+    }
+    .panel-action-bar {
+        display: flex !important;
+        flex-direction: column !important; /* Stacks the Previous and Next buttons vertically */
+        gap: 12px !important;              
+        margin-top: 24px !important;
+        padding-top: 16px !important;
+        width: 100% !important;
+    }
+    .panel-action-bar .wizard-nav-btn,
+    .panel-action-bar .final-submit-btn {
+        width: 100% !important;            
+        justify-content: center !important;
+        box-sizing: border-box !important; 
+        padding: 14px 20px !important;     
+    }
+    .form-card {
+        margin-bottom: 100px !important;  
+        padding: 24px 16px !important;     
     }
 }
 
