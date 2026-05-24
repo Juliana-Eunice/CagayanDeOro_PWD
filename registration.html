@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Wizard — CDO PWD Portal</title>
+    <title>Registration — CDO PWD Portal</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,7 +19,10 @@
                 <span>Cagayan de Oro City</span>
             </div>
             <nav class="nav-links">
-                <a href="index.html" class="back-link"><span class="material-icons">arrow_back</span> Back to Home</a>
+                <a href="index.html" class="back-link">
+                    <span class="material-icons">arrow_back</span> 
+                    <span class="back-text">Back to Home</span>
+                </a>
             </nav>
         </div>
     </header>
@@ -484,9 +487,17 @@
             </form>
         </section>
 
-        <aside class="sticky-sidebar-menu">
-            <div class="sidebar-card">
-                <div class="sidebar-header-title">Application Status</div>
+        <aside class="sticky-sidebar-menu" id="mobile-fab-container">
+            <button type="button" class="fab-trigger-btn" id="fab-toggle" aria-label="View status menu">
+                <span class="material-icons">save</span>
+                <span class="fab-btn-text">Save Progress</span>
+            </button>
+
+            <div class="sidebar-card" id="fab-target-card">
+                <div class="sidebar-header-title" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span>Application Status</span>
+                    <button type="button" id="fab-close" class="fab-close-x-btn">&times;</button>
+                </div>
                 <div class="widget-card-body-padding">
                     <div class="progress-ring-block" style="gap: 14px;">
                         <div class="mock-progress-circle" id="wizard-progress-circle">25%</div>
@@ -503,9 +514,8 @@
                     </div>
 
                     <button type="button" id="btn-save-draft" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 18px; padding: 12px 16px; background-color: #2B7A2B; color: #ffffff; font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(43,122,43,0.15); transition: background-color 0.2s ease, transform 0.1s ease; -webkit-appearance: none; appearance: none;">
-                        <span class="material-icons">save</span> Save Draft
+                        <span class="material-icons">save</span> Save Progress
                     </button>
-                    
                 </div>
             </div>
         </aside>
@@ -526,7 +536,7 @@
                     <small>Enter your 11-digit phone number so you can return to your form later.</small>
                 </div>
                 
-                <button type="button" class="modal-submit btn-green" id="submit-draft-phone">Save Draft</button>
+                <button type="button" class="modal-submit btn-green" id="submit-draft-phone">Save Progress</button>
             </div>
         </div>
 

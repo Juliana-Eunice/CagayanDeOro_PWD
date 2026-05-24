@@ -430,6 +430,7 @@ img.logo[src*="placeholder"] {
 .modal-blue .modal-header { background: linear-gradient(135deg, #5c99fc, #2468e0); }
 .modal-red  .modal-header { background: linear-gradient(135deg, #f57067, #c42516); }
 .modal-green .modal-header { background: linear-gradient(135deg, #47c767, var(--card-green)); }
+
 .close-btn {
     font-size: 26px;
     cursor: pointer;
@@ -1343,7 +1344,7 @@ img.logo[src*="placeholder"] {
 
     .sticky-sidebar-menu {
         position: sticky !important;
-        top: 80px !important;
+        top: 80px !important; /* Clears the fixed navbar on mobile */
         width: 100% !important;
         order: -1;
     }
@@ -1390,7 +1391,10 @@ img.logo[src*="placeholder"] {
     .modal-content {
         width: 92% !important;
         margin: 20px auto !important;
-        padding: 16px !important;
+        padding: 0 !important;
+    }
+    .modal-body {
+        padding: 20px 16px !important;
     }
     .modal-input-row {
         display: flex;
@@ -1417,9 +1421,15 @@ img.logo[src*="placeholder"] {
     }
 }
 
-/* ──────────────────────────────────────────────────────────────────────────
-   DYNAMIC COMPONENT HELPER COLOR STYLES
-   ────────────────────────────────────────────────────────────────────────── */
+/* ── Desktop adjustments for sticky position ── */
+@media screen and (min-width: 769px) {
+    .sticky-sidebar-menu {
+        position: sticky;
+        top: 100px; /* Gives a clean 100px padding down from the top of the viewport on desktop layout */
+    }
+}
+
+/* ── Dynamic Component Helper Color Styles ── */
 .modal-green {
     border-top: 6px solid var(--card-green, #2ecc71) !important;
 }
@@ -1438,4 +1448,146 @@ img.logo[src*="placeholder"] {
 }
 .btn-red:hover {
     background-color: #c0392b !important;
+}
+
+/* ── Registration Page Mobile Navigation Override ── */
+@media screen and (max-width: 768px) {
+    /* Prevent the nav-links wrapper from turning into a hidden dropdown on registration view */
+    body:has(.registration-layout) .navbar .nav-links {
+        display: flex !important;
+        position: static !important;
+        opacity: 1 !important;
+        transform: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding: 0 !important;
+        width: auto !important;
+        pointer-events: all !important;
+    }
+
+    /* Remove the dropdown arrow pip element */
+    body:has(.registration-layout) .nav-links::before {
+        display: none !important;
+    }
+
+    /* Style the back link to look like a clean, standalone icon button on mobile */
+    body:has(.registration-layout) .nav-links a.back-link {
+        color: var(--white) !important;
+        background: transparent; /* Changed from semi-transparent to completely transparent */
+        padding: 8px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s ease;
+    }
+
+    /* Dynamic reveal state when a cursor hovers over the target button */
+    body:has(.registration-layout) .nav-links a.back-link:hover {
+        background: rgba(255, 255, 255, 0.15); /* Revealing the light color only on hover */
+    }
+
+    body:has(.registration-layout) .nav-links a.back-link:active {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    body:has(.registration-layout) .nav-links a.back-link .material-icons {
+        margin: 0 !important;
+        font-size: 22px;
+    }
+
+    /* Hide the text label on mobile screens */
+    body:has(.registration-layout) .nav-links .back-text {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   ── REGISTRATION SIDEBAR MOBILE FAB MODIFICATIONS ──
+   ========================================================================== */
+
+/* Hide the toggle and close triggers on desktop viewports */
+.fab-trigger-btn, .fab-close-x-btn {
+    display: none;
+}
+
+@media screen and (max-width: 960px) {
+    /* 1. Position the container on the bottom right layer */
+    #mobile-fab-container {
+        position: fixed !important;
+        bottom: 24px !important;
+        right: 24px !important;
+        top: auto !important;
+        left: auto !important;
+        z-index: 1000 !important;
+        width: auto !important;
+    }
+
+    /* 2. Shape the trigger into a modern flat-pill button */
+    .fab-trigger-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        height: 48px;
+        background: var(--primary-green);
+        color: var(--white);
+        border: none;
+        border-radius: 24px; /* Gives it smooth round capsule edges */
+        box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 600;
+        transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .fab-trigger-btn:active {
+        transform: scale(0.97);
+        background-color: #1e5c1e;
+    }
+
+    .fab-trigger-btn .material-icons {
+        font-size: 20px;
+    }
+
+    /* 3. Re-architect the sidebar card as a slide-out overlay drawer panel */
+    /* 3. Re-architect the sidebar card as a slide-out overlay drawer panel */
+    #mobile-fab-container .sidebar-card {
+        position: absolute;
+        bottom: 64px; 
+        right: 0;
+        width: 300px;
+        
+        /* CHANGE THIS: Hide it by default on mobile screens using a safe fallback */
+        display: none; 
+        
+        animation: fabDrawerIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    /* ADD THIS NEW RULE right below it: Only display the mobile block drawer when the state class layout is present */
+    #mobile-fab-container .sidebar-card.is-open {
+        display: block !important;
+    }
+
+    /* Slide animation */
+    @keyframes fabDrawerIn {
+        from { opacity: 0; transform: translateY(12px) scale(0.96); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Show the panel close cross button icon */
+    .fab-close-x-btn {
+        display: block;
+        background: none;
+        border: none;
+        color: var(--white);
+        font-size: 24px;
+        cursor: pointer;
+        line-height: 1;
+        opacity: 0.8;
+    }
+    .fab-close-x-btn:hover { opacity: 1; }
 }

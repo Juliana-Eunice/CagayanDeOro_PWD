@@ -676,4 +676,31 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem('activeStepNum');
         });
     }
+
+    /* ==========================================================================
+       ── MOBILE REGISTRATION SIDEBAR FAB CONTROLLER ENGINE ──
+       ========================================================================== */
+    const fabToggle = document.getElementById('fab-toggle');
+    const fabClose = document.getElementById('fab-close');
+    const fabCard = document.getElementById('fab-target-card');
+
+    if (fabToggle && fabCard) {
+        fabToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Toggle the custom layout visibility state class rule wrapper
+            fabCard.classList.toggle('is-open');
+        });
+    }
+
+    if (fabClose && fabCard) {
+        fabClose.addEventListener('click', () => {
+            fabCard.classList.remove('is-open');
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (fabCard && fabToggle && !fabCard.contains(e.target) && !fabToggle.contains(e.target)) {
+            fabCard.classList.remove('is-open');
+        }
+    });
 });
