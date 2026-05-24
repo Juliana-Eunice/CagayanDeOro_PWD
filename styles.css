@@ -1920,7 +1920,7 @@ img.logo[src*="placeholder"] {
 
     .contact-info {
         align-items: center;     /* Centers the main container on mobile view */
-        text-align: center;
+        text-align: left;
     }
 
     .contact-details-list {
