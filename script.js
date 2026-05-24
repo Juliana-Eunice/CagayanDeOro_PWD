@@ -53,24 +53,40 @@
 
     function validateField(inputElement) {
         const value = inputElement.value.trim();
+        
+        // Identify which interactive field is currently running validation
+        const isContinueField = inputElement.id === 'continue-input';
+        const isStatusField = inputElement.id === 'status-input';
 
+        // 1. Basic validation: check if the input is completely empty or an incorrect code
         if (value === "" || value !== VALID_SAMPLE_CODE) {
+            inputElement.value = "";
             inputElement.classList.add('input-field-error');
             inputElement.placeholder = "Please input a valid code...";
+            return false;
+        }
+
+        // 2. Continue Route check: Block if no active session draft exists
+        if (isContinueField && !isDraftSaved) {
+            inputElement.value = "";
+            inputElement.classList.add('input-field-error');
+            inputElement.placeholder = "No active draft found. Start a new form first!";
+            alert("No active draft found for this reference code.\n\nPlease click 'Start New Registration' to begin a fresh application.");
+            return false;
+        }
+
+        // 3. Status Route check: Block lookup if no application record has been saved yet
+        if (isStatusField && !isDraftSaved) {
+            inputElement.value = "";
+            inputElement.classList.add('input-field-error');
+            inputElement.placeholder = "No tracking records found for this code!";
+            alert("No application records found for this reference code.\n\nYou must start a registration and save a draft or submit the form before tracking its progress status.");
             return false;
         }
 
         inputElement.classList.remove('input-field-error');
         return true;
     }
-
-    [continueInput, statusInput].forEach(input => {
-        if (input) {
-            input.addEventListener('input', () => {
-                input.classList.remove('input-field-error');
-            });
-        }
-    });
 
     function clearErrors() {
         [continueInput, statusInput].forEach(input => {
