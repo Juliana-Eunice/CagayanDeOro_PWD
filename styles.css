@@ -1874,40 +1874,52 @@ img.logo[src*="placeholder"] {
     align-items: flex-start; /* Left-aligns the header and the details list on desktop */
     text-align: left;
 }
+.contact-info h2 {
+    margin-top: 0;
+    margin-bottom: 4px;      /* Drops the space between the heading and Cheryl's line completely */
+}
 
 .contact-details-list {
     display: flex;
     flex-direction: column;
     align-items: flex-start; /* Forces every row item inside to start on the left edge */
     gap: 12px;                /* Adds neat spacing between lines */
-    margin-top: 2px;
+    margin-top: 4px;
     width: 100%;
 }
 
-.contact-details-list p {
+.contact-card-row p {
+    margin: 0 !important;    /* Wipes out native browser paragraph line padding variables */
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Material icons styling metrics */
+.contact-card-row .contact-icon {
+    font-size: 20px !important;
+    color: #2e7d32;          /* Clean accent color for your tracking indicators */
+    margin-top: 2px;         /* Perfect vertical level adjustment with text rows */
+    flex-shrink: 0;          /* Prevents browser engines from squeezing icons on mobile */
+}
+
+/* THE FIX: Separate the name from the title to stack naturally */
+.contact-text-block {
     display: flex;
-    align-items: center;     /* Vertically centers phone/location icons with text strings */
-    gap: 8px;                /* Spaces the material icons away from the words */
-    margin: 0;               /* Resets default browser margins */
-    text-align: left;
-}
-
-/* ── FIXED: Cheryl's Row Text Wrap Fix ── */
-.contact-person {
-    display: flex !important; /* Overrides flex settings to allow text to wrap naturally onto its own line space */
+    flex-direction: column;  /* Stacks designation title cleanly right beneath the name */
+    gap: 2px;
     width: 100%;
-    margin: 0 0 10px 0 !important; /* Forces physical space below the paragraph so it never overflows into the phone number */
-    line-height: 1.4;        /* Adds vertical breathing room between wrapped sentences */
 }
 
-.contact-person strong {
-    white-space: nowrap;  /* Ensures "CHERYL" never splits up internally */
-    margin-right: 4px;       /* Adds a clean space before the dash separator */
+.contact-text-block strong {
+    font-size: 1rem;
+    color: #111;
+    white-space: nowrap;     /* Ensures "CHERYL" never splits up internally */
 }
 
-.contact-person .designation {
-    color: var(--text-light, #555);
-    display: inline-flex;         /* Keeps the title inline with the name if there is wide screen space */
+.contact-text-block .designation {
+    font-size: 0.95rem;
+    color: #666;             /* Softer layout hierarchy coloring */
+    line-height: 1.4;        /* Provides defensive spacing so text can wrap freely if needed */
 }
 
 /* ── Mobile View Media Query Formatting (768px and below) ── */
@@ -1920,17 +1932,12 @@ img.logo[src*="placeholder"] {
     }
 
     .contact-info {
-        text-align: left;
+       text-align: left;
     }
 
     .contact-details-list {
-        align-items: flex-start; /* CRITICAL: Keeps text rows left-aligned to each other... */
-        margin: 12px auto 0 auto; /* ...while centering the block package inside the screen */
-        max-width: 120%;
-    }
-
-    /* ── FIXED: Text alignment consistency inside mobile container ── */
-    .contact-person {
-        text-align: left;        /* Ensures the wrapped title continues from left to right smoothly */
+        align-items: flex-start;  /* CRITICAL: Keeps individual text lines left-aligned to each other */
+        margin: 12px auto 0 auto; /* Centers the left-aligned block inside the screen viewport */
+        max-width: 320px;         /* Restricts width bounding box to handle text wraps cleanly */
     }
 }
