@@ -1717,7 +1717,9 @@ img.logo[src*="placeholder"] {
     font-size: 0.92rem;
     color: var(--text-mid);
     margin-bottom: 20px;
-    line-height: 1.5;
+    line-height: 1.6;
+    text-align: justify; /* Aligns both edges of the bullet points cleanly */
+    padding: 0 10px;     /* Adds slight side breathing room within the card container */
 }
 
 .single-preview-frame {
