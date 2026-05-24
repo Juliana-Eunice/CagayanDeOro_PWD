@@ -886,30 +886,36 @@ document.addEventListener('DOMContentLoaded', () => {
     /* ==========================================================================
        ── CLICK-TO-FULLSCREEN ENHANCEMENT ENGINE ──
        ========================================================================== */
-    // Select every image container mounted inside our requirement preview system block
-    const previewImages = document.querySelectorAll('#modal-visual-preview img');
+    const previewClickZones = document.querySelectorAll('.single-preview-frame, .sub-option-box');
+    const allPreviewImages = document.querySelectorAll('#modal-visual-preview img');
 
-    previewImages.forEach(img => {
-        img.addEventListener('click', (e) => {
-            // Stop the event from bubbling up and instantly breaking modal bounds
-            e.stopPropagation(); 
+    // 1. OPEN TRIGGER: Clicking the parent box handles expanding the target graphic asset
+    previewClickZones.forEach(zone => {
+        zone.addEventListener('click', (e) => {
+            const targetImg = zone.querySelector('img');
             
-            // Toggle the full-screen utility class assignment layout state
-            img.classList.toggle('image-fullscreen-active');
+            // Only toggle open if there is no image actively running fullscreen mode right now
+            if (targetImg && !targetImg.classList.contains('image-fullscreen-active')) {
+                e.stopPropagation(); // Holds event inside parent box matrix boundaries
+                targetImg.classList.add('image-fullscreen-active');
+            }
         });
     });
 
-    // If an image is currently expanded full-screen, clicking anywhere else closes it safely
-    document.addEventListener('click', () => {
-        previewImages.forEach(img => {
-            img.classList.remove('image-fullscreen-active');
+    // 2. CLOSE TRIGGER: Clicking directly on the active fullscreen image layer forces it closed safely
+    allPreviewImages.forEach(img => {
+        img.addEventListener('click', (e) => {
+            if (img.classList.contains('image-fullscreen-active')) {
+                e.stopPropagation(); // CRITICAL: Traps click event inside image box layer so it doesn't touch cards behind it
+                img.classList.remove('image-fullscreen-active');
+            }
         });
     });
 
-    // Also close full-screen mode instantly if the user presses the 'Escape' key
+    // 3. BACKUP HARD CANCEL ROUTINES (Escape Key)
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            previewImages.forEach(img => {
+            allPreviewImages.forEach(img => {
                 img.classList.remove('image-fullscreen-active');
             });
         }
@@ -920,12 +926,10 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            // Automatically capture all mounted layout modal frames
             const allModals = document.querySelectorAll('.modal');
             allModals.forEach(modal => {
                 modal.style.display = 'none';
             });
-            // Safely clear out any red field error states
             if (typeof clearErrors === 'function') {
                 clearErrors();
             }

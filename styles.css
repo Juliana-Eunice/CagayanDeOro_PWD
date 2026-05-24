@@ -390,14 +390,23 @@ img.logo[src*="placeholder"] {
 
 /* ── Modals ── */
 .modal {
-    display: none;
+    display: none; /* Controlled dynamically as 'flex' by script.js */
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.48);
-    z-index: 2000;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    
+    /* ── SCROLLABLE CENTERING MECHANISM ── */
+    overflow-y: auto;           /* Keeps the scroll track alive if text overflows */
+    scroll-behavior: smooth;
+    padding: 40px 14px;         /* Generous top/bottom safety margins for mobile */
+    
+    /* Forces the inner white box card to stay perfectly centered on desktop */
+    align-items: center;        
     justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(2px);
 }
 
 .modal-content {
@@ -1701,8 +1710,13 @@ img.logo[src*="placeholder"] {
    ── REQUIREMENTS PREVIEW MODAL FRAMEWORK ──
    ========================================================================== */
 .modal-preview-card {
-    width: 520px;
-    max-width: 95%;
+    width: 100% !important;
+    max-width: 520px !important;
+    height: auto !important;
+    max-height: calc(100vh - 60px) !important; /* Clips card wrapper slightly inside screen viewport */
+    display: flex !important;
+    flex-direction: column !important; /* Stacks header above body box structurally */
+    overflow: hidden !important; /* Stops entire outer card framework from rolling up */
 }
 
 .preview-body-layout {
@@ -1710,16 +1724,25 @@ img.logo[src*="placeholder"] {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 24px;
+    padding: 20px;
+    overflow-y: auto !important; /* This isolates the scrollbar track ONLY to text & images! */
+}
+
+.modal-preview-card .modal-header {
+    position: dashed; /* Keeps the container fixed at the top layout grid boundary line */
+    top: 0;
+    z-index: 10; /* Ensures graphics sliding underneath don't clip over titles */
+    width: 100%;
+    flex-shrink: 0; /* Prevents layout engines from squishing the header down */
 }
 
 .preview-text-desc {
-    font-size: 0.92rem;
+    font-size: 0.82rem; /* Reduced from 0.92rem to look sleeker and more proportional */
     color: var(--text-mid);
-    margin-bottom: 20px;
-    line-height: 1.6;
-    text-align: justify; /* Aligns both edges of the bullet points cleanly */
-    padding: 0 10px;     /* Adds slight side breathing room within the card container */
+    margin-bottom: 16px; /* Slightly tightened the gap to save viewport height space */
+    line-height: 1.5;
+    text-align: justify;
+    padding: 0 10px;
 }
 
 .single-preview-frame {
@@ -1738,6 +1761,24 @@ img.logo[src*="placeholder"] {
     max-height: 320px;
     object-fit: contain;
     border-radius: 6px;
+    pointer-events: none; /* Stops the image from blocking background scrolls! */
+}
+
+.preview-fluid-img-fixed {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 6px;
+    pointer-events: none; /* Passes touch/scroll events straight through to the wrapper container */
+}
+
+/* Make sure the National ID grid images pass scroll events through as well */
+.national-id-grid img {
+    width: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    border: 1px solid #eaecef;
+    pointer-events: none; 
 }
 
 .multi-preview-stack {
@@ -1784,24 +1825,8 @@ img.logo[src*="placeholder"] {
 }
 
 /* ==========================================================================
-   ── FULL SCREEN CLICKS IMAGE SUITE ──
+   ── STABILIZED BREAKOUT FULLSCREEN SPECIFICATION ──
    ========================================================================== */
-/* Tell the user the image can be zoomed on hover */
-.preview-fluid-img, 
-.preview-fluid-img-fixed, 
-.national-id-grid img {
-    cursor: zoom-in;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.preview-fluid-img:hover, 
-.preview-fluid-img-fixed:hover, 
-.national-id-grid img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* The active full screen wrapper state class */
 .image-fullscreen-active {
     position: fixed !important;
     top: 0 !important;
@@ -1811,12 +1836,33 @@ img.logo[src*="placeholder"] {
     max-width: 100vw !important;
     max-height: 100vh !important;
     object-fit: contain !important;
-    z-index: 9999 !important; /* Forces it over the top of the modal overlay */
-    padding: 20px !important;
-    background: rgba(0, 0, 0, 0.85); /* Darkens and focus-locks the rest of the workspace */
-    cursor: zoom-out !important;
+    padding: 30px !important;
+    
+    /* ── THE BREAKOUT FIXES ── */
+    z-index: 999999 !important; /* Insanely high index to pierce through the modal card DOM structure */
+    background: rgba(15, 17, 19, 0.65) !important; 
+    backdrop-filter: blur(8px) !important;
+    pointer-events: auto !important;
+    
+    /* Forces the browser to calculate screen bounds relative to the viewport window, NOT the white modal box */
+    transform: translateZ(0) !important; 
+    
     border: none !important;
     border-radius: 0 !important;
-    transform: scale(1) !important;
     box-shadow: none !important;
+}
+
+/* ==========================================================================
+   ── RE-IMPLEMENTED PREVIEW HOVER CURSOR SYSTEM ──
+   ========================================================================== */
+/* Safely gives the desktop mouse pointer a zoom icon over clickable frames */
+.single-preview-frame, 
+.sub-option-box {
+    cursor: zoom-in;
+}
+
+/* Safety Override: If an image inside goes fullscreen, drop the frame cursor track completely */
+.modal-preview-card:has(.image-fullscreen-active) .single-preview-frame,
+.modal-preview-card:has(.image-fullscreen-active) .sub-option-box {
+    cursor: default !important;
 }
