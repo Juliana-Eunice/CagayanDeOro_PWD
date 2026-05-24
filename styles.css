@@ -1926,7 +1926,7 @@ img.logo[src*="placeholder"] {
     .contact-details-list {
         align-items: flex-start; /* CRITICAL: Keeps text rows left-aligned to each other... */
         margin: 12px auto 0 auto; /* ...while centering the block package inside the screen */
-        max-width: 100%;
+        max-width: 120%;
     }
 
     /* ── FIXED: Text alignment consistency inside mobile container ── */
