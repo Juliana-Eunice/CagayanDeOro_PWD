@@ -1870,3 +1870,4 @@ img.logo[src*="placeholder"] {
 .modal-preview-card:has(.image-fullscreen-active) .sub-option-box {
     cursor: default !important;
 }
+
