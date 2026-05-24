@@ -58,6 +58,12 @@
         const isContinueField = inputElement.id === 'continue-input';
         const isStatusField = inputElement.id === 'status-input';
 
+        // Get references to our reusable exit modal elements to turn it into a warning popup
+        const modalExitConfirm = document.getElementById('modal-exit-confirm');
+        const exitModalText = document.getElementById('exit-modal-text');
+        const btnConfirmExit = document.getElementById('btn-confirm-exit');
+        const btnCancelExit = document.getElementById('btn-cancel-exit');
+
         // 1. Basic validation: check if the input is completely empty or an incorrect code
         if (value === "" || value !== VALID_SAMPLE_CODE) {
             inputElement.value = "";
@@ -71,7 +77,19 @@
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
             inputElement.placeholder = "No active draft found. Start a new form first!";
-            alert("No active draft found for this reference code.\n\nPlease click 'Start New Registration' to begin a fresh application.");
+            
+            if (modalExitConfirm && exitModalText && btnConfirmExit && btnCancelExit) {
+                // Change modal layout to a friendly warning message
+                modalExitConfirm.querySelector('.modal-header h3').textContent = "No Draft Found";
+                exitModalText.innerHTML = `<strong>No active draft found for this reference code.</strong><br><br>Please click 'Start New Registration' to begin a completely fresh application profile.`;
+                
+                // Hide the "Yes, Leave" button and make "Stay Here" say "Close" instead
+                btnConfirmExit.style.display = "none";
+                btnCancelExit.textContent = "Close";
+                btnCancelExit.className = "modal-submit btn-red"; // Make it look like a warning close button
+                
+                modalExitConfirm.style.display = 'flex';
+            }
             return false;
         }
 
@@ -80,7 +98,19 @@
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
             inputElement.placeholder = "No tracking records found for this code!";
-            alert("No application records found for this reference code.\n\nYou must start a registration and save a draft or submit the form before tracking its progress status.");
+            
+            if (modalExitConfirm && exitModalText && btnConfirmExit && btnCancelExit) {
+                // Change modal layout to a tracking warning message
+                modalExitConfirm.querySelector('.modal-header h3').textContent = "No Records Found";
+                exitModalText.innerHTML = `<strong>No tracking logs found for this reference code.</strong><br><br>You must initiate a registration form and click 'Save Draft' or submit the application before tracking its progress status.`;
+                
+                // Hide the "Yes, Leave" button and make "Stay Here" say "Close" instead
+                btnConfirmExit.style.display = "none";
+                btnCancelExit.textContent = "Close";
+                btnCancelExit.className = "modal-submit btn-red";
+                
+                modalExitConfirm.style.display = 'flex';
+            }
             return false;
         }
 
@@ -108,14 +138,48 @@
         });
     }
 
+    const modalStatusSuccess = document.getElementById('modal-status-success');
+    const btnStatusProceed = document.getElementById('btn-status-proceed');
+    const closeStatusSuccessModal = document.getElementById('close-status-success-modal');
+
     if (submitStatus && statusInput) {
         submitStatus.addEventListener('click', () => {
             if (validateField(statusInput)) {
-                alert("Valid Code! Redirecting to tracking records lookup panel...");
-                clearErrors(); 
+                // Safely close the input modal card first
+                const modalStatus = document.getElementById('modal-status');
+                if (modalStatus) modalStatus.style.display = 'none';
+
+                // Open your new branded success tracking modal panel
+                if (modalStatusSuccess) {
+                    modalStatusSuccess.style.display = 'flex';
+                }
             }
         });
     }
+
+    // Handle clicking the "Proceed to Tracking" button
+    if (btnStatusProceed) {
+        btnStatusProceed.addEventListener('click', () => {
+            if (modalStatusSuccess) modalStatusSuccess.style.display = 'none';
+            clearErrors();
+        });
+    }
+
+    // Close button (X icon) handler for the success popup panel
+    if (closeStatusSuccessModal) {
+        closeStatusSuccessModal.addEventListener('click', () => {
+            if (modalStatusSuccess) modalStatusSuccess.style.display = 'none';
+            clearErrors();
+        });
+    }
+
+    // Close the success panel if clicking outside on the dark background overlay
+    window.addEventListener('click', (e) => {
+        if (e.target === modalStatusSuccess) {
+            modalStatusSuccess.style.display = 'none';
+            clearErrors();
+        }
+    });
 
     if (continueInput && submitContinue) {
         continueInput.addEventListener('keydown', (event) => {
@@ -273,7 +337,13 @@
 
     if (backToHomeLink && modalExitConfirm && exitModalText) {
         backToHomeLink.addEventListener('click', (event) => {
-            event.preventDefault(); // Stop page from leaving right away
+            event.preventDefault(); 
+            
+            // RESET MODAL STRUCTURAL DEFAULTS FOR LEAVING PATHS
+            modalExitConfirm.querySelector('.modal-header h3').textContent = "Leave Page?";
+            btnConfirmExit.style.display = "block"; // Bring "Yes, Leave" back
+            btnCancelExit.textContent = "Stay Here";
+            btnCancelExit.className = "modal-submit btn-green"; // Reset color layout class
             
             // Choose friendly text based on whether they saved their draft
             if (!isDraftSaved) {
@@ -282,7 +352,6 @@
                 exitModalText.innerHTML = `<strong>Your draft is saved!</strong><br><br>You can finish your application whenever you return using your Reference Code: <strong>8228DD1D3A</strong>.<br><br>Go back to the homepage?`;
             }
 
-            // Open the custom green modal popup
             modalExitConfirm.style.display = 'flex';
         });
     }
