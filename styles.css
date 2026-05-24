@@ -1866,3 +1866,71 @@ img.logo[src*="placeholder"] {
 .modal-preview-card:has(.image-fullscreen-active) .sub-option-box {
     cursor: default !important;
 }
+
+/* ── Desktop Formatting ── */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Left-aligns the header and the details list on desktop */
+    text-align: left;
+}
+
+.contact-details-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Forces every row item inside to start on the left edge */
+    gap: 8px;                /* Adds neat spacing between lines */
+    margin-top: 12px;
+}
+
+.contact-details-list p {
+    display: flex;
+    align-items: center;     /* Vertically centers phone/location icons with text strings */
+    gap: 8px;                /* Spaces the material icons away from the words */
+    margin: 0;               /* Resets default browser margins */
+    text-align: left;
+}
+
+/* ── FIXED: Cheryl's Row Text Wrap Fix ── */
+.contact-person {
+    display: flex !important; /* Overrides flex settings to allow text to wrap naturally onto its own line space */
+    width: 100%;
+    margin: 0 0 10px 0 !important; /* Forces physical space below the paragraph so it never overflows into the phone number */
+    line-height: 1.4;        /* Adds vertical breathing room between wrapped sentences */
+}
+
+.contact-person strong {
+    white-space: nowrap;  /* Ensures "CHERYL" never splits up internally */
+    margin-right: 4px;       /* Adds a clean space before the dash separator */
+}
+
+.contact-person .designation {
+    color: var(--text-light, #555);
+    display: inline;         /* Keeps the title inline with the name if there is wide screen space */
+}
+
+/* ── Mobile View Media Query Formatting (768px and below) ── */
+@media screen and (max-width: 768px) {
+    .help-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .contact-info {
+        align-items: center;     /* Centers the main container on mobile view */
+        text-align: center;
+    }
+
+    .contact-details-list {
+        align-items: flex-start; /* CRITICAL: Keeps text rows left-aligned to each other... */
+        margin: 12px auto 0 auto; /* ...while centering the block package inside the screen */
+        max-width: 90%;
+    }
+
+    /* ── FIXED: Text alignment consistency inside mobile container ── */
+    .contact-person {
+        text-align: left;        /* Ensures the wrapped title continues from left to right smoothly */
+    }
+}
