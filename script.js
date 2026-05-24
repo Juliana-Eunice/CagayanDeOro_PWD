@@ -915,5 +915,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* ==========================================================================
+       ── ACCESSIBILITY & ESCAPE KEY MODAL DISMISS ENGINE ──
+       ========================================================================== */
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            // Automatically capture all mounted layout modal frames
+            const allModals = document.querySelectorAll('.modal');
+            allModals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+            // Safely clear out any red field error states
+            if (typeof clearErrors === 'function') {
+                clearErrors();
+            }
+        }
+    });
     
 });
