@@ -10,6 +10,20 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="cdo.png">
+    <style>
+        /* Interactive feedback specifically for the clickable list requirements on FAQ page */
+        .faq-interactive-item {
+            cursor: pointer !important;
+            transition: background-color 0.15s ease, border-color 0.15s ease;
+        }
+        .faq-interactive-item:hover {
+            background-color: #EEF6EE !important;
+            border-color: rgba(43, 122, 43, 0.3) !important;
+        }
+        .faq-interactive-item:hover .req-icon {
+            color: var(--primary-green) !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -79,10 +93,11 @@
                 <details class="faq-dropdown" open>
                     <summary class="faq-question">What are the requirements for a PWD ID? <span class="material-icons chevron">expand_more</span></summary>
                     <div class="faq-answer">
+                        <p style="margin-bottom: 12px; font-size: 0.9rem; color: var(--text-light);">💡 Click any requirement row below to view its sample document layout reference specifications:</p>
                         <ul class="req-list" style="margin-top: 0; padding: 0;">
-                            <li style="padding: 10px 14px;"><span class="material-icons req-icon" style="font-size:18px !important;">check_circle</span> 1×1 Picture of the Applicant</li>
-                            <li style="padding: 10px 14px;"><span class="material-icons req-icon" style="font-size:18px !important;">check_circle</span> Medical Certificate / Clinical Abstract</li>
-                            <li style="padding: 10px 14px;"><span class="material-icons req-icon" style="font-size:18px !important;">check_circle</span> Barangay Certificate / Any Valid ID</li>
+                            <li class="faq-interactive-item" id="faq-req-photo" style="padding: 10px 14px;"><span class="material-icons req-icon" style="font-size:18px !important;">visibility</span> 1×1 Picture of the Applicant</li>
+                            <li class="faq-interactive-item" id="faq-req-medical" style="padding: 10px 14px;"><span class="material-icons req-icon" style="font-size:18px !important;">visibility</span> Medical Certificate / Clinical Abstract</li>
+                            <li class="faq-interactive-item" id="faq-req-barangay" style="padding: 10px 14px;"><span class="material-icons req-icon" style="font-size:18px !important;">visibility</span> Barangay Certificate / Any Valid ID</li>
                         </ul>
                     </div>
                 </details>
@@ -206,7 +221,6 @@
         </section>
     </main>
 
-    <!-- ── Footer / Help ── -->
     <footer class="help-section">
         <div class="help-content">
             <div class="contact-info">
@@ -221,7 +235,6 @@
         </div>
     </footer>
 
-    <!-- ── Modal: Feedback and Suggestions ── -->
     <div class="modal" id="modal-feedback">
         <div class="modal-content modal-yellow">
             <div class="modal-header">
@@ -248,6 +261,37 @@
             </div>
         </div>
     </div>
+
+    <div class="modal" id="modal-visual-preview">
+        <div class="modal-content modal-preview-card modal-green">
+            <div class="modal-header">
+                <h3 id="preview-modal-title">Requirement Sample Reference</h3>
+                <span class="close-btn" id="close-preview-modal">&times;</span>
+            </div>
+            <div class="modal-body preview-body-layout">
+                <p class="preview-text-desc" id="preview-modal-description">Requirement guidelines detail criteria information metrics description tracking text log stream details outline options reference.</p>
+                
+                <div class="single-preview-frame" id="single-preview-box">
+                    <img src="" alt="Requirement Single Specimen Sample View" id="preview-modal-img" class="preview-fluid-img">
+                </div>
+                
+                <div class="multi-preview-stack" id="multi-preview-box">
+                    <div class="sub-option-box">
+                        <span class="sub-option-title">Option A: Barangay Residency Clearance</span>
+                        <img src="" alt="Barangay Residency Clearance Reference Sample" id="preview-img-brgy" class="preview-fluid-img-fixed">
+                    </div>
+                    <div class="sub-option-box">
+                        <span class="sub-option-title">Option B: National Government ID Format (Front & Back)</span>
+                        <div class="national-id-grid">
+                            <img src="" alt="Government National Identification Document Card Front Specimen Face" id="preview-img-idfront">
+                            <img src="" alt="Government National Identification Document Card Reverse Back Specimen Face" id="preview-img-idback">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
