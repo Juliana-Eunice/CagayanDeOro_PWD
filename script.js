@@ -640,8 +640,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const uploadRules = {
         'file-id-pic': { maxSize: 2 * 1024 * 1024, allowedTypes: ['image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-id-pic', rowId: 'row-id-pic' },
-        'file-med-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-med-cert', rowId: 'row-med-cert' },
-        'file-brgy-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-brgy-cert', rowId: 'row-brgy-cert' }
+        'file-med-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-med-cert', rowId: 'row-med-cert', isMultiple: true, maxFiles: 2},
+        'file-brgy-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-brgy-cert', rowId: 'row-brgy-cert', isMultiple: true, maxFiles: 2}
     };
 
     Object.keys(uploadRules).forEach(inputId => {
@@ -653,29 +653,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const previewEl = document.getElementById(rule.previewId);
             const rowEl = document.getElementById(rule.rowId);
             
-            if (this.files.length === 0) {
+            const resetInput = () => {
+                this.value = ""; 
                 if (previewEl) previewEl.textContent = "No file chosen";
                 if (rowEl) rowEl.classList.remove('file-row-success');
+            };
+
+            if (this.files.length === 0) {
+                resetInput();
+                return;
+            }
+            
+            if (rule.isMultiple && this.files.length > rule.maxFiles) {
+                alert(`Error: You can only upload a maximum of ${rule.maxFiles} files.`);
+                resetInput();
                 return;
             }
 
-            const file = this.files[0];
-            if (file.size > rule.maxSize) {
-                const maxMb = rule.maxSize / (1024 * 1024);
-                alert(`Error: "${file.name}" exceeds the maximum limit size of ${maxMb}MB.`);
-                this.value = ""; 
-                if (previewEl) previewEl.textContent = "No file chosen";
-                if (rowEl) rowEl.classList.remove('file-row-success');
-                return;
+            const fileNames = [];
+            for (let i = 0; i < this.files.length; i++) {
+                const file = this.files[i];
+
+                if (file.size > rule.maxSize) {
+                    const maxMb = rule.maxSize / (1024 * 1024);
+                    alert(`Error: "${file.name}" exceeds the maximum limit size of ${maxMb}MB.`);
+                    resetInput();
+                    return;
+                }
+            
+                if (!rule.allowedTypes.includes(file.type)) {
+                    alert(`Error: Invalid file format type. Please upload approved documents only.`);
+                    resetInput();
+                    return;
+                }
+                fileNames.push(file.name);
             }
-            if (!rule.allowedTypes.includes(file.type) && file.type !== "") {
-                alert(`Error: Invalid file format type. Please upload approved documents only.`);
-                this.value = ""; 
-                if (previewEl) previewEl.textContent = "No file chosen";
-                if (rowEl) rowEl.classList.remove('file-row-success');
-                return;
-            }
-            if (previewEl) previewEl.textContent = file.name;
+            if (previewEl) previewEl.textContent = fileNames.join(', ');
             if (rowEl) rowEl.classList.add('file-row-success');
         });
     });
