@@ -57,8 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnStart = document.getElementById('btn-start');
     if (btnStart) {
         btnStart.addEventListener('click', () => {
+            // Wipes out ALL history states completely when initiating a clean profile path
             localStorage.removeItem('isDraftSaved');
+            localStorage.removeItem('isApplicationSubmitted'); // FIXED: Resets tracking status state for new forms
             localStorage.removeItem('activeStepNum');
+            localStorage.removeItem('pwdFormDraftData');
             window.location.href = 'registration.html';
         });
     }
@@ -70,11 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const VALID_SAMPLE_CODE = "8228DD1D3A";
     
+    // --- APP STATE PERSISTENT STORAGE TRACKING MANAGEMENT ---
     let isDraftSaved = localStorage.getItem('isDraftSaved') === 'true';
+    let isApplicationSubmitted = localStorage.getItem('isApplicationSubmitted') === 'true';
 
     function validateField(inputElement) {
         if (!inputElement) return false;
-        const value = inputElement.value.trim().toUpperCase(); // Automatic upper-case fallback injection
+        const value = inputElement.value.trim().toUpperCase(); 
         
         const isContinueField = inputElement.id === 'continue-input';
         const isStatusField = inputElement.id === 'status-input';
@@ -84,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnConfirmExit = document.getElementById('btn-confirm-exit');
         const btnCancelExit = document.getElementById('btn-cancel-exit');
 
+        // Basic structural checklist check: code format match
         if (value === "" || value !== VALID_SAMPLE_CODE) {
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
@@ -91,10 +97,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
+        // CONTINUE ROUTE VALIDATION: Requires an active, unsubmitted draft profile session
         if (isContinueField && !isDraftSaved) {
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
-            inputElement.placeholder = "No active draft found. Start a new form first!";
+            inputElement.placeholder = "No active draft found!";
             
             if (modalExitConfirm && exitModalText && btnConfirmExit && btnCancelExit) {
                 modalExitConfirm.querySelector('.modal-header h3').textContent = "No Draft Found";
@@ -107,14 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
-        if (isStatusField && !isDraftSaved) {
+        // CHECK STATUS ROUTER LOGIC: Block if the application hasn't passed the final confirmation submission
+        if (isStatusField && !isApplicationSubmitted) {
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
-            inputElement.placeholder = "No tracking records found for this code!";
+            inputElement.placeholder = "Invalid code or application not submitted yet!";
             
             if (modalExitConfirm && exitModalText && btnConfirmExit && btnCancelExit) {
-                modalExitConfirm.querySelector('.modal-header h3').textContent = "No Records Found";
-                exitModalText.innerHTML = `<strong>No tracking logs found for this reference code.</strong><br><br>You must initiate a registration form and click 'Save Draft' or submit the application before tracking its progress status.`;
+                modalExitConfirm.querySelector('.modal-header h3').textContent = "Application Not Found";
+                exitModalText.innerHTML = `<strong>Your application is not submitted yet.</strong><br><br>If you have a saved draft, click 'Continue Existing Application' to complete and click the final submit button inside the wizard dashboard panel first.`;
                 btnConfirmExit.style.display = "none";
                 btnCancelExit.textContent = "Close";
                 btnCancelExit.className = "modal-submit btn-red";
@@ -414,9 +422,13 @@ document.addEventListener('DOMContentLoaded', () => {
         primaryFormAsset.addEventListener('submit', (e) => {
             e.preventDefault();
             alert("Application Form Packed Successfully! Sent to Persons with Disability Affairs Office (PDAO) for data review validation.");
-            localStorage.removeItem('pwdFormDraftData');
-            localStorage.removeItem('isDraftSaved');
+            
+            // ── THE LOGIC TRANSITION ──
+            localStorage.setItem('isApplicationSubmitted', 'true'); // FIXED: Unlocks registration tracking status screen
+            localStorage.removeItem('pwdFormDraftData');             // Strips old input fields data
+            localStorage.removeItem('isDraftSaved');                 // Blocks the continue panel option
             localStorage.removeItem('activeStepNum');
+            
             window.location.href = "index.html";
         });
     }
@@ -525,6 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Inside your save draft verification block:
             isDraftSaved = true;
             localStorage.setItem('isDraftSaved', 'true');
             if (draftStepPhone) draftStepPhone.style.display = 'none';
@@ -580,9 +593,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         } else {
-            localStorage.removeItem('pwdFormDraftData');
-            localStorage.removeItem('isDraftSaved');
-            localStorage.removeItem('activeStepNum');
+            // Clears runtime draft logs if coming through a fresh route directly
+            if (!urlParamsCheck.has('step')) {
+                localStorage.removeItem('pwdFormDraftData');
+                localStorage.removeItem('isDraftSaved');
+                localStorage.removeItem('activeStepNum');
+            }
         }
 
         mainForm.addEventListener('input', (e) => {
@@ -598,12 +614,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentDraft[target.id] = target.value;
             }
             localStorage.setItem('pwdFormDraftData', JSON.stringify(currentDraft));
-        });
-        
-        mainForm.addEventListener('submit', () => {
-            localStorage.removeItem('pwdFormDraftData');
-            localStorage.removeItem('isDraftSaved');
-            localStorage.removeItem('activeStepNum');
         });
     }
 
