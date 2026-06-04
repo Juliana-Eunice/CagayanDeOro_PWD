@@ -1645,6 +1645,26 @@ img.logo[src*="placeholder"] {
     body:has(.registration-layout) .nav-links .back-text {
         display: none !important;
     }
+
+    .nav-wrapper {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    /* Force the theme toggle button to align next to the hamburger icon */
+    #theme-toggle-btn {
+        display: flex !important; /* Prevents mobile visibility conflicts */
+        order: 2;                 /* Controls visual rendering order */
+        margin-left: auto;        /* Dynamically pushes the button to the right side of the bar */
+        margin-right: 15px;       /* Adds neat padding space before the hamburger lines */
+    }
+
+    .hamburger {
+        order: 3;                 /* Forces the hamburger menu lines to sit on the far right edge */
+    }
+
 }
 
 /* ==========================================================================
