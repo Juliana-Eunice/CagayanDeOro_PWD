@@ -1569,6 +1569,34 @@ img.logo[src*="placeholder"] {
         position: sticky;
         top: 100px; /* Gives a clean 100px padding down from the top of the viewport on desktop layout */
     }
+.nav-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important; 
+        width: 100%;
+    }
+
+    /* 2. Forces the brand logo block to stay anchored on the left */
+    .nav-brand {
+        order: 1 !important;
+    }
+
+    /* 3. Pushes the text navigation links menu to the right */
+    .nav-links {
+        display: flex !important;
+        align-items: center !important;
+        order: 2 !important; /* Visual rank 2 sits first on the right side */
+        margin-left: auto !important; /* Consumes center gap space entirely */
+        gap: 20px !important;
+    }
+
+    /* 4. GLUES THE BUTTON RIGHT ALONGSIDE HOME/FAQS/ABOUT US */
+    #theme-toggle-btn {
+        display: flex !important;
+        order: 3 !important; /* Visual rank 3 forces it right after 'About Us' */
+        margin-left: 15px !important; /* Adds clear spacing right after your last text link */
+        padding: 0 !important;
+    }
 }
 
 /* ── Dynamic Component Helper Color Styles ── */
@@ -1646,25 +1674,72 @@ img.logo[src*="placeholder"] {
         display: none !important;
     }
 
-    .nav-wrapper {
+.nav-wrapper {
         display: flex !important;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 
-    /* Force the theme toggle button to align next to the hamburger icon */
+    /* Keeps the brand title locked on the far left */
+    .nav-brand {
+        order: 1 !important;
+    }
+
+    /* Pushes the theme toggle button all the way to the right side next to the hamburger */
     #theme-toggle-btn {
-        display: flex !important; /* Prevents mobile visibility conflicts */
-        order: 2;                 /* Controls visual rendering order */
-        margin-left: auto;        /* Dynamically pushes the button to the right side of the bar */
-        margin-right: 15px;       /* Adds neat padding space before the hamburger lines */
+        display: flex !important;
+        order: 2 !important;
+        margin-left: auto !important; /* Devours empty space to push itself right */
+        margin-right: 15px !important; /* Perfect breathing room before the menu icon */
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
     }
 
-    .hamburger {
-        order: 3;                 /* Forces the hamburger menu lines to sit on the far right edge */
+    /* Locks the hamburger menu icon at the absolute far right edge */
+    /* ── GLOBAL MOBILE HAMBURGER SPACING (Works for BOTH Light and Dark Mode) ── */
+    .hamburger,
+    #hamburger {
+        display: flex !important;
+        order: 3 !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        width: 24px !important;  /* Sets a clean, standard width */
+        height: 18px !important; /* FORCES the 3 bars to separate and breathe */
+        background: none !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        cursor: pointer;
     }
 
+    /* Sets the global thickness and shape of the 3 lines */
+    .hamburger span {
+        display: block !important;
+        width: 100% !important;
+        height: 2px !important; /* Modern, clean line thickness */
+        border-radius: 2px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* ── DYNAMIC THEME COLORS ── */
+    /* Light Mode Color: Falls back to your default dark charcoal/green menu bar color */
+    body:not(.dark-mode) .hamburger span,
+    body:not(.dark-mode) #hamburger span {
+        background-color: #ffffff !important; /* Changed from green to white so it won't blend into the header! */
+        opacity: 1 !important;
+    }
+
+    /* DARK MODE: Keeps your sharp glowing matrix green over the black background canvas */
+    body.dark-mode .hamburger span,
+    body.dark-mode #hamburger span {
+        background-color: #47c767 !important;
+        box-shadow: 0 0 6px rgba(71, 199, 103, 0.4) !important;
+    }
 }
 
 /* ==========================================================================
