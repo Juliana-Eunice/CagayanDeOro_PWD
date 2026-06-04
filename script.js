@@ -859,3 +859,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 });
+
+// ==========================================================================
+    // ── PERSISTENT DARK MODE ENGINE ──
+    // ==========================================================================
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeIconIndicator = document.getElementById('theme-icon-indicator');
+
+    // 1. Check for stored runtime preference variables on initialization
+    const currentThemePreference = localStorage.getItem('portalTheme');
+    
+    if (currentThemePreference === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (themeIconIndicator) themeIconIndicator.textContent = 'light_mode'; // Switches to sun icon
+    } else {
+        document.body.classList.remove('dark-mode');
+        if (themeIconIndicator) themeIconIndicator.textContent = 'dark_mode';  // Retains moon icon
+    }
+
+    // 2. Track click toggle triggers dynamically
+    if (themeToggleBtn && themeIconIndicator) {
+        themeToggleBtn.addEventListener('click', () => {
+            const isDarkActive = document.body.classList.toggle('dark-mode');
+            
+            if (isDarkActive) {
+                localStorage.setItem('portalTheme', 'dark');
+                themeIconIndicator.textContent = 'light_mode';
+            } else {
+                localStorage.setItem('portalTheme', 'light');
+                themeIconIndicator.textContent = 'dark_mode';
+            }
+        });
+    }
