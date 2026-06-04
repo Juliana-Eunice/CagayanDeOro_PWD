@@ -10,6 +10,33 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/x-icon" href="cdo.png">
+    <style>
+        /* Interactive helper styling properties for clear action triggers */
+        .file-control-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 8px;
+            width: 100%;
+            margin-top: 6px;
+        }
+        .clear-file-btn {
+            background: none;
+            border: none;
+            color: #EA4335;
+            cursor: pointer;
+            display: none; /* Controlled dynamically by change loops inside script.js */
+            padding: 2px;
+            border-radius: 50%;
+            transition: background-color 0.15s ease;
+        }
+        .clear-file-btn:hover {
+            background-color: rgba(234, 67, 53, 0.1);
+        }
+        .clear-file-btn .material-icons {
+            font-size: 18px !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -467,7 +494,10 @@
                                     <span class="material-icons upload-icon">cloud_upload</span> Choose Photo
                                 </label>
                                 <input type="file" id="file-id-pic" class="custom-file-input" accept="image/png, image/jpeg, image/jpg" required>
-                                <div class="file-preview-name" id="preview-id-pic">No file chosen</div>
+                                <div class="file-control-container">
+                                    <div class="file-preview-name" id="preview-id-pic">No file chosen</div>
+                                    <button type="button" class="clear-file-btn" id="clear-id-pic" title="Remove file"><span class="material-icons">cancel</span></button>
+                                </div>
                             </div>
                         </div>
 
@@ -481,7 +511,10 @@
                                     <span class="material-icons upload-icon">cloud_upload</span> Choose Document
                                 </label>
                                 <input type="file" id="file-med-cert" class="custom-file-input" accept="image/png, image/jpeg, image/jpg, application/pdf" required>
-                                <div class="file-preview-name" id="preview-med-cert">No file chosen</div>
+                                <div class="file-control-container">
+                                    <div class="file-preview-name" id="preview-med-cert">No file chosen</div>
+                                    <button type="button" class="clear-file-btn" id="clear-med-cert" title="Remove file"><span class="material-icons">cancel</span></button>
+                                </div>
                             </div>
                         </div>
 
@@ -499,7 +532,10 @@
                                             <span class="material-icons upload-icon" style="font-size: 16px !important;">file_upload</span> Upload Front Face
                                         </label>
                                         <input type="file" id="file-brgy-cert" class="custom-file-input" accept="image/png, image/jpeg, image/jpg, application/pdf" required>
-                                        <div class="file-preview-name" id="preview-brgy-cert" style="text-align: left; margin-top: 6px; max-width: 100%;">No file chosen</div>
+                                        <div class="file-control-container" style="justify-content: flex-start;">
+                                            <div class="file-preview-name" id="preview-brgy-cert" style="text-align: left; max-width: 100%;">No file chosen</div>
+                                            <button type="button" class="clear-file-btn" id="clear-brgy-cert" title="Remove file"><span class="material-icons">cancel</span></button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -510,7 +546,10 @@
                                             <span class="material-icons upload-icon" style="font-size: 16px !important;">file_upload</span> Upload Back Face
                                         </label>
                                         <input type="file" id="file-id-back" class="custom-file-input" accept="image/png, image/jpeg, image/jpg, application/pdf">
-                                        <div class="file-preview-name" id="preview-id-back" style="text-align: left; margin-top: 6px; max-width: 100%;">No file chosen</div>
+                                        <div class="file-control-container" style="justify-content: flex-start;">
+                                            <div class="file-preview-name" id="preview-id-back" style="text-align: left; max-width: 100%;">No file chosen</div>
+                                            <button type="button" class="clear-file-btn" id="clear-id-back" title="Remove file"><span class="material-icons">cancel</span></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -618,7 +657,7 @@
         <div class="modal-content modal-blue" id="forgot-step-phone">
             <div class="modal-header">
                 <h3>Recover Reference Code</h3>
-                <span class="close-btn">&times;</span>
+                <span class="close-btn" id="close-forgot-modal">&times;</span>
             </div>
             <div class="modal-body">
                 <label for="forgot-phone-input">Registered Phone Number</label>

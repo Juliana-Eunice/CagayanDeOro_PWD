@@ -430,7 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
         primaryFormAsset.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Explicit hard-check validation before passing to backend payload strings
             const photoInput = document.getElementById('file-id-pic');
             const medInput = document.getElementById('file-med-cert');
             const residencyInput = document.getElementById('file-brgy-cert');
@@ -531,12 +530,9 @@ document.addEventListener('DOMContentLoaded', () => {
        ========================================================================== */
     if (btnSaveDraft && modalSaveDraft) {
         btnSaveDraft.onclick = () => {
-            // CRITICAL FIX: Always fetch a fresh, live reading directly from localStorage 
-            // instead of trusting the static variable at the top of the file.
             const liveDraftCheck = localStorage.getItem('isDraftSaved') === 'true';
 
             if (!liveDraftCheck) {
-                // FIRST TIME SAVING IN THIS LIFECYCLE: Show the phone number input screen explicitly
                 if (draftStepPhone) draftStepPhone.style.display = 'block';
                 if (draftStepSuccess) draftStepSuccess.style.display = 'none';
                 if (draftPhoneInput) {
@@ -546,7 +542,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 modalSaveDraft.style.display = 'flex';
             } else {
-                // EXPLICIT DRAFT EXISTS: Skip phone input and display success state safely
                 if (draftStepPhone) draftStepPhone.style.display = 'none';
                 if (draftStepSuccess) draftStepSuccess.style.display = 'block';
                 modalSaveDraft.style.display = 'flex';
@@ -666,7 +661,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
-       ── ENHANCED FILE ATTACHMENT VALIDATION ENGINE ──
+       ── ENHANCED FILE ATTACHMENT VALIDATION ENGINE WITH REMOVE HANDLERS ──
        ========================================================================== */
     const uploadRules = {
         'file-id-pic': { maxSize: 2 * 1024 * 1024, allowedTypes: ['image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-id-pic', rowId: 'row-id-pic' },
@@ -692,7 +687,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const file = this.files[0];
             
-            // Validate File Size Limits
             if (file.size > rule.maxSize) {
                 const maxMb = rule.maxSize / (1024 * 1024);
                 alert(`Error: "${file.name}" exceeds the maximum limit size of ${maxMb}MB.`);
@@ -702,7 +696,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Validate Document Formats
             if (!rule.allowedTypes.includes(file.type) && file.type !== "") {
                 alert(`Error: Invalid file format type. Please upload approved documents only.`);
                 this.value = ""; 
@@ -711,7 +704,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Update UI Filename Display Labels beautifully
             if (previewEl) {
                 previewEl.textContent = file.name;
                 previewEl.style.color = "var(--card-green)";
@@ -720,6 +712,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 rowEl.classList.add('file-row-success');
             }
         });
+    });
+
+    // Integrated dynamic remove/clear trigger engines
+    const fileSlots = [
+        { input: 'file-id-pic', preview: 'preview-id-pic', clear: 'clear-id-pic', row: 'row-id-pic' },
+        { input: 'file-med-cert', preview: 'preview-med-cert', clear: 'clear-med-cert', row: 'row-med-cert' },
+        { input: 'file-brgy-cert', preview: 'preview-brgy-cert', clear: 'clear-brgy-cert', row: 'row-brgy-cert' },
+        { input: 'file-id-back', preview: 'preview-id-back', clear: 'clear-id-back', row: 'row-brgy-cert' }
+    ];
+
+    fileSlots.forEach(slot => {
+        const inputEl = document.getElementById(slot.input);
+        const clearBtn = document.getElementById(slot.clear);
+        const previewEl = document.getElementById(slot.preview);
+        const rowEl = document.getElementById(slot.row);
+
+        if (inputEl && clearBtn) {
+            inputEl.addEventListener('change', () => {
+                if (inputEl.files.length > 0) clearBtn.style.display = 'inline-block';
+            });
+
+            clearBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                inputEl.value = ""; 
+                if (previewEl) {
+                    previewEl.textContent = "No file chosen";
+                    previewEl.style.color = "";
+                }
+                clearBtn.style.display = 'none';
+
+                if (slot.input !== 'file-id-back' && rowEl) {
+                    rowEl.classList.remove('file-row-success');
+                } else if (slot.input === 'file-id-back') {
+                    const frontInput = document.getElementById('file-brgy-cert');
+                    if (frontInput && frontInput.files.length === 0 && rowEl) {
+                        rowEl.classList.remove('file-row-success');
+                    }
+                }
+            });
+        }
     });
 
     /* ==========================================================================
