@@ -52,6 +52,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
+       ── AUTOMATIC BIRTHDATE CALENDAR MAXIMUM CEILING CONSTRAINT ──
+       ========================================================================== */
+    const birthDateInput = document.getElementById('birth-date');
+    if (birthDateInput) {
+        // Sets the date picker constraint to today's exact date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        birthDateInput.setAttribute('max', today);
+    }
+
+    /* ==========================================================================
        ── NEW REGISTRATION ENTRY ROUTER ──
        ========================================================================== */
     const btnStart = document.getElementById('btn-start');
@@ -143,8 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (submitContinue && continueInput) {
         submitContinue.addEventListener('click', () => {
             if (validateField(continueInput)) {
-                // FIXED UX ROUTER: Always land back on Step 1 to let inputs initialize cleanly,
-                // while preserving all underlying field data stored in local storage cache.
                 window.location.href = `registration.html?step=1`;
                 clearErrors(); 
             }
@@ -396,6 +404,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // STEP 1 CONSTRAINT: Validate birthdate logic constraints
+            if (currentForm.getAttribute('id') === 'panel-step-1' && panelIsValid) {
+                const bdayField = document.getElementById('birth-date');
+                if (bdayField && bdayField.value) {
+                    const selectedDate = new Date(bdayField.value);
+                    const todayDate = new Date();
+                    
+                    // Strip hours from date values for accurate day comparisons
+                    todayDate.setHours(0,0,0,0);
+                    selectedDate.setHours(0,0,0,0);
+
+                    if (selectedDate > todayDate) {
+                        alert("Invalid Date: Your birthdate cannot be a date in the future.");
+                        bdayField.classList.add('input-field-error');
+                        panelIsValid = false;
+                    } else {
+                        bdayField.classList.remove('input-field-error');
+                    }
+                }
+            }
+
+            // STEP 2 CONSTRAINT: Checkbox entry logic verification
             if (currentForm.getAttribute('id') === 'panel-step-2' && panelIsValid) {
                 const checkedBoxes = currentForm.querySelectorAll('input[name="disability_types"]:checked');
                 if (checkedBoxes.length === 0) {
@@ -404,7 +434,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // ONLY intercept block at Step 4 panel layout boundary limits
+            // STEP 4 CONSTRAINT: File attachments presence tracking checks
             if (currentForm.getAttribute('id') === 'panel-step-4' && panelIsValid) {
                 const photoInput = document.getElementById('file-id-pic');
                 const medInput = document.getElementById('file-med-cert');
@@ -414,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     (medInput && medInput.files.length === 0) || 
                     (residencyInput && residencyInput.files.length === 0)) {
                     
-                    alert("Missing Document Files: For your data protection, browser security requires you to re-attach your image/document files each time you resume a draft application session. Please re-select your files before proceeding to complete final submission.");
+                    alert("Missing Document Files: For your data protection, browser security requires you to re-attach your image/document files each time you resume a draft application session. Please re-select your files before proceeding.");
                     panelIsValid = false;
                 }
             }
@@ -714,7 +744,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Integrated dynamic remove/clear trigger engines
     const fileSlots = [
         { input: 'file-id-pic', preview: 'preview-id-pic', clear: 'clear-id-pic', row: 'row-id-pic' },
         { input: 'file-med-cert', preview: 'preview-med-cert', clear: 'clear-med-cert', row: 'row-med-cert' },
@@ -729,6 +758,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const rowEl = document.getElementById(slot.row);
 
         if (inputEl && clearBtn) {
+            // Restore clear button visibility on resume load frames
+            if (inputEl.files && inputEl.files.length > 0) clearBtn.style.display = 'inline-block';
+
             inputEl.addEventListener('change', () => {
                 if (inputEl.files.length > 0) clearBtn.style.display = 'inline-block';
             });
