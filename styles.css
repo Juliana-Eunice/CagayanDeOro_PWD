@@ -2328,3 +2328,41 @@ body.dark-mode .form-header h3,
 body.dark-mode .form-header span {
     color: #47c767 !important;
 }
+/* ==========================================================================
+   ── MOBILE RESPONSIVE DROPDOWN MENU MATRIX OVERRIDES ──
+   ========================================================================== */
+/* Targets the responsive dropdown menu container bubble */
+body.dark-mode .nav-links,
+body.dark-mode .nav-menu,
+body.dark-mode .mobile-menu,
+body.dark-mode [class*="nav-links"].active,
+body.dark-mode [id="nav-links"] {
+    background-color: var(--bg-surface) !important; /* Forces obsidian Matrix black #0a100a */
+    background: var(--bg-surface) !important;
+    border: 1.5px solid var(--border-ui) !important; /* Clean matrix border rule */
+    box-shadow: 0 8px 24px rgba(71, 199, 103, 0.15) !important;
+}
+
+/* Fixes the tiny pointer arrow box sitting at the top right of the bubble card */
+body.dark-mode .nav-links::before,
+body.dark-mode .nav-links::after,
+body.dark-mode [class*="nav-links"]::before {
+    background-color: var(--bg-surface) !important;
+    border-top: 1.5px solid var(--border-ui) !important;
+    border-left: 1px solid var(--border-ui) !important;
+}
+
+/* Fixes the active/highlighted menu link wrapper (e.g., the "Home" pill box background) */
+body.dark-mode .nav-links a.active,
+body.dark-mode .nav-links a:hover {
+    background-color: #112213 !important; /* Muted tech neon green chamber block */
+    color: #47c767 !important;            /* Glowing terminal text */
+    border-radius: 6px;
+}
+
+/* Fixes inactive links inside the mobile dropdown list container */
+body.dark-mode .nav-links a {
+    color: var(--text-mid) !important; /* Soft terminal sage green for readability */
+    padding: 10px 15px;
+    display: block;
+}
