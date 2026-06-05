@@ -2486,28 +2486,7 @@ body.dark-mode .portal-reference-tag-card strong {
     text-shadow: 0 0 8px rgba(76, 175, 114, 0.25) !important; /* Subtle soft UI glow */
 }
 
-/* ── 6. TABLET & MOBILE VIEWPORT DROPDOWN TINTS ── */
-@media (max-width: 960px) {
-    body.dark-mode .nav-links {
-        background: #1e2e21 !important;
-        /*box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3) !important;*/
-    }
 
-    body.dark-mode .nav-links::before {
-        background: #1e2e21 !important;
-    }
-
-    body.dark-mode .nav-links a {
-        color: var(--text-main) !important;
-        padding: 11px 16px;
-    }
-
-    body.dark-mode .nav-links a:hover,
-    body.dark-mode .nav-links a.active {
-        background: #1e3324 !important;
-        color: #4caf72 !important;
-    }
-}
 /* ── ENHANCED MOBILE STEP TRACKER LAYOUT DECK ── */
 @media screen and (max-width: 768px) {
     
