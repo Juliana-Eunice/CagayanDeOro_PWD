@@ -390,7 +390,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!isDraftSaved) {
                 exitModalText.innerHTML = `<strong>Warning: Your progress has not been saved yet!</strong><br><br>Are you sure you want to leave? Click 'Save Draft' near the progress tracker if you want to keep your information saved.`;
             } else {
-                exitModalText.innerHTML = `<strong>Your draft is saved!</strong><br><br>You can finish your application whenever you return using your Reference Code: <strong>8228DD1D3A</strong>.<br><br>Go back to the homepage?`;
+                // CHANGED: Injects the clean, clickable pill badge directly into the modal text stream
+                exitModalText.innerHTML = `<strong>Your draft is saved!</strong><br><br>You can finish your application whenever you return using your Reference Code:<br><br>
+                <div class="code-copy-wrapper">
+                    <strong>8228DD1D3A</strong>
+                    <button type="button" class="mini-copy-btn">
+                        <span class="material-icons">content_copy</span>
+                    </button>
+                </div>
+                <br><br>Go back to the homepage?`;
             }
             modalExitConfirm.style.display = 'flex';
         });
@@ -588,12 +596,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeDraftSuccessModal = document.getElementById('close-draft-success-modal');
 
     /* ==========================================================================
-       ── SAVE DRAFT MODAL CONTROLS (LOGIC LOOP FIX) ──
+       ── SAVE DRAFT MODAL CONTROLS (BYPASS MANIPULATION) ──
        ========================================================================== */
     if (btnSaveDraft && modalSaveDraft) {
         btnSaveDraft.onclick = () => {
             const liveDraftCheck = localStorage.getItem('isDraftSaved') === 'true';
+            
+            // Look up the phone field value inside the form's Identifying Details section
+            const primaryContactField = document.getElementById('contact-no');
+            const primaryContactValue = primaryContactField ? primaryContactField.value.trim() : "";
+            const phoneRegex = /^09\d{9}$/; // Validates standard 11-digit format
 
+            // If the user already provided a valid number in Step 1, bypass the modal question
+            if (!liveDraftCheck && phoneRegex.test(primaryContactValue)) {
+                // Pre-populate the modal's input field for consistency
+                if (draftPhoneInput) {
+                    draftPhoneInput.value = primaryContactValue;
+                }
+                
+                // Directly flag draft as saved and skip to the success screen pane
+                isDraftSaved = true;
+                localStorage.setItem('isDraftSaved', 'true');
+                
+                if (draftStepPhone) draftStepPhone.style.display = 'none';
+                if (draftStepSuccess) draftStepSuccess.style.display = 'block';
+                modalSaveDraft.style.display = 'flex';
+                return; // Cease execution block early
+            }
+
+            // Fallback default logic if no phone number was pre-entered in the form matrix
             if (!liveDraftCheck) {
                 if (draftStepPhone) draftStepPhone.style.display = 'block';
                 if (draftStepSuccess) draftStepSuccess.style.display = 'none';
@@ -1080,5 +1111,31 @@ document.getElementById("pwd-application-form").addEventListener("submit", () =>
     fields.forEach(field => {
         localStorage.removeItem(`autofill_${field.id}`);
         localStorage.removeItem(`autofill_radio_${field.name}`);
+    });
+    const copyWrappers = document.querySelectorAll('.code-copy-wrapper');
+
+    copyWrappers.forEach(wrapper => {
+        wrapper.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents layout panel triggers on mobile FAB cards
+            
+            // Look up the unique text node block inside the clicked wrapper container
+            const targetStrongNode = wrapper.querySelector('strong');
+            if (!targetStrongNode) return;
+
+            const codeText = targetStrongNode.textContent.trim();
+
+            navigator.clipboard.writeText(codeText).then(() => {
+                // Flash visual tooltip toast feedback message
+                wrapper.classList.add('copied-toast');
+                
+                setTimeout(() => {
+                    wrapper.classList.remove('copied-toast');
+                }, 1500);
+            }).catch(err => {
+                // Secondary absolute bulletproof fallback using an alert system if API gets blocked
+                console.error('Clipboard context access error: ', err);
+                alert(`Code Copied: ${codeText}`);
+            });
+        });
     });
 });
