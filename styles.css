@@ -2566,8 +2566,8 @@ body.dark-mode .portal-reference-tag-card strong {
     justify-content: center;
     gap: 6px;
     padding: 2px 4px;
-    background: none !important;      /* REMOVED: No more gray background container boxes */
-    border: none !important;          /* REMOVED: No more outer bounding borders */
+    background: none !important;
+    border: none !important;
     cursor: pointer;
     user-select: none;
     position: relative;
@@ -2578,25 +2578,25 @@ body.dark-mode .portal-reference-tag-card strong {
     transform: scale(0.97);
 }
 
-/* Give the interactive copy badge text a slight hover glow feedback */
+/* Hover style logic */
 .code-copy-wrapper:hover strong {
-    color: #246324;
+    color: #1b4d1b !important;
     text-decoration: underline;
 }
 body.dark-mode .code-copy-wrapper:hover strong {
-    color: #5ec485;
+    color: #62d38e !important;
 }
 
-/* Text alignment specs */
+/* Light Mode/Default Text Style Settings */
 .code-copy-wrapper strong {
-    font-size: 1.15rem !important;    /* Slightly enhanced size for visual parity */
+    font-size: 1.15rem !important;
     letter-spacing: 0.04em;
-    color: var(--primary-green);
+    color: var(--primary-green) !important; /* Bold green on white backgrounds */
     line-height: 1;
     font-weight: 800 !important;
 }
 
-/* Strict zero-space wrapper layout rules for the icon font */
+/* Strict zero-space layout rules for the icon button */
 .mini-copy-btn {
     background: none !important;
     border: none !important;
@@ -2605,8 +2605,8 @@ body.dark-mode .code-copy-wrapper:hover strong {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    color: var(--primary-green);
-    pointer-events: none;             /* Shifts click events up directly to the badge wrapper */
+    color: var(--primary-green) !important;
+    pointer-events: none; 
     width: 16px !important;
     height: 16px !important;
     overflow: hidden !important;
@@ -2622,7 +2622,7 @@ body.dark-mode .code-copy-wrapper:hover strong {
     white-space: nowrap !important;
 }
 
-/* Tooltip Toast Configuration Spec */
+/* Tooltip Toast Popup Layout */
 .code-copy-wrapper::after {
     content: 'Copied!';
     position: absolute;
@@ -2639,7 +2639,7 @@ body.dark-mode .code-copy-wrapper:hover strong {
     pointer-events: none;
     transition: opacity 0.15s ease, transform 0.15s ease;
     white-space: nowrap;
-    z-index: 99999 !important;        /* Max index value safely pierces all modals layout planes */
+    z-index: 999999 !important; 
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
@@ -2648,14 +2648,42 @@ body.dark-mode .code-copy-wrapper:hover strong {
     transform: translateX(-50%) translateY(0);
 }
 
-/* REMOVED: .modal-code-display-box styles have been stripped out to completely kill container block parameters */
-
-/* --- Dark Mode Variables Sync --- */
+/* --- Dark Mode Variables Overrides --- */
 body.dark-mode .code-copy-wrapper strong,
 body.dark-mode .mini-copy-btn {
-    color: #4caf72 !important;
+    color: #4caf72 !important; /* Sharp glowing green on dark backgrounds */
 }
 body.dark-mode .code-copy-wrapper::after {
     background-color: #4caf72;
     color: #0f1a12;
+}
+/* --- Bulletproof Modal Text Colors for Light and Dark Modes --- */
+
+/* default / Light mode forces classic sharp contrast readability colors */
+.modal-body p {
+    color: var(--text-dark) !important; 
+}
+.modal-body small {
+    color: var(--text-light) !important;
+}
+.modal-body .code-copy-wrapper strong {
+    color: var(--primary-green) !important;
+}
+
+/* Dark mode overrides: Forces everything inside the modal wrapper to be crisp and bright */
+body.dark-mode .modal-body p,
+body.dark-mode .modal-body p strong {
+    color: #ffffff !important; /* Forces white title text over the dark green background surface */
+}
+
+body.dark-mode .modal-body small {
+    color: #9ecba9 !important; /* Soft sage green color makes details beautifully legible */
+}
+
+body.dark-mode .modal-body .code-copy-wrapper strong {
+    color: #4caf72 !important; /* Keeps your signature bright matrix green for the reference code text */
+}
+
+body.dark-mode .modal-body .code-copy-wrapper .material-icons {
+    color: #4caf72 !important; /* Synchronizes the copy icon color layout */
 }

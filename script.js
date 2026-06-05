@@ -1105,37 +1105,109 @@ function loadFormProgress(form) {
     });
 }
 
-// Clear autofill cache when application is successfully submitted
-document.getElementById("pwd-application-form").addEventListener("submit", () => {
-    const fields = document.querySelectorAll("#pwd-application-form input, #pwd-application-form select, #pwd-application-form textarea");
-    fields.forEach(field => {
-        localStorage.removeItem(`autofill_${field.id}`);
-        localStorage.removeItem(`autofill_radio_${field.name}`);
+// ── AUTOMATIC FORM AUTOFILL & SAVE ENGINE ──
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("pwd-application-form");
+    if (!form) return;
+
+    // 1. Load any previously saved data into fields on page load
+    loadFormProgress(form);
+
+    // 2. Listen for any inputs on the form and cache them immediately
+    form.addEventListener("input", (e) => {
+        saveField(e.target);
     });
-    const copyWrappers = document.querySelectorAll('.code-copy-wrapper');
 
-    copyWrappers.forEach(wrapper => {
-        wrapper.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents layout panel triggers on mobile FAB cards
-            
-            // Look up the unique text node block inside the clicked wrapper container
-            const targetStrongNode = wrapper.querySelector('strong');
-            if (!targetStrongNode) return;
+    form.addEventListener("change", (e) => {
+        saveField(e.target);
+    });
 
-            const codeText = targetStrongNode.textContent.trim();
-
-            navigator.clipboard.writeText(codeText).then(() => {
-                // Flash visual tooltip toast feedback message
-                wrapper.classList.add('copied-toast');
-                
-                setTimeout(() => {
-                    wrapper.classList.remove('copied-toast');
-                }, 1500);
-            }).catch(err => {
-                // Secondary absolute bulletproof fallback using an alert system if API gets blocked
-                console.error('Clipboard context access error: ', err);
-                alert(`Code Copied: ${codeText}`);
-            });
+    // Clear autofill cache when application is successfully submitted
+    form.addEventListener("submit", () => {
+        const fields = form.querySelectorAll("input, select, textarea");
+        fields.forEach(field => {
+            localStorage.removeItem(`autofill_${field.id}`);
+            localStorage.removeItem(`autofill_radio_${field.name}`);
         });
+    });
+});
+
+// Function to save a single field's data to localStorage
+function saveField(field) {
+    if (!field.id && !field.name) return;
+
+    let storageKey = `autofill_${field.id || field.name}`;
+
+    if (field.type === "checkbox") {
+        localStorage.setItem(storageKey, field.checked);
+    } else if (field.type === "radio") {
+        if (field.checked) {
+            localStorage.setItem(`autofill_radio_${field.name}`, field.value);
+        }
+    } else {
+        localStorage.setItem(storageKey, field.value);
+    }
+}
+
+// Function to scan localStorage and fill out the form
+function loadFormProgress(form) {
+    const fields = form.querySelectorAll("input, select, textarea");
+
+    fields.forEach((field) => {
+        if (!field.id && !field.name) return;
+
+        if (field.type === "checkbox") {
+            const savedState = localStorage.getItem(`autofill_${field.id}`);
+            if (savedState !== null) {
+                field.checked = savedState === "true";
+                field.dispatchEvent(new Event('change'));
+            }
+        } else if (field.type === "radio") {
+            const savedValue = localStorage.getItem(`autofill_radio_${field.name}`);
+            if (savedValue !== null && field.value === savedValue) {
+                field.checked = true;
+            }
+        } else if (field.type !== "file") { 
+            const savedValue = localStorage.getItem(`autofill_${field.id}`);
+            if (savedValue !== null && savedValue !== "") {
+                field.value = savedValue;
+            }
+        }
+    });
+}
+
+// ── GLOBAL COPY TO CLIPBOARD ENGINE (WITH EVENT DELEGATION) ──
+document.addEventListener("click", (e) => {
+    // Find the closest copy wrapper container, even if the user clicks the inner strong tag or icon button
+    const wrapper = e.target.closest('.code-copy-wrapper');
+    if (!wrapper) return;
+
+    e.preventDefault();
+    e.stopPropagation(); // Prevents accidental underlying panel triggers
+
+    const targetStrongNode = wrapper.querySelector('strong');
+    if (!targetStrongNode) return;
+
+    const codeText = targetStrongNode.textContent.trim();
+
+    navigator.clipboard.writeText(codeText).then(() => {
+        // Clear any other active tooltips before displaying this one
+        document.querySelectorAll('.code-copy-wrapper').forEach(el => el.classList.remove('copied-toast'));
+        
+        // Flash the "Copied!" visual tooltip toast feedback message
+        wrapper.classList.add('copied-toast');
+        
+        // Swap icon variant momentarily for interactive depth
+        const icon = wrapper.querySelector('.material-icons');
+        if (icon) icon.textContent = 'assignment_turned_in';
+        
+        setTimeout(() => {
+            wrapper.classList.remove('copied-toast');
+            if (icon) icon.textContent = 'content_copy';
+        }, 1500);
+    }).catch(err => {
+        // Fallback alert system if browser clipboard API context permissions get blocked
+        console.error('Clipboard context access error: ', err);
+        alert(`Code Copied: ${codeText}`);
     });
 });
