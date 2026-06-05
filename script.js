@@ -1012,21 +1012,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================================================
-// ── PERSISTENT DARK MODE ENGINE ──
+// ── PERSISTENT DARK MODE ENGINE WITH LOGO SWAPPING ──
 // ==========================================================================
 const themeToggleBtn = document.getElementById('theme-toggle-btn');
 const themeIconIndicator = document.getElementById('theme-icon-indicator');
 
+// Function to safely swap the logo source if the image element exists on the current page
+function updateLogoTheme(isDark) {
+    const textLogo = document.querySelector('.cdo-text-logo');
+    if (textLogo) {
+        textLogo.src = isDark ? 'cdotextdark.png' : 'cdotext.png';
+    }
+}
+
+// 1. Check existing theme preference on initial page frame load
 const currentThemePreference = localStorage.getItem('portalTheme');
 
 if (currentThemePreference === 'dark') {
     document.body.classList.add('dark-mode');
     if (themeIconIndicator) themeIconIndicator.textContent = 'light_mode'; 
+    updateLogoTheme(true);
 } else {
     document.body.classList.remove('dark-mode');
     if (themeIconIndicator) themeIconIndicator.textContent = 'dark_mode';  
+    updateLogoTheme(false);
 }
 
+// 2. Click handler event loop to toggle themes dynamically
 if (themeToggleBtn && themeIconIndicator) {
     themeToggleBtn.addEventListener('click', () => {
         const isDarkActive = document.body.classList.toggle('dark-mode');
@@ -1034,12 +1046,16 @@ if (themeToggleBtn && themeIconIndicator) {
         if (isDarkActive) {
             localStorage.setItem('portalTheme', 'dark');
             themeIconIndicator.textContent = 'light_mode';
+            updateLogoTheme(true);
         } else {
             localStorage.setItem('portalTheme', 'light');
             themeIconIndicator.textContent = 'dark_mode';
+            updateLogoTheme(false);
         }
     });
-}// ── AUTOMATIC FORM AUTOFILL & SAVE ENGINE ──
+}
+
+// ── AUTOMATIC FORM AUTOFILL & SAVE ENGINE ──
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("pwd-application-form");
     if (!form) return;
@@ -1055,6 +1071,8 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("change", (e) => {
         saveField(e.target);
     });
+
+    
 });
 
 // Function to save a single field's data to localStorage

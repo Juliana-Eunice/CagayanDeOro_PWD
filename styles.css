@@ -2772,3 +2772,26 @@ body.dark-mode .file-attachment-upload-row h6,
 body.dark-mode div:has(> .custom-file-dropzone) h6 {
     color: #eaf4ec !important; /* Crisp readability matching your text main theme */
 }
+
+/* ── FAITHFUL RENEWAL FOR LEGAL MANDATE ITEMS ── */
+.mandate-item {
+    background: transparent !important;         /* Strips the heavy rectangular background box */
+    background-color: transparent !important;   /* Double protection against block color fallbacks */
+    border: none !important;                     /* Removes the full-bounding structural box border */
+    padding: 8px 0 8px 16px !important;         /* Retains breathing room layout dimensions */
+    margin-bottom: 16px !important;              /* Keeps paragraph block separation gaps */
+    border-left: 3px solid var(--primary-green) !important; /* Elegant light-mode left border accent */
+}
+
+/* Dark mode conversion rule tracking */
+body.dark-mode .mandate-item {
+    border-left-color: #4caf72 !important;      /* Swaps the left border highlight to your signature theme green */
+}
+
+/* ── RISE LOGO CONTAINER DARK MODE ADJUSTMENT ── */
+body.dark-mode .framework-logo-container {
+    background-color: #ffffff !important; /* Neutral dark charcoal to isolate logo colors */
+    border: 1.5px solid rgba(76, 175, 114, 0.35) !important; /* Defined matrix border line */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3) !important; /* Crisp shadow depth to pop from the card */
+    padding: 16px !important; /* Maintains strict inner breathing room */
+}
