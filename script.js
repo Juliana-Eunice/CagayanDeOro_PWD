@@ -4,25 +4,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('nav-links');
     if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-            const isOpen = navLinks.classList.toggle('open');
-            hamburger.classList.toggle('open', isOpen);
-            hamburger.setAttribute('aria-expanded', isOpen);
+
+        function openMenu() {
+            navLinks.classList.remove('is-closing');
+            navLinks.classList.add('is-opening');
+            hamburger.classList.add('open');
+            hamburger.setAttribute('aria-expanded', 'true');
+            // Next frame: swap to 'open' so the transition plays
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    navLinks.classList.remove('is-opening');
+                    navLinks.classList.add('open');
+                });
+            });
+        }
+
+        function closeMenu() {
+            navLinks.classList.remove('open');
+            navLinks.classList.add('is-closing');
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            // After transition ends, fully hide with display:none
+            navLinks.addEventListener('transitionend', function handler() {
+                navLinks.classList.remove('is-closing');
+                navLinks.removeEventListener('transitionend', handler);
+            });
+        }
+
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (navLinks.classList.contains('open') || navLinks.classList.contains('is-opening')) {
+                closeMenu();
+            } else {
+                openMenu();
+            }
         });
-        // Close menu when a nav link is clicked
+
+        // Close menu when a nav link is clicked — instantly, no flash
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                navLinks.classList.remove('open');
+                navLinks.classList.remove('open', 'is-opening', 'is-closing');
                 hamburger.classList.remove('open');
                 hamburger.setAttribute('aria-expanded', 'false');
             });
         });
+
         // Close menu when clicking outside
         document.addEventListener('click', (e) => {
             if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('open');
-                hamburger.classList.remove('open');
-                hamburger.setAttribute('aria-expanded', 'false');
+                if (navLinks.classList.contains('open') || navLinks.classList.contains('is-opening')) {
+                    closeMenu();
+                }
             }
         });
     }

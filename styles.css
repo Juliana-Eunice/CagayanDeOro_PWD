@@ -27,28 +27,31 @@
 }
 
 body.dark-mode {
-    /* Canvas & Base Layers: Pure pitch-black command terminal */
-    --bg-global: #050805;        
-    --bg-surface: #0a100a;       /* Deep obsidian-green cards */
-    --border-ui: rgba(71, 199, 103, 0.2); /* Clean matrix green border rules */
-    
-    /* Form Elements & Sub-containers */
-    --bg-input: #0d1a0d;         /* Cyber-green text fields */
-    --border-input: #1b3d1f;     /* Distinct green input walls */
-    
-    /* Typography Hierarchy (Pure stark whites and glowing neon matrix accents) */
-    --text-main: #ffffff;        /* High-contrast crisp white for body copy */
-    --text-mid: #aae0bc;         /* Soft matrix terminal green for descriptions */
-    --text-light: #52a364;       /* Muted digital moss green for captions */
-    
-    /* Structural Layout Anchors */
-    --primary-green: #050805;    /* Navbar blends completely flush with the background */
-    --hero-overlay-bg: rgba(5, 8, 5, 0.88); /* Atmospheric terminal mask over banner images */
-    
-    /* Neon Digital Box Shadows */
-    --card-shadow: 0 8px 24px rgba(71, 199, 103, 0.08);
-    --card-hover-shadow: 0 12px 32px rgba(71, 199, 103, 0.2);
+    /* Canvas & Base Layers: Deep forest-green dark, not pitch black */
+    --bg-global: #0f1a12;
+    --bg-surface: #172219;       /* Warm dark-green card surfaces */
+    --border-ui: rgba(100, 200, 130, 0.15);
 
+    /* Form Elements & Sub-containers */
+    --bg-input: #1c2e1f;
+    --border-input: #2d4d32;
+
+    /* Typography Hierarchy */
+    --text-main: #eaf4ec;        /* Warm off-white — easier on the eyes */
+    --text-mid: #9ecba9;         /* Sage green for descriptions */
+    --text-light: #6a9c78;       /* Muted forest green for captions */
+
+    /* Structural Layout Anchors */
+    --primary-green: #1a3320;    /* Navbar: deep forest green, distinct from page bg */
+    --hero-overlay-bg: rgba(10, 22, 13, 0.84);
+
+    /* Softer, warmer shadows */
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    --card-hover-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+
+    /* Accent colors remain vivid for interactive elements */
+    --accent-green: #4caf72;
+    --accent-green-glow: rgba(76, 175, 114, 0.25);
 }
 
 
@@ -266,7 +269,7 @@ img.logo[src*="placeholder"] {
     text-shadow: 1px 2px 4px rgba(0,0,0,0.22);
 }
 
-.icon-green { background: linear-gradient(145deg, #47c767, #26852b); }
+.icon-green { background: linear-gradient(145deg, #4caf72, #26852b); }
 .icon-blue  { background: linear-gradient(145deg, #6aabff, #2468e0); }
 .icon-red   { background: linear-gradient(145deg, #f57067, #c42516); }
 
@@ -495,7 +498,7 @@ img.logo[src*="placeholder"] {
 
 .modal-blue .modal-header { background: linear-gradient(135deg, #5c99fc, #2468e0); }
 .modal-red  .modal-header { background: linear-gradient(135deg, #f57067, #c42516); }
-.modal-green .modal-header { background: linear-gradient(135deg, #47c767, var(--card-green)); }
+.modal-green .modal-header { background: linear-gradient(135deg, #4caf72, var(--card-green)); }
 
 .close-btn {
     font-size: 26px;
@@ -561,7 +564,7 @@ img.logo[src*="placeholder"] {
 
 .btn-blue { background: linear-gradient(135deg, #5c99fc, #2468e0); }
 .btn-red  { background: linear-gradient(135deg, #f57067, #c42516); }
-.btn-green { background: linear-gradient(135deg, #47c767, var(--card-green)); }
+.btn-green { background: linear-gradient(135deg, #4caf72, var(--card-green)); }
 
 .modal-yellow .modal-header { 
     background: linear-gradient(135deg, #f3be43, var(--feedback-yellow)); 
@@ -1295,26 +1298,41 @@ img.logo[src*="placeholder"] {
         flex-direction: column;
         gap: 6px;
         position: absolute;
-        top: calc(100% + 8px);   /* small gap below navbar */
-        right: 16px;             /* anchored to the right like a proper dropdown */
-        left: auto;              /* NOT full-width */
+        top: calc(100% + 8px);
+        right: 16px;
+        left: auto;
         width: 200px;
         background: #ffffff;
         border-radius: 12px;
         box-shadow: 0 8px 32px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
         z-index: 200;
         padding: 8px;
-        /* Smooth slide-in */
-        opacity: 0;
-        transform: translateY(-6px) scale(0.97);
-        transition: opacity 0.2s ease, transform 0.2s ease;
         pointer-events: none;
     }
-    .nav-links.open {
+    .nav-links.is-opening,
+    .nav-links.open,
+    .nav-links.is-closing {
         display: flex;
+    }
+    .nav-links.is-opening {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+        transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .nav-links.open {
         opacity: 1;
         transform: translateY(0) scale(1);
+        transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
         pointer-events: all;
+    }
+    .nav-links.is-closing {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+        transition: opacity 0.18s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
     }
 
     /* Arrow pip pointing up toward the hamburger */
@@ -1568,7 +1586,8 @@ img.logo[src*="placeholder"] {
         position: sticky;
         top: 100px; /* Gives a clean 100px padding down from the top of the viewport on desktop layout */
     }
-.nav-wrapper {
+
+    .nav-wrapper {
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important; 
@@ -1624,6 +1643,9 @@ img.logo[src*="placeholder"] {
 
 /* ── Registration Page Mobile Navigation Override ── */
 @media screen and (max-width: 768px) {
+    .back-link {
+    margin-right: 16px;
+    }
     /* Prevent the nav-links wrapper from turning into a hidden dropdown on registration view */
     body:has(.registration-layout) .navbar .nav-links {
         display: flex !important;
@@ -1645,28 +1667,30 @@ img.logo[src*="placeholder"] {
     /* Style the back link to look like a clean, standalone icon button on mobile */
     body:has(.registration-layout) .nav-links a.back-link {
         color: var(--white) !important;
-        background: transparent; /* Changed from semi-transparent to completely transparent */
-        padding: 8px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background 0.2s ease;
+        background: transparent !important;       /* STRIPS THE CONTAINER CIRCLE BOX */
+        border: none !important;                  /* Prevents structural borders */
+        box-shadow: none !important;
+        padding: 0 !important;                    /* Drops extra padding spacing metrics */
+        display: inline-flex !important;          /* RE-ALIGNMENT: Sets inline axis tracking */
+        align-items: center !important;           /* RE-ALIGNMENT: Centers arrow vertically with title line */
+        justify-content: center !important;
+        transition: color 0.2s ease;
+    }
+    /* Guarantees no background container box shows up when you tap/hover on mobile */
+    body:has(.registration-layout) .nav-links a.back-link:hover {
+        background: transparent !important;       /* Stays clear on hover */
+        color: #4caf72 !important;                /* Text color change only */
     }
 
-    /* Dynamic reveal state when a cursor hovers over the target button */
-    body:has(.registration-layout) .nav-links a.back-link:hover {
-        background: rgba(255, 255, 255, 0.15); /* Revealing the light color only on hover */
+    body:has(.registration-layout) .nav-links a.back-link .material-icons {
+        margin: 0 !important;                     /* Cleans up raw spacing displacement */
+        font-size: 24px !important;               /* Sharp standard vector sizing */
     }
 
     body:has(.registration-layout) .nav-links a.back-link:active {
         background: rgba(255, 255, 255, 0.3);
     }
 
-    body:has(.registration-layout) .nav-links a.back-link .material-icons {
-        margin: 0 !important;
-        font-size: 22px;
-    }
 
     /* Hide the text label on mobile screens */
     body:has(.registration-layout) .nav-links .back-text {
@@ -1736,8 +1760,8 @@ img.logo[src*="placeholder"] {
     /* DARK MODE: Keeps your sharp glowing matrix green over the black background canvas */
     body.dark-mode .hamburger span,
     body.dark-mode #hamburger span {
-        background-color: #47c767 !important;
-        box-shadow: 0 0 6px rgba(71, 199, 103, 0.4) !important;
+        background-color: #4caf72 !important;
+        box-shadow: none !important;
     }
 }
 
@@ -2100,10 +2124,40 @@ img.logo[src*="placeholder"] {
 .modal-preview-card:has(.image-fullscreen-active) .sub-option-box {
     cursor: default !important;
 }
+
 /* ==========================================================================
-   ── LIVE CYBER MATRIX DARK MODE ACTIVATION RULES (COMPLETE DEFINITIVE) ──
+   ── CLEANED CYBER CORE DARK MODE REWRITE ──
    ========================================================================== */
 
+body.dark-mode {
+    /* Canvas & Base Layers: Deep forest-green dark */
+    --bg-global: #0f1a12;
+    --bg-surface: #172219;       
+    --border-ui: rgba(100, 200, 130, 0.15);
+
+    /* Form Elements & Sub-containers */
+    --bg-input: #1c2e1f;
+    --border-input: #2d4d32;
+
+    /* Typography Hierarchy */
+    --text-main: #eaf4ec;        
+    --text-mid: #9ecba9;         
+    --text-light: #6a9c78;       
+
+    /* Structural Layout Anchors */
+    --primary-green: #1a3320;    
+    --hero-overlay-bg: rgba(10, 22, 13, 0.84);
+
+    /* Softer shadows */
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    --card-hover-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+
+    /* Accent colors */
+    --accent-green: #4caf72;
+    --accent-green-glow: rgba(76, 175, 114, 0.25);
+}
+
+/* ── 1. GLOBAL ELEMENTS & SURFACE TINTS ── */
 body.dark-mode .card, 
 body.dark-mode .requirements-card, 
 body.dark-mode .form-card, 
@@ -2111,48 +2165,63 @@ body.dark-mode .sidebar-card,
 body.dark-mode .modal-content, 
 body.dark-mode .doc-content-block, 
 body.dark-mode .faq-dropdown,
-body.dark-mode .about-hero-header,
-body.dark-mode .faq-hero-section,
 body.dark-mode .faq-content-block,
 body.dark-mode .help-section {
     background: var(--bg-surface) !important;
     background-color: var(--bg-surface) !important;
     color: var(--text-main) !important;
-    border: 1.5px solid var(--border-ui) !important;
+    border-left-color: var(--border-ui) !important;
+    border-right-color: var(--border-ui) !important;
+    border-bottom-color: var(--border-ui) !important;
     box-shadow: var(--card-shadow) !important;
 }
 
-/* ── 2. FLOATING TOP TERMINAL NAVIGATION BAR ── */
-body.dark-mode .navbar {
-    background-color: var(--primary-green) !important;
-    border-bottom: 1px solid var(--border-ui) !important;
-    box-shadow: 0 4px 16px rgba(5, 8, 5, 0.5) !important;
+body.dark-mode .panel-inner-header h4 {
+    color: #4caf72 !important;          /* Matrix Green text color */
+    background: transparent !important; /* Removes background boxes */
 }
 
-/* Navbar Links Setup */
+body.dark-mode .panel-inner-header .material-icons {
+    color: #4caf72 !important;          /* Matrix Green icon color */
+    background: transparent !important; /* Ensures no dark circle container forms */
+}
+
+/* Tint existing border lines safely without modifying layout metrics */
+body.dark-mode .about-hero-header {
+    background-color: var(--bg-surface) !important;
+    color: var(--text-main) !important;
+    border-bottom-color: var(--border-ui) !important;
+}
+
+/* ── 2. DESKTOP NAVBAR (STAYS ENTIRELY FORMAT-FAITHFUL) ── */
+body.dark-mode .navbar {
+    background-color: #1a3320 !important;
+    border-bottom: 1px solid rgba(76, 175, 114, 0.18) !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
 body.dark-mode .nav-links a {
-    color: var(--text-mid) !important;
-    opacity: 0.85;
+    color: rgba(234, 244, 236, 0.8) !important; /* Uniform text link color */
+    background: transparent !important;         /* Prevents container block formation */
+    border-bottom: 2.5px solid transparent !important; /* Retains native baseline tracking */
 }
 
 body.dark-mode .nav-links a:hover {
-    opacity: 1;
-    color: #47c767 !important; /* Sharp glowing neon highlight on hover */
+    color: #4caf72 !important;
+    background: transparent !important;
 }
 
 body.dark-mode .nav-links a.active {
-    opacity: 1;
-    font-weight: 700;
-    color: #47c767 !important;
-    border-bottom-color: #47c767 !important;
+    color: #4caf72 !important;
+    background: transparent !important;
+    border-bottom-color: #4caf72 !important;    /* Changes ONLY the line color */
 }
 
 body.dark-mode .hamburger span {
-    background: #47c767 !important; 
+    background: #4caf72 !important; 
 }
 
-/* ── 3. GLOWING CYBER TYPOGRAPHY COLOR OVERRIDES ── */
-/* Update this group inside Section 3 at the bottom of your styles.css */
+/* ── 3. GLOWING GREEN TERMINAL TYPOGRAPHY ── */
 body.dark-mode .card h3,
 body.dark-mode .requirements-card h2,
 body.dark-mode .contact-info h2,
@@ -2160,24 +2229,22 @@ body.dark-mode .main-page-title,
 body.dark-mode .doc-content-block h3,
 body.dark-mode .faq-question,
 body.dark-mode .faq-content-block h2,
-body.dark-mode .form-step-title,        /* ADD THIS: Targets registration step text */
-body.dark-mode .form-card h3,             /* ADD THIS: Targets form headers */
-body.dark-mode .step-header,             /* ADD THIS: Catch-all for wizard headers */
-body.dark-mode .step-header i,           /* ADD THIS: Ensures the little icon glows too */
-body.dark-mode .step-header span {       /* ADD THIS: Forces specific text spans to light up */
-    color: #47c767 !important; /* Radiant Matrix green override */
-    text-shadow: 0 0 8px rgba(71, 199, 103, 0.2) !important;
+body.dark-mode .form-step-title,        
+body.dark-mode .form-card h3,             
+body.dark-mode .step-header,             
+body.dark-mode .step-header i,           
+body.dark-mode .step-header span {       
+    color: #4caf72 !important; 
+    text-shadow: none !important;
 }
 
-/* Subheadings & Inner Labels across views */
 body.dark-mode .doc-content-block h4,
 body.dark-mode .sub-info-card h4,
 body.dark-mode .agency-detail-strip h5,
 body.dark-mode .faq-question-text {
-    color: var(--text-main) !important; /* Secondary headers remain bright white */
+    color: var(--text-main) !important;
 }
 
-/* Paragraphs & Core Informational Text Strings */
 body.dark-mode .card p,
 body.dark-mode .requirements-card > p,
 body.dark-mode .contact-info p,
@@ -2188,18 +2255,18 @@ body.dark-mode .faq-hero-section p,
 body.dark-mode .breadcrumb-nav .current,
 body.dark-mode .breadcrumb-nav .separator,
 body.dark-mode .faq-container .faq-trigger {
-    color: var(--text-mid) !important; /* Standardized text drops back safely to terminal sage-green */
+    color: var(--text-mid) !important; 
 }
 
-/* Fixes the header block container so the title never disappears */
+/* ── 4. CONTAINER SUB-ELEMENTS & REGISTRATION CARDS ── */
 body.dark-mode .sidebar-card > :first-child,
 body.dark-mode .sidebar-header {
-    background-color: #112213 !important; /* Accent dark neon block background */
+    background-color: #1e3324 !important; 
     border-bottom: 1.5px solid var(--border-ui) !important;
 }
 
 body.dark-mode .sidebar-header-title {
-    color: #47c767 !important; /* Sharp radiant title text visibility */
+    color: #4caf72 !important; 
 }
 
 body.dark-mode .sidebar-anchor {
@@ -2208,30 +2275,24 @@ body.dark-mode .sidebar-anchor {
 }
 
 body.dark-mode .sidebar-anchor:hover {
-    background: #112213 !important;
-    color: #47c767 !important;
+    background: #1e3324 !important;
+    color: #4caf72 !important;
 }
 
 body.dark-mode .sidebar-anchor.active-anchor {
-    background: #112213 !important;
-    color: #47c767 !important;
-    border-left-color: #47c767 !important;
+    background: #1e3324 !important;
+    color: #4caf72 !important;
+    border-left-color: #4caf72 !important;
 }
 
 body.dark-mode .card-inner-body,
 body.dark-mode .faq-answer-block {
-    background-color: #050805 !important; /* Immersive pure terminal black inset box */
+    background-color: #0f1a12 !important; 
     border: 1.5px solid rgba(71, 199, 103, 0.2) !important;
 }
 
-body.dark-mode .card-inner-body p,
-body.dark-mode .faq-answer-block p {
-    color: var(--text-mid) !important;
-}
-
-/* ── 6. DATA STRIPS, REQUIREMENT LISTS, & CHIPS ── */
 body.dark-mode .technical-attribution-badge {
-    background-color: #0d1a0d !important;
+    background-color: #1c2e1f !important;
     border: 1.5px solid var(--border-ui) !important;
 }
 
@@ -2256,6 +2317,8 @@ body.dark-mode .faq-item-row {
     border-color: var(--border-ui) !important;
 }
 
+/* ── 5. INTERACTIVE FORM UTILITIES & TILES ── */
+
 body.dark-mode input,
 body.dark-mode select,
 body.dark-mode textarea,
@@ -2270,173 +2333,167 @@ body.dark-mode .single-preview-frame {
 
 body.dark-mode input::placeholder,
 body.dark-mode textarea::placeholder {
-    color: rgba(71, 199, 103, 0.4) !important; /* Matrix matrix green placeholder text */
+    color: rgba(158, 203, 169, 0.45) !important;
 }
 
 body.dark-mode input:focus,
 body.dark-mode select:focus,
 body.dark-mode textarea:focus {
-    border-color: #47c767 !important;
-    box-shadow: 0 0 8px rgba(71, 199, 103, 0.3) !important;
+    border-color: #4caf72 !important;
+    box-shadow: 0 0 0 3px rgba(76, 175, 114, 0.2) !important;
 }
 
-/* ── 8. HOVER INTERACTIONS ── */
+body.dark-mode .sub-form-section-divider {
+    background: #1c2e1f;
+    color: #9ecba9;
+    border-left: 4px solid #4caf72;
+}
+
+body.dark-mode .checkbox-tile {
+    background: #132116; 
+    border-color: #2d4d32;
+    color: #eaf4ec;
+}
+
+body.dark-mode .checkbox-tile:hover {
+    background: #1c2e1f;
+}
+
+body.dark-mode .form-card-header .material-icons {
+    background: #1e3324 !important;
+    color: #4caf72 !important;
+}
+
+body.dark-mode .form-card-header {
+    border-bottom-color: var(--border-ui) !important;
+}
+
+body.dark-mode .widget-card {
+    background: var(--bg-surface) !important;
+    border: 1.5px solid var(--border-ui) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+body.dark-mode .tracker-widget h4 {
+    color: var(--text-mid) !important;
+}
+
+body.dark-mode .mock-progress-circle {
+    background: radial-gradient(closest-side, var(--bg-surface) 79%, transparent 80% 100%), conic-gradient(#4caf72 25%, #1c2e1f 0) !important;
+    color: #4caf72 !important;
+}
+
+body.dark-mode .p-step { color: var(--text-light) !important; }
+body.dark-mode .active-p { color: var(--text-main) !important; font-weight: 700; }
+body.dark-mode .p-step .dot { background: #2d4d32 !important; }
+body.dark-mode .active-p .dot { background: #4caf72 !important; }
+
+body.dark-mode .file-attachment-upload-row {
+    background: var(--bg-surface) !important;
+    border-color: var(--border-ui) !important;
+}
+
+body.dark-mode .file-attachment-upload-row:hover {
+    border-color: #4caf72 !important;
+}
+
+body.dark-mode .dropzone-label {
+    background: #1c2e1f !important;
+    border-color: #2d4d32 !important;
+    color: var(--text-mid) !important;
+}
+
+body.dark-mode .dropzone-label:hover {
+    background: #1e3324 !important;
+    border-color: #4caf72 !important;
+    color: var(--text-main) !important;
+}
+
+body.dark-mode .upload-icon {
+    color: var(--text-light) !important;
+}
+
+body.dark-mode .radio-card:hover {
+    border-color: #4caf72 !important;
+    background: #1e3324 !important;
+}
+
+body.dark-mode .form-privacy-notice {
+    background: var(--bg-input) !important;
+    border-color: var(--border-ui) !important;
+}
+
+body.dark-mode .req-icon,
+body.dark-mode .contact-info .material-icons {
+    color: #4caf72 !important;
+}
+
+body.dark-mode .mandate-item {
+    border-color: var(--border-ui) !important;
+    background: var(--bg-input) !important;
+}
+
+body.dark-mode .step-tracker {
+    background: rgba(0, 0, 0, 0.3) !important;
+}
+
+body.dark-mode .step-num {
+    background: #4caf72 !important;
+    color: #0f1a12 !important;
+}
+
 body.dark-mode .card:hover {
-    background: #0f1c10 !important;
-    border-color: #47c767 !important;
+    background: #182b1b !important;
+    border-color: #4caf72 !important;
     box-shadow: var(--card-hover-shadow) !important;
 }
 
 body.dark-mode .req-list li:hover {
-    background: #112613 !important;
-    border-color: #47c767 !important;
+    background: #1e3a26 !important;
+    border-color: #4caf72 !important;
 }
 
 body.dark-mode .forgot-code-link {
     color: var(--text-light) !important;
 }
 body.dark-mode .forgot-code-link:hover {
-    color: #47c767 !important;
+    color: #4caf72 !important;
 }
 
-/* Ultimate high-priority fallback specifically for the identifying step container text */
-body.dark-mode [class*="step"] h2,
-body.dark-mode [class*="step"] h3,
-body.dark-mode [class*="step"] div,
-body.dark-mode [class*="form-title"] {
-    color: #47c767 !important;
+/* ── DARK MODE REFERENCE TAG CARD ADJUSTMENT ── */
+body.dark-mode .portal-reference-tag-card {
+    background-color: #122216 !important; /* Deep dark green background container */
+    border: 1.5px dashed #4caf72 !important; /* Matrix green dashed border line */
 }
 
-/* ── Matrix Step Wizard Circle & Number Overrides ── */
-body.dark-mode .step-number,
-body.dark-mode .step-indicator,
-body.dark-mode .wizard-step,
-body.dark-mode .step-circle {
-    background-color: #0d1a0d !important; /* Cyber terminal input background */
-    border: 2px solid rgba(71, 199, 103, 0.4) !important; /* Matrix green outline */
-    color: #aae0bc !important; /* Clear sage green for inactive numbers */
+body.dark-mode .portal-reference-tag-card span {
+    color: #9ecba9 !important; /* Sage green for the "Reference Code:" label text */
 }
 
-/* When the step is currently active (e.g., Step 1 when you are filling it out) */
-body.dark-mode .step-item.active .step-number,
-body.dark-mode .step-item.active .step-circle,
-body.dark-mode .step-indicator.active,
-body.dark-mode .wizard-step.active {
-    background-color: #112213 !important;
-    border-color: #47c767 !important; /* Glowing neon border */
-    color: #47c767 !important; /* Sharp glowing text number */
-    box-shadow: 0 0 10px rgba(71, 199, 103, 0.4) !important;
+body.dark-mode .portal-reference-tag-card strong {
+    color: #4caf72 !important; /* Matrix green for the actual alphanumeric code */
+    text-shadow: 0 0 8px rgba(76, 175, 114, 0.25) !important; /* Subtle soft UI glow */
 }
 
-/* Connecting lines between the steps */
-body.dark-mode .step-line,
-body.dark-mode .progress-line,
-body.dark-mode .wizard-progress-bar {
-    background-color: #1b3d1f !important; /* Muted digital green line */
-}
+/* ── 6. TABLET & MOBILE VIEWPORT DROPDOWN TINTS ── */
+@media (max-width: 960px) {
+    body.dark-mode .nav-links {
+        background: #1e2e21 !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+    }
 
-body.dark-mode .step-item.completed .step-line,
-body.dark-mode .step-item.completed ~ .step-line {
-    background-color: #47c767 !important; /* Lights up neon when completed */
-}
-/* ==========================================================================
-   ── ULTIMATE BRUTE-FORCE STEP WIZARD MATRIX OVERRIDES ──
-   ========================================================================== */
-/* Targets absolutely any element containing the word "step" in its class name */
-body.dark-mode [class*="step"] h1,
-body.dark-mode [class*="step"] h2,
-body.dark-mode [class*="step"] h3,
-body.dark-mode [class*="step"] h4,
-body.dark-mode [class*="step"] h5,
-body.dark-mode [class*="step"] h6,
-body.dark-mode [class*="step"] span,
-body.dark-mode [class*="step"] div,
-body.dark-mode [class*="step"] p,
-body.dark-mode [class*="step"] i,
-body.dark-mode [class*="step"] strong,
-body.dark-mode [class*="step"] b,
-body.dark-mode .step-header-container,
-body.dark-mode .registration-container [class*="title"] {
-    color: #47c767 !important; /* Force radiant matrix green */
-    text-shadow: 0 0 8px rgba(71, 199, 103, 0.25) !important;
-}
+    body.dark-mode .nav-links::before {
+        background: #1e2e21 !important;
+    }
 
-/* Force the little identity card icon on the left to light up too */
-body.dark-mode [class*="step"] svg,
-body.dark-mode [class*="step"] img {
-    filter: invert(64%) sepia(50%) saturate(500%) hue-rotate(85deg) brightness(100%) contrast(100%) !important;
-}
+    body.dark-mode .nav-links a {
+        color: var(--text-main) !important;
+        padding: 11px 16px;
+    }
 
-/* ==========================================================================
-   ── THE ABSOLUTE ULTIMATE HEADING BLANKET OVERRIDE ──
-   ========================================================================== */
-/* Targets every heading inside the form, registration sheets, or wizard layouts */
-body.dark-mode form h1,
-body.dark-mode form h2,
-body.dark-mode form h3,
-body.dark-mode form h4,
-body.dark-mode form h5,
-body.dark-mode form h6,
-body.dark-mode .form-container h1,
-body.dark-mode .form-container h2,
-body.dark-mode .form-container h3,
-body.dark-mode .form-card h2,
-body.dark-mode .form-card h3,
-body.dark-mode .registration-container h2,
-body.dark-mode .registration-container h3,
-body.dark-mode [id*="step"] h2,
-body.dark-mode [id*="step"] h3,
-body.dark-mode .wizard h2,
-body.dark-mode .wizard h3,
-body.dark-mode .step h2,
-body.dark-mode .step h3 {
-    color: #47c767 !important; /* Force neon Matrix green */
-    text-shadow: 0 0 8px rgba(71, 199, 103, 0.25) !important;
-}
-
-/* Force standard paragraph/span subtitles inside form headers to light up too */
-body.dark-mode form .title,
-body.dark-mode form .header,
-body.dark-mode .form-header h2,
-body.dark-mode .form-header h3,
-body.dark-mode .form-header span {
-    color: #47c767 !important;
-}
-/* ==========================================================================
-   ── MOBILE RESPONSIVE DROPDOWN MENU MATRIX OVERRIDES ──
-   ========================================================================== */
-/* Targets the responsive dropdown menu container bubble */
-body.dark-mode .nav-links,
-body.dark-mode .nav-menu,
-body.dark-mode .mobile-menu,
-body.dark-mode [class*="nav-links"].active,
-body.dark-mode [id="nav-links"] {
-    background-color: var(--bg-surface) !important; /* Forces obsidian Matrix black #0a100a */
-    background: var(--bg-surface) !important;
-    border: 1.5px solid var(--border-ui) !important; /* Clean matrix border rule */
-    box-shadow: 0 8px 24px rgba(71, 199, 103, 0.15) !important;
-}
-
-/* Fixes the tiny pointer arrow box sitting at the top right of the bubble card */
-body.dark-mode .nav-links::before,
-body.dark-mode .nav-links::after,
-body.dark-mode [class*="nav-links"]::before {
-    background-color: var(--bg-surface) !important;
-    border-top: 1.5px solid var(--border-ui) !important;
-    border-left: 1px solid var(--border-ui) !important;
-}
-
-/* Fixes the active/highlighted menu link wrapper (e.g., the "Home" pill box background) */
-body.dark-mode .nav-links a.active,
-body.dark-mode .nav-links a:hover {
-    background-color: #112213 !important; /* Muted tech neon green chamber block */
-    color: #47c767 !important;            /* Glowing terminal text */
-    border-radius: 6px;
-}
-
-/* Fixes inactive links inside the mobile dropdown list container */
-body.dark-mode .nav-links a {
-    color: var(--text-mid) !important; /* Soft terminal sage green for readability */
-    padding: 10px 15px;
-    display: block;
+    body.dark-mode .nav-links a:hover,
+    body.dark-mode .nav-links a.active {
+        background: #1e3324 !important;
+        color: #4caf72 !important;
+    }
 }
