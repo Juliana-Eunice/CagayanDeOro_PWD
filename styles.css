@@ -2490,10 +2490,10 @@ body.dark-mode .step-tracker {
 }
 
 /* ==========================================================================
-   ── TOAST POPUP UI ENHANCEMENT ──
+   ── TOAST POPUP UI ENHANCEMENT ("Copied to clipboard") ──
    ========================================================================== */
 .code-copy-wrapper::after {
-    content: 'Copiedto clipboard!' !important; /* Updated text specification */
+    content: 'Copied to clipboard' !important; /* Updated text specification */
     position: absolute;
     bottom: 140%;
     left: 50%;
