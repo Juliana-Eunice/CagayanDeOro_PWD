@@ -26,6 +26,7 @@
     --hero-overlay-bg: rgba(30, 100, 30, 0.82);
 }
 
+CSS
 body.dark-mode {
     /* Canvas & Base Layers: Deep forest-green dark, not pitch black */
     --bg-global: #0f1a12;
@@ -42,7 +43,7 @@ body.dark-mode {
     --text-light: #6a9c78;       /* Muted forest green for captions */
 
     /* Structural Layout Anchors */
-    --primary-green: #1a3320;    /* Navbar: deep forest green, distinct from page bg */
+    --primary-green: #1a3320;    /* Navbar: deep forest green */
     --hero-overlay-bg: rgba(10, 22, 13, 0.84);
 
     /* Softer, warmer shadows */
@@ -2125,38 +2126,14 @@ img.logo[src*="placeholder"] {
 }
 
 /* ==========================================================================
-   ── CLEANED CYBER CORE DARK MODE REWRITE ──
+   ── CLEANED CYBER CORE DARK ENGINE ──
    ========================================================================== */
 
+/* ── 1. GLOBAL COMPONENTS & SURFACE TINTS ── */
 body.dark-mode {
-    /* Canvas & Base Layers: Deep forest-green dark */
-    --bg-global: #0f1a12;
-    --bg-surface: #172219;       
-    --border-ui: rgba(100, 200, 130, 0.15);
-
-    /* Form Elements & Sub-containers */
-    --bg-input: #1c2e1f;
-    --border-input: #2d4d32;
-
-    /* Typography Hierarchy */
-    --text-main: #eaf4ec;        
-    --text-mid: #9ecba9;         
-    --text-light: #6a9c78;       
-
-    /* Structural Layout Anchors */
-    --primary-green: #1a3320;    
-    --hero-overlay-bg: rgba(10, 22, 13, 0.84);
-
-    /* Softer shadows */
-    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
-    --card-hover-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
-
-    /* Accent colors */
-    --accent-green: #4caf72;
-    --accent-green-glow: rgba(76, 175, 114, 0.25);
+    background-color: #070b07 !important; /* Pristine deep ink-black matrix canvas */
 }
 
-/* ── 1. GLOBAL ELEMENTS & SURFACE TINTS ── */
 body.dark-mode .card, 
 body.dark-mode .requirements-card, 
 body.dark-mode .form-card, 
@@ -2166,71 +2143,52 @@ body.dark-mode .doc-content-block,
 body.dark-mode .faq-dropdown,
 body.dark-mode .faq-content-block,
 body.dark-mode .help-section {
-    background: var(--bg-surface) !important;
-    background-color: var(--bg-surface) !important;
-    color: var(--text-main) !important;
-    border-color: var(--border-ui) !important;
-    box-shadow: var(--card-shadow) !important;
+    background: #070b07 !important; /* Uniform black card fill-in directly matching screenshot */
+    background-color: #070b07 !important;
+    color: #eaf4ec !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp, crisp dark-green frame border */
+    box-shadow: none !important; /* Eliminates the blurry white drop glow from showing up */
 }
 
-/* ── SPECIFIC EXCEPTION: STOP GLOBAL DARK BORDERS FROM OVERRIDING MODAL HEADERS ── */
-body.dark-mode .modal-content.modal-blue { 
-    border-top: 6px solid #4285F4 !important; 
-}
-body.dark-mode .modal-content.modal-red { 
-    border-top: 6px solid #EA4335 !important; 
-}
-body.dark-mode .modal-content.modal-green { 
-    border-top: 6px solid #34A853 !important; 
-}
-body.dark-mode .modal-content.modal-yellow { 
-    border-top: 6px solid #E9A820 !important; 
-}
+/* ── PRESERVE MODAL BORDER INTERFACES ── */
+body.dark-mode .modal-content.modal-blue   { border-top: 6px solid #4285F4 !important; }
+body.dark-mode .modal-content.modal-red    { border-top: 6px solid #EA4335 !important; }
+body.dark-mode .modal-content.modal-green  { border-top: 6px solid #34A853 !important; }
+body.dark-mode .modal-content.modal-yellow { border-top: 6px solid #E9A820 !important; }
 
-body.dark-mode .panel-inner-header h4 {
-    color: #4caf72 !important;          /* Matrix Green text color */
-    background: transparent !important; /* Removes background boxes */
-}
-
+body.dark-mode .panel-inner-header h4,
 body.dark-mode .panel-inner-header .material-icons {
-    color: #4caf72 !important;          /* Matrix Green icon color */
-    background: transparent !important; /* Ensures no dark circle container forms */
+    color: #4caf72 !important;          
+    background: transparent !important; 
 }
 
-/* Tint existing border lines safely without modifying layout metrics */
 body.dark-mode .about-hero-header {
-    background-color: var(--bg-surface) !important;
-    color: var(--text-main) !important;
-    border-bottom-color: var(--border-ui) !important;
+    background-color: #070b07 !important;
+    color: #eaf4ec !important;
+    border-bottom-color: #1f3d24 !important;
 }
 
-/* ── 2. DESKTOP NAVBAR (STAYS ENTIRELY FORMAT-FAITHFUL) ── */
+/* ── 2. NAVBAR TRACKS ── */
 body.dark-mode .navbar {
-    background-color: #1a3320 !important;
-    border-bottom: 1px solid rgba(76, 175, 114, 0.18) !important;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+    background-color: #070b07 !important; /* Blends seamless directly into layout head tracking */
+    border-bottom: 1px solid #1f3d24 !important;
+    box-shadow: none !important;
 }
 
 body.dark-mode .nav-links a {
-    color: rgba(234, 244, 236, 0.8) !important; /* Uniform text link color */
-    background: transparent !important;         /* Prevents container block formation */
-    border-bottom: 2.5px solid transparent !important; /* Retains native baseline tracking */
+    color: rgba(234, 244, 236, 0.8) !important; 
+    background: transparent !important;         
+    border-bottom: 2.5px solid transparent !important; 
 }
 
-body.dark-mode .nav-links a:hover {
-    color: #4caf72 !important;
-    background: transparent !important;
-}
-
+body.dark-mode .nav-links a:hover,
 body.dark-mode .nav-links a.active {
     color: #4caf72 !important;
     background: transparent !important;
-    border-bottom-color: #4caf72 !important;    /* Changes ONLY the line color */
 }
 
-body.dark-mode .hamburger span {
-    background: #4caf72 !important; 
-}
+body.dark-mode .nav-links a.active { border-bottom-color: #4caf72 !important; }
+body.dark-mode .hamburger span { background: #4caf72 !important; }
 
 /* ── 3. GLOWING GREEN TERMINAL TYPOGRAPHY ── */
 body.dark-mode .card h3,
@@ -2245,7 +2203,7 @@ body.dark-mode .form-card h3,
 body.dark-mode .step-header,             
 body.dark-mode .step-header i,           
 body.dark-mode .step-header span {       
-    color: #4caf72 !important; 
+    color: #4caf72 !important; /* High contrast matrix glowing green headers */
     text-shadow: none !important;
 }
 
@@ -2253,7 +2211,7 @@ body.dark-mode .doc-content-block h4,
 body.dark-mode .sub-info-card h4,
 body.dark-mode .agency-detail-strip h5,
 body.dark-mode .faq-question-text {
-    color: var(--text-main) !important;
+    color: #eaf4ec !important;
 }
 
 body.dark-mode .card p,
@@ -2265,71 +2223,44 @@ body.dark-mode .faq-answer,
 body.dark-mode .faq-hero-section p,
 body.dark-mode .breadcrumb-nav .current,
 body.dark-mode .breadcrumb-nav .separator,
-body.dark-mode .faq-container .faq-trigger {
-    color: var(--text-mid) !important; 
+body.dark-mode .faq-container .faq-trigger,
+body.dark-mode .requirements-card p {
+    color: #9ecba9 !important; /* Soft descriptive sage text coloring */
 }
 
-/* ── 4. CONTAINER SUB-ELEMENTS & REGISTRATION CARDS ── */
+/* ── 4. STRUCTURES & SIDEBAR OVERLAYS ── */
 body.dark-mode .sidebar-card > :first-child,
 body.dark-mode .sidebar-header {
-    background-color: #1e3324 !important; 
-    border-bottom: 1.5px solid var(--border-ui) !important;
+    background-color: #0f1a12 !important; 
+    border-bottom: 1.5px solid #1f3d24 !important;
 }
 
-body.dark-mode .sidebar-header-title {
-    color: #4caf72 !important; 
-}
-
-body.dark-mode .sidebar-anchor {
-    color: var(--text-mid) !important;
-    background: var(--bg-surface);
-}
-
-body.dark-mode .sidebar-anchor:hover {
-    background: #1e3324 !important;
-    color: #4caf72 !important;
-}
-
-body.dark-mode .sidebar-anchor.active-anchor {
-    background: #1e3324 !important;
-    color: #4caf72 !important;
-    border-left-color: #4caf72 !important;
-}
+body.dark-mode .sidebar-header-title { color: #4caf72 !important; }
+body.dark-mode .sidebar-anchor { color: #9ecba9 !important; background: #070b07; }
+body.dark-mode .sidebar-anchor:hover { background: #0f1a12 !important; color: #4caf72 !important; }
+body.dark-mode .sidebar-anchor.active-anchor { background: #0f1a12 !important; color: #4caf72 !important; border-left-color: #4caf72 !important; }
 
 body.dark-mode .card-inner-body,
 body.dark-mode .faq-answer-block {
-    background-color: #0f1a12 !important; 
-    border: 1.5px solid rgba(71, 199, 103, 0.2) !important;
+    background-color: #070b07 !important; 
+    border: 1.5px solid #1f3d24 !important;
 }
 
-body.dark-mode .technical-attribution-badge {
-    background-color: #1c2e1f !important;
-    border: 1.5px solid var(--border-ui) !important;
-}
-
-body.dark-mode .technical-attribution-badge span {
-    color: var(--text-mid) !important;
-}
-
+body.dark-mode .technical-attribution-badge { background-color: #0f1a12 !important; border: 1.5px solid #1f3d24 !important; }
+body.dark-mode .technical-attribution-badge span { color: #9ecba9 !important; }
 body.dark-mode .agency-detail-strip,
-body.dark-mode .framework-logo-container {
-    background: var(--bg-input) !important;
-    border-color: var(--border-ui) !important;
-}
+body.dark-mode .framework-logo-container { background: #0f1a12 !important; border-color: #1f3d24 !important; }
+body.dark-mode .agency-detail-strip p { color: #eaf4ec !important; }
 
-body.dark-mode .agency-detail-strip p {
-    color: var(--text-main) !important;
-}
-
+/* Inverts the blinding white list elements from image_b59b9a.jpg */
 body.dark-mode .req-list li,
-body.dark-mode .faq-item-row {
-    color: var(--text-main) !important;
-    background: var(--bg-input) !important;
-    border-color: var(--border-ui) !important;
+body.dark-mode .faq-item-row { 
+    color: #eaf4ec !important; 
+    background: #070b07 !important; 
+    border-color: #1f3d24 !important; 
 }
 
-/* ── 5. INTERACTIVE FORM UTILITIES & TILES ── */
-
+/* ── 5. INTERACTIVE FIELDS & WIDGET TILES ── */
 body.dark-mode input,
 body.dark-mode select,
 body.dark-mode textarea,
@@ -2337,15 +2268,13 @@ body.dark-mode .radio-card,
 body.dark-mode .checkbox-tile,
 body.dark-mode .sub-option-box,
 body.dark-mode .single-preview-frame {
-    background-color: var(--bg-input) !important;
-    color: var(--text-main) !important;
-    border: 1.5px solid var(--border-input) !important;
+    background-color: #070b07 !important;
+    color: #eaf4ec !important;
+    border: 1.5px solid #1f3d24 !important;
 }
 
 body.dark-mode input::placeholder,
-body.dark-mode textarea::placeholder {
-    color: rgba(158, 203, 169, 0.45) !important;
-}
+body.dark-mode textarea::placeholder { color: rgba(158, 203, 169, 0.45) !important; }
 
 body.dark-mode input:focus,
 body.dark-mode select:focus,
@@ -2354,315 +2283,492 @@ body.dark-mode textarea:focus {
     box-shadow: 0 0 0 3px rgba(76, 175, 114, 0.2) !important;
 }
 
-body.dark-mode .sub-form-section-divider {
-    background: #1c2e1f;
-    color: #9ecba9;
-    border-left: 4px solid #4caf72;
-}
-
-body.dark-mode .checkbox-tile {
-    background: #132116; 
-    border-color: #2d4d32;
-    color: #eaf4ec;
-}
-
-body.dark-mode .checkbox-tile:hover {
-    background: #1c2e1f;
-}
-
-body.dark-mode .form-card-header .material-icons {
-    background: #1e3324 !important;
-    color: #4caf72 !important;
-}
-
-body.dark-mode .form-card-header {
-    border-bottom-color: var(--border-ui) !important;
-}
-
-body.dark-mode .widget-card {
-    background: var(--bg-surface) !important;
-    border: 1.5px solid var(--border-ui) !important;
-    box-shadow: var(--card-shadow) !important;
-}
-
-body.dark-mode .tracker-widget h4 {
-    color: var(--text-mid) !important;
-}
+body.dark-mode .sub-form-section-divider { background: #0f1a12; color: #9ecba9; border-left: 4px solid #4caf72; }
+body.dark-mode .checkbox-tile { background: #070b07; border-color: #1f3d24; color: #eaf4ec; }
+body.dark-mode .checkbox-tile:hover { background: #0f1a12; }
+body.dark-mode .form-card-header .material-icons { background: #0f1a12 !important; color: #4caf72 !important; }
+body.dark-mode .form-card-header { border-bottom-color: #1f3d24 !important; }
+body.dark-mode .widget-card { background: #070b07 !important; border: 1.5px solid #1f3d24 !important; }
+body.dark-mode .tracker-widget h4 { color: #9ecba9 !important; }
 
 body.dark-mode .mock-progress-circle {
-    background: radial-gradient(closest-side, var(--bg-surface) 79%, transparent 80% 100%), conic-gradient(#4caf72 25%, #1c2e1f 0) !important;
+    background: radial-gradient(closest-side, #070b07 79%, transparent 80% 100%), conic-gradient(#4caf72 25%, #0f1a12 0) !important;
     color: #4caf72 !important;
 }
 
-body.dark-mode .p-step { color: var(--text-light) !important; }
-body.dark-mode .active-p { color: var(--text-main) !important; font-weight: 700; }
-body.dark-mode .p-step .dot { background: #2d4d32 !important; }
+body.dark-mode .p-step { color: #6a9c78 !important; }
+body.dark-mode .active-p { color: #eaf4ec !important; font-weight: 700; }
+body.dark-mode .p-step .dot { background: #1f3d24 !important; }
 body.dark-mode .active-p .dot { background: #4caf72 !important; }
 
-body.dark-mode .file-attachment-upload-row {
-    background: var(--bg-surface) !important;
-    border-color: var(--border-ui) !important;
-}
+body.dark-mode .file-attachment-upload-row { background: #070b07 !important; border-color: #1f3d24 !important; }
+body.dark-mode .file-attachment-upload-row:hover { border-color: #4caf72 !important; }
+body.dark-mode .dropzone-label { background: #0f1a12 !important; border-color: #1f3d24 !important; color: #9ecba9 !important; }
+body.dark-mode .dropzone-label:hover { background: #0f1a12 !important; border-color: #4caf72 !important; color: #eaf4ec !important; }
+body.dark-mode .upload-icon { color: #6a9c78 !important; }
+body.dark-mode .radio-card:hover { border-color: #4caf72 !important; background: #0f1a12 !important; }
+body.dark-mode .form-privacy-notice { background: #0f1a12 !important; border-color: #1f3d24 !important; }
+body.dark-mode .req-icon, body.dark-mode .contact-info .material-icons { color: #4caf72 !important; }
+body.dark-mode .mandate-item { border-color: #1f3d24 !important; background: #0f1a12 !important; }
+body.dark-mode .step-tracker { background: rgba(0, 0, 0, 0.3) !important; }
+body.dark-mode .step-num { background: #4caf72 !important; color: #0f1a12 !important; }
+body.dark-mode .card:hover { background: #0f160f !important; border-color: #4caf72 !important; }
+body.dark-mode .req-list li:hover { background: #0f160f !important; border-color: #4caf72 !important; }
 
-body.dark-mode .file-attachment-upload-row:hover {
-    border-color: #4caf72 !important;
-}
+body.dark-mode .forgot-code-link { color: #6a9c78 !important; }
+body.dark-mode .forgot-code-link:hover { color: #4caf72 !important; }
 
-body.dark-mode .dropzone-label {
-    background: #1c2e1f !important;
-    border-color: #2d4d32 !important;
-    color: var(--text-mid) !important;
-}
+body.dark-mode .portal-reference-tag-card { background-color: #070b07 !important; border: 1.5px dashed #4caf72 !important; }
+body.dark-mode .portal-reference-tag-card span { color: #9ecba9 !important; }
+body.dark-mode .portal-reference-tag-card strong { color: #4caf72 !important; text-shadow: 0 0 8px rgba(76, 175, 114, 0.25) !important; }
 
-body.dark-mode .dropzone-label:hover {
-    background: #1e3324 !important;
-    border-color: #4caf72 !important;
-    color: var(--text-main) !important;
-}
+/* ── 6. CLIPBOARD SYSTEM & MODAL READABILITY OVERRIDES ── */
+body.dark-mode .code-copy-wrapper strong,
+body.dark-mode .mini-copy-btn { color: #4caf72 !important; }
+body.dark-mode .code-copy-wrapper::after { background-color: #4caf72; color: #0f1a12; }
+body.dark-mode .code-copy-wrapper:hover strong { color: #62d38e !important; }
 
-body.dark-mode .upload-icon {
-    color: var(--text-light) !important;
-}
+body.dark-mode .modal-body p,
+body.dark-mode .modal-body p strong { color: #ffffff !important; }
+body.dark-mode .modal-body small { color: #9ecba9 !important; }
+body.dark-mode .modal-body .code-copy-wrapper strong,
+body.dark-mode .modal-body .code-copy-wrapper .material-icons { color: #4caf72 !important; }
 
-body.dark-mode .radio-card:hover {
-    border-color: #4caf72 !important;
-    background: #1e3324 !important;
-}
-
-body.dark-mode .form-privacy-notice {
-    background: var(--bg-input) !important;
-    border-color: var(--border-ui) !important;
-}
-
-body.dark-mode .req-icon,
-body.dark-mode .contact-info .material-icons {
-    color: #4caf72 !important;
-}
-
-body.dark-mode .mandate-item {
-    border-color: var(--border-ui) !important;
-    background: var(--bg-input) !important;
-}
-
-body.dark-mode .step-tracker {
-    background: rgba(0, 0, 0, 0.3) !important;
-}
-
-body.dark-mode .step-num {
-    background: #4caf72 !important;
-    color: #0f1a12 !important;
-}
-
-body.dark-mode .card:hover {
-    background: #182b1b !important;
-    border-color: #4caf72 !important;
-    box-shadow: var(--card-hover-shadow) !important;
-}
-
-body.dark-mode .req-list li:hover {
-    background: #1e3a26 !important;
-    border-color: #4caf72 !important;
-}
-
-body.dark-mode .forgot-code-link {
-    color: var(--text-light) !important;
-}
-body.dark-mode .forgot-code-link:hover {
-    color: #4caf72 !important;
-}
-
-/* ── DARK MODE REFERENCE TAG CARD ADJUSTMENT ── */
-body.dark-mode .portal-reference-tag-card {
-    background-color: #122216 !important; /* Deep dark green background container */
-    border: 1.5px dashed #4caf72 !important; /* Matrix green dashed border line */
-}
-
-body.dark-mode .portal-reference-tag-card span {
-    color: #9ecba9 !important; /* Sage green for the "Reference Code:" label text */
-}
-
-body.dark-mode .portal-reference-tag-card strong {
-    color: #4caf72 !important; /* Matrix green for the actual alphanumeric code */
-    text-shadow: 0 0 8px rgba(76, 175, 114, 0.25) !important; /* Subtle soft UI glow */
-}
-
-
-/* ── ENHANCED MOBILE STEP TRACKER LAYOUT DECK ── */
-@media screen and (max-width: 768px) {
-    
-    /* 1. Transform the row into a clean, balanced 2-column grid */
-    body:has(.registration-layout) .step-tracker {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 uniform steps per row */
-        gap: 12px 16px !important;                       /* Clean vertical and horizontal spacing */
-        padding: 16px !important;                        /* Balanced inner padding */
-        background: rgba(0, 0, 0, 0.25) !important;
-        border-radius: 12px !important;
-    }
-
-    /* 2. Anchor the individual step items cleanly inside their grid track cells */
-    body:has(.registration-layout) .step {
-        display: inline-flex !important;
-        align-items: center !important;     /* Centers text and circle cross-axis vertically */
-        justify-content: flex-start !important; /* Left-aligns items within their grid slot */
-        opacity: 0.45;
-        transition: opacity 0.25s ease;
-    }
-
-    /* 3. Keep the active step standing out cleanly */
-    body:has(.registration-layout) .step-active {
-        opacity: 1 !important;
-    }
-
-    /* 4. Force all step text labels to stay completely visible on mobile viewports */
-    body:has(.registration-layout) .step .step-label {
-        display: inline-block !important;   /* Cancels display: none rules */
-        font-size: 0.82rem !important;      /* Optimized text scale for smaller screens */
-        line-height: 1.2 !important;
-        white-space: normal !important;      /* Wraps nicely if step title runs long */
-        margin: 0 !important;
-    }
-
-    /* 5. Keep numbers perfectly round and centered */
-    body:has(.registration-layout) .step-num {
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 26px !important;             /* Slightly upscaled touch targets */
-        height: 26px !important;
-        line-height: 0 !important;
-        padding: 0 !important;
-        flex-shrink: 0 !important;          /* Protects round dimensions from compression */
-        font-size: 0.8rem !important;
-    }
+/* ── 7. RESPONSIVE DROPDOWN INVERSION ── */
+@media (max-width: 960px) {
+    body.dark-mode .nav-links { background: #0f1a12 !important; }
+    body.dark-mode .nav-links::before { background: #0f1a12 !important; }
+    body.dark-mode .nav-links a { color: #eaf4ec !important; padding: 11px 16px; }
+    body.dark-mode .nav-links a:hover,
+    body.dark-mode .nav-links a.active { background: #0f1a12 !important; color: #4caf72 !important; }
 }
 /* ==========================================================================
-   ── COMPACT COPY TO CLIPBOARD UI SYSTEM ──
+   ── CLIPBOARD COPY BUGFIX (image_b5396c.png) ──
    ========================================================================== */
+
+/* 1. Fixes the wrapper container and balances spacing */
 .code-copy-wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 2px 4px;
-    background: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important; /* Space between text string and icon */
+    padding: 2px 4px !important;
+    background: transparent !important; /* Drops the layout tracking fill entirely */
+    background-color: transparent !important;
     border: none !important;
     cursor: pointer;
     user-select: none;
     position: relative;
-    transition: transform 0.1s ease;
 }
 
-.code-copy-wrapper:active {
-    transform: scale(0.97);
-}
-
-/* Hover style logic */
-.code-copy-wrapper:hover strong {
-    color: #1b4d1b !important;
-    text-decoration: underline;
-}
-body.dark-mode .code-copy-wrapper:hover strong {
-    color: #62d38e !important;
-}
-
-/* Light Mode/Default Text Style Settings */
-.code-copy-wrapper strong {
-    font-size: 1.15rem !important;
-    letter-spacing: 0.04em;
-    color: var(--primary-green) !important; /* Bold green on white backgrounds */
-    line-height: 1;
-    font-weight: 800 !important;
-}
-
-/* Strict zero-space layout rules for the icon button */
+/* 2. Erases the white fallback block wrapper from image_b5396c.png */
 .mini-copy-btn {
-    background: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
     border: none !important;
     padding: 0 !important;
     margin: 0 !important;
     display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    color: var(--primary-green) !important;
-    pointer-events: none; 
-    width: 16px !important;
-    height: 16px !important;
-    overflow: hidden !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    height: auto !important;
     box-shadow: none !important;
 }
 
-.mini-copy-btn .material-icons {
-    font-size: 15px !important;
-    width: 15px !important;
-    height: 15px !important;
+/* 3. Forces 'content_copy' text to map strictly into the vector font glyph symbol */
+.mini-copy-btn .material-icons,
+.code-copy-wrapper .material-icons {
+    font-family: 'Material Icons' !important;
+    font-size: 18px !important; /* Scale inline with string text */
     display: inline-block !important;
     text-transform: none !important;
     white-space: nowrap !important;
+    word-wrap: normal !important;
+    direction: ltr !important;
+    -webkit-font-smoothing: antialiased !important;
 }
 
-/* Tooltip Toast Popup Layout */
+/* 4. Keeps text colors pristine across both states */
+.code-copy-wrapper strong {
+    font-size: 1.15rem !important;
+    letter-spacing: 0.04em !important;
+    color: var(--primary-green) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+}
+
+/* 5. Sharp Matrix Green override when dark mode is activated */
+body.dark-mode .code-copy-wrapper strong,
+body.dark-mode .mini-copy-btn,
+body.dark-mode .mini-copy-btn .material-icons,
+body.dark-mode .modal-body .code-copy-wrapper strong,
+body.dark-mode .modal-body .code-copy-wrapper .material-icons {
+    color: #4caf72 !important; /* Signature green match */
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* ==========================================================================
+   ── HIGH-CONTRAST FORM LABELS ACCESSIBILITY FIX (Screenshot 2026-06-05 154949.png) ──
+   ========================================================================== */
+
+/* 1. Brightens form field labels up to crisp off-white for perfect legibility */
+body.dark-mode .form-group label,
+body.dark-mode label {
+    color: #eaf4ec !important; /* Uses your warm off-white variable to pop from the dark canvas */
+    letter-spacing: 0.04em !important;
+}
+
+/* 2. Brightens section subsection subtitles or divider labels */
+body.dark-mode .sub-form-section-divider,
+body.dark-mode .cat-block-title {
+    color: #4caf72 !important; /* Changes the small section tags to signature terminal green */
+    font-weight: 800 !important;
+}
+
+/* 3. Forces user-typed input text or select text to be crystal clear */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    color: #ffffff !important; /* Absolute white for input data */
+}
+/* Darkens the background image masking filter significantly for dark mode */
+body.dark-mode .hero-overlay {
+    background: rgba(4, 8, 5, 0.92) !important; /* Drops exposure to lock in high contrast mapping */
+}
+
+/* ==========================================================================
+   ── DARKER FORM REGISTRATION BANNER (image_b4c4cb.png) ──
+   ========================================================================== */
+
+/* Darkens the bright green application wizard banner for dark mode views */
+body.dark-mode .form-banner {
+    background-color: #070b07 !important; /* Matches your pristine deep ink-black canvas */
+    border-top: 1px solid #1f3d24 !important; /* Sharp, clean structural matrix border line */
+    border-bottom: 1px solid #1f3d24 !important;
+}
+
+/* Optional: Ensures the inner step tracker container background blends perfectly */
+body.dark-mode .step-tracker {
+    background: rgba(31, 61, 36, 0.15) !important; /* Translucent muted green slot tint */
+    border: 1px solid rgba(76, 175, 114, 0.2) !important;
+}
+
+/* ==========================================================================
+   ── MOBILE STEP TRACKER FULL VISIBILITY FIX (image_b4bd63.png) ──
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* Forces all step text labels to stay completely visible on mobile instead of hiding */
+    body:has(.registration-layout) .step .step-label,
+    .step .step-label {
+        display: inline-block !important;   
+        font-size: 0.78rem !important;      /* Optimized text scale to fit mobile screens side-by-side */
+        line-height: 1.2 !important;
+        white-space: normal !important;     
+        margin: 0 !important;
+        opacity: 0.85 !important;
+    }
+    
+    /* Makes sure inactive steps maintain readable text opacity */
+    body:has(.registration-layout) .step,
+    .step {
+        display: inline-flex !important;
+        align-items: center !important;     
+        justify-content: flex-start !important; 
+        opacity: 1 !important;              /* Keeps all steps fully visible */
+    }
+
+    /* Allows the horizontal tracking deck to scale comfortably if needed */
+    .step-tracker {
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        overflow-x: auto !important;
+        padding: 14px 16px !important;
+    }
+}
+
+/* ==========================================================================
+   ── TOAST POPUP UI ENHANCEMENT ("Copied to clipboard") ──
+   ========================================================================== */
 .code-copy-wrapper::after {
-    content: 'Copied!';
+    content: 'Copied to clipboard' !important; /* Updated text specification */
     position: absolute;
-    bottom: 130%;
+    bottom: 140%;
     left: 50%;
     transform: translateX(-50%) translateY(4px);
-    background-color: #1c2e1f;
-    color: #ffffff;
-    font-size: 0.7rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
     font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 6px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.15s ease, transform 0.15s ease;
     white-space: nowrap;
-    z-index: 999999 !important; 
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    z-index: 999999 !important; /* Insanely high layer priority to clear modal bounds */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
+/* Light Mode/Default Toast Colors */
+body:not(.dark-mode) .code-copy-wrapper::after {
+    background-color: #1c2e1f;
+    color: #ffffff;
+}
+
+/* Dark Mode Toast Colors */
+body.dark-mode .code-copy-wrapper::after {
+    background-color: #4caf72; /* Sharp matrix green background */
+    color: #070b07;            /* Deep ink-black text */
+}
+
+/* Active animation state layout when class trigger is present */
 .code-copy-wrapper.copied-toast::after {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
 
-/* --- Dark Mode Variables Overrides --- */
-body.dark-mode .code-copy-wrapper strong,
-body.dark-mode .mini-copy-btn {
-    color: #4caf72 !important; /* Sharp glowing green on dark backgrounds */
-}
-body.dark-mode .code-copy-wrapper::after {
-    background-color: #4caf72;
-    color: #0f1a12;
-}
-/* --- Bulletproof Modal Text Colors for Light and Dark Modes --- */
+/* ── ENHANCED MOBILE STEP TRACKER LAYOUT DECK ── */
 
-/* default / Light mode forces classic sharp contrast readability colors */
-.modal-body p {
-    color: var(--text-dark) !important; 
-}
-.modal-body small {
-    color: var(--text-light) !important;
-}
-.modal-body .code-copy-wrapper strong {
-    color: var(--primary-green) !important;
-}
+@media screen and (max-width: 768px) {
 
-/* Dark mode overrides: Forces everything inside the modal wrapper to be crisp and bright */
-body.dark-mode .modal-body p,
-body.dark-mode .modal-body p strong {
-    color: #ffffff !important; /* Forces white title text over the dark green background surface */
+
+/* 1. Transform the row into a clean, balanced 2-column grid */
+
+body:has(.registration-layout) .step-tracker {
+
+display: grid !important;
+
+grid-template-columns: repeat(2, 1fr) !important; /* 2 uniform steps per row */
+
+gap: 12px 16px !important; /* Clean vertical and horizontal spacing */
+
+padding: 16px !important; /* Balanced inner padding */
+
+background: rgba(0, 0, 0, 0.25) !important;
+
+border-radius: 12px !important;
+
 }
 
-body.dark-mode .modal-body small {
-    color: #9ecba9 !important; /* Soft sage green color makes details beautifully legible */
+
+
+/* 2. Anchor the individual step items cleanly inside their grid track cells */
+
+body:has(.registration-layout) .step {
+
+display: inline-flex !important;
+
+align-items: center !important; /* Centers text and circle cross-axis vertically */
+
+justify-content: flex-start !important; /* Left-aligns items within their grid slot */
+
+opacity: 0.45;
+
+transition: opacity 0.25s ease;
+
 }
 
-body.dark-mode .modal-body .code-copy-wrapper strong {
-    color: #4caf72 !important; /* Keeps your signature bright matrix green for the reference code text */
+
+
+/* 3. Keep the active step standing out cleanly */
+
+body:has(.registration-layout) .step-active {
+
+opacity: 1 !important;
+
 }
 
-body.dark-mode .modal-body .code-copy-wrapper .material-icons {
-    color: #4caf72 !important; /* Synchronizes the copy icon color layout */
+
+
+/* 4. Force all step text labels to stay completely visible on mobile viewports */
+
+body:has(.registration-layout) .step .step-label {
+
+display: inline-block !important; /* Cancels display: none rules */
+
+font-size: 0.82rem !important; /* Optimized text scale for smaller screens */
+
+line-height: 1.2 !important;
+
+white-space: normal !important; /* Wraps nicely if step title runs long */
+
+margin: 0 !important;
+
+}
+
+
+
+/* 5. Keep numbers perfectly round and centered */
+
+body:has(.registration-layout) .step-num {
+
+display: inline-flex !important;
+
+align-items: center !important;
+
+justify-content: center !important;
+
+width: 26px !important; /* Slightly upscaled touch targets */
+
+height: 26px !important;
+
+line-height: 0 !important;
+
+padding: 0 !important;
+
+flex-shrink: 0 !important; /* Protects round dimensions from compression */
+
+font-size: 0.8rem !important;
+
+}
+
+}
+
+/* ==========================================================================
+   ── INACTIVE STEPS ACCESSIBILITY OPACITY TUNING (LIGHT & DARK MODES) ──
+   ========================================================================== */
+
+/* 1. Global & Desktop Override: Lower baseline opacity for non-active steps */
+.step:not(.step-active),
+body.dark-mode .step:not(.step-active) {
+    opacity: 0.35 !important; /* Lowers opacity for standard and dark views to keep focus on the active step */
+    transition: opacity 0.25s ease;
+}
+
+/* Ensures the current step always stands out cleanly at full brightness */
+.step.step-active,
+body.dark-mode .step.step-active {
+    opacity: 1 !important;
+}
+
+/* 2. Mobile Grid Context: Applies the same dimming rule inside the 2x2 mobile layout override */
+@media screen and (max-width: 768px) {
+    /* Dim the inactive grid items */
+    body:has(.registration-layout) .step:not(.step-active) {
+        opacity: 0.35 !important;
+    }
+    
+    /* Make sure text, labels, and numbers inside inactive steps carry the lower opacity */
+    body:has(.registration-layout) .step:not(.step-active) .step-label,
+    body:has(.registration-layout) .step:not(.step-active) .step-num {
+        opacity: 0.7 !important; /* Secondary soft dimming factor for text inside inactive slots */
+    }
+
+    /* Keep the active step in the grid perfectly bright */
+    body:has(.registration-layout) .step.step-active,
+    body:has(.registration-layout) .step.step-active .step-label,
+    body:has(.registration-layout) .step.step-active .step-num {
+        opacity: 1 !important;
+    }
+}
+/* ==========================================================================
+   ── DISABILITY CATEGORY TILES DARK MODE ENGINE (image_b43e7b.png) ──
+   ========================================================================== */
+
+/* 1. Inverts the bright white card containers into the deep ink-black matrix style */
+body.dark-mode .disability-cat-block {
+    background: #070b07 !important; /* Matches your ultra-deep background theme */
+    background-color: #070b07 !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp, clean dark-green frame border line */
+    box-shadow: none !important;
+}
+
+/* 2. Changes the category header dashed separating lines to look cyber-clean */
+body.dark-mode .cat-block-title {
+    color: #4caf72 !important; /* Signature glowing green for "LEARNING DISABILITIES", etc. */
+    border-bottom-color: #1f3d24 !important; /* Tints the dashed boundary line green */
+}
+
+/* 3. Forces all checkbox textual strings (ADHD, Dyslexia, Mentally Ill) to turn readable white */
+body.dark-mode .checkbox-tile {
+    background-color: #0d160e !important; /* Slightly distinct dark shade inside the cards */
+    color: #ffffff !important; /* High contrast white text for perfect legibility */
+    border: 1.5px solid #1f3d24 !important;
+}
+
+/* 4. Keeps the checkbox borders glowing and clean when hovering */
+body.dark-mode .checkbox-tile:hover {
+    background-color: #122215 !important;
+    border-color: #4caf72 !important;
+}
+
+/* ==========================================================================
+   ── CORE ATTACHMENTS STEP DARK MODE STABILIZER (image_b3ec26.png) ──
+   ========================================================================== */
+
+/* 1. Forces all main attachment label titles to turn a bright, crisp off-white */
+body.dark-mode .file-upload-container h6,
+body.dark-mode .file-meta-info h6,
+body.dark-mode .form-group h5,
+body.dark-mode h5,
+body.dark-mode .form-group[class*="upload"] label,
+body.dark-mode div:has(> .custom-file-dropzone) {
+    color: #eaf4ec !important; /* Perfect high-contrast off-white readability match */
+}
+
+/* 2. Direct brute-force fix for the gray titles seen at the top of image_b3ec26.png */
+body.dark-mode .form-wizard-panel,
+body.dark-mode .form-wizard-panel div,
+body.dark-mode .form-wizard-panel p,
+body.dark-mode .form-wizard-panel span {
+    color: #9ecba9; /* Tints descriptive instructions like "Formats: JPEG..." a soft sage green */
+}
+
+/* 3. Specifically anchors the strong standalone headers to turn your matrix off-white */
+body.dark-mode .form-wizard-panel h5,
+body.dark-mode .form-wizard-panel h6,
+body.dark-mode .form-wizard-panel strong {
+    color: #eaf4ec !important;
+}
+
+/* 4. Inverts the bright white upload card boxes into the deep ink-black matrix container style */
+body.dark-mode .file-attachment-upload-row {
+    background: #070b07 !important; /* Matches your pristine black background theme precisely */
+    background-color: #070b07 !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp dark-green structural border outline */
+    box-shadow: none !important;
+}
+
+/* 5. Tints the "No file chosen" indicator text so it remains cleanly readable */
+body.dark-mode .file-preview-name,
+body.dark-mode .file-meta-info p,
+body.dark-mode div[id*="file"] {
+    color: #6a9c78 !important; /* Uniform muted green for default empty states */
+}
+
+/* 6. Makes the underlying button label hover tracks crisp and dark-themed */
+body.dark-mode .dropzone-label {
+    background-color: #0d160e !important;
+    border-color: #1f3d24 !important;
+    color: #4caf72 !important; /* Gives the inner button text a glowing green appearance */
+}
+
+body.dark-mode .dropzone-label:hover {
+    background-color: #122215 !important;
+    border-color: #4caf72 !important;
+    color: #ffffff !important;
+}
+/* ==========================================================================
+   ── BRUTE FORCE FIXED ATTACHMENTS OVERRIDE (image_b3e867.png) ──
+   ========================================================================== */
+
+/* Forces the sub-container block cards to match your pristine black theme precisely */
+body.dark-mode .file-attachment-upload-row,
+body.dark-mode [class*="upload-row"],
+body.dark-mode div:has(> .custom-file-dropzone) {
+    background: #070b07 !important; 
+    background-color: #070b07 !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp dark-green frame border */
+    box-shadow: none !important;
+}
+
+/* Brightens those card headers ("BARANGAY CERT...") so they turn a beautiful, high-contrast off-white */
+body.dark-mode .file-meta-info h6,
+body.dark-mode [class*="upload-row"] h6,
+body.dark-mode [class*="upload"] h6,
+body.dark-mode .file-attachment-upload-row h6,
+body.dark-mode div:has(> .custom-file-dropzone) h6 {
+    color: #eaf4ec !important; /* Crisp readability matching your text main theme */
 }
