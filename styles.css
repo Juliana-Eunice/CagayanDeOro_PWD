@@ -2433,3 +2433,342 @@ body.dark-mode select,
 body.dark-mode textarea {
     color: #ffffff !important; /* Absolute white for input data */
 }
+/* Darkens the background image masking filter significantly for dark mode */
+body.dark-mode .hero-overlay {
+    background: rgba(4, 8, 5, 0.92) !important; /* Drops exposure to lock in high contrast mapping */
+}
+
+/* ==========================================================================
+   ── DARKER FORM REGISTRATION BANNER (image_b4c4cb.png) ──
+   ========================================================================== */
+
+/* Darkens the bright green application wizard banner for dark mode views */
+body.dark-mode .form-banner {
+    background-color: #070b07 !important; /* Matches your pristine deep ink-black canvas */
+    border-top: 1px solid #1f3d24 !important; /* Sharp, clean structural matrix border line */
+    border-bottom: 1px solid #1f3d24 !important;
+}
+
+/* Optional: Ensures the inner step tracker container background blends perfectly */
+body.dark-mode .step-tracker {
+    background: rgba(31, 61, 36, 0.15) !important; /* Translucent muted green slot tint */
+    border: 1px solid rgba(76, 175, 114, 0.2) !important;
+}
+
+/* ==========================================================================
+   ── MOBILE STEP TRACKER FULL VISIBILITY FIX (image_b4bd63.png) ──
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    /* Forces all step text labels to stay completely visible on mobile instead of hiding */
+    body:has(.registration-layout) .step .step-label,
+    .step .step-label {
+        display: inline-block !important;   
+        font-size: 0.78rem !important;      /* Optimized text scale to fit mobile screens side-by-side */
+        line-height: 1.2 !important;
+        white-space: normal !important;     
+        margin: 0 !important;
+        opacity: 0.85 !important;
+    }
+    
+    /* Makes sure inactive steps maintain readable text opacity */
+    body:has(.registration-layout) .step,
+    .step {
+        display: inline-flex !important;
+        align-items: center !important;     
+        justify-content: flex-start !important; 
+        opacity: 1 !important;              /* Keeps all steps fully visible */
+    }
+
+    /* Allows the horizontal tracking deck to scale comfortably if needed */
+    .step-tracker {
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 12px !important;
+        overflow-x: auto !important;
+        padding: 14px 16px !important;
+    }
+}
+
+/* ==========================================================================
+   ── TOAST POPUP UI ENHANCEMENT ("Copied to clipboard") ──
+   ========================================================================== */
+.code-copy-wrapper::after {
+    content: 'Copied to clipboard' !important; /* Updated text specification */
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    white-space: nowrap;
+    z-index: 999999 !important; /* Insanely high layer priority to clear modal bounds */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Light Mode/Default Toast Colors */
+body:not(.dark-mode) .code-copy-wrapper::after {
+    background-color: #1c2e1f;
+    color: #ffffff;
+}
+
+/* Dark Mode Toast Colors */
+body.dark-mode .code-copy-wrapper::after {
+    background-color: #4caf72; /* Sharp matrix green background */
+    color: #070b07;            /* Deep ink-black text */
+}
+
+/* Active animation state layout when class trigger is present */
+.code-copy-wrapper.copied-toast::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ── ENHANCED MOBILE STEP TRACKER LAYOUT DECK ── */
+
+@media screen and (max-width: 768px) {
+
+
+/* 1. Transform the row into a clean, balanced 2-column grid */
+
+body:has(.registration-layout) .step-tracker {
+
+display: grid !important;
+
+grid-template-columns: repeat(2, 1fr) !important; /* 2 uniform steps per row */
+
+gap: 12px 16px !important; /* Clean vertical and horizontal spacing */
+
+padding: 16px !important; /* Balanced inner padding */
+
+background: rgba(0, 0, 0, 0.25) !important;
+
+border-radius: 12px !important;
+
+}
+
+
+
+/* 2. Anchor the individual step items cleanly inside their grid track cells */
+
+body:has(.registration-layout) .step {
+
+display: inline-flex !important;
+
+align-items: center !important; /* Centers text and circle cross-axis vertically */
+
+justify-content: flex-start !important; /* Left-aligns items within their grid slot */
+
+opacity: 0.45;
+
+transition: opacity 0.25s ease;
+
+}
+
+
+
+/* 3. Keep the active step standing out cleanly */
+
+body:has(.registration-layout) .step-active {
+
+opacity: 1 !important;
+
+}
+
+
+
+/* 4. Force all step text labels to stay completely visible on mobile viewports */
+
+body:has(.registration-layout) .step .step-label {
+
+display: inline-block !important; /* Cancels display: none rules */
+
+font-size: 0.82rem !important; /* Optimized text scale for smaller screens */
+
+line-height: 1.2 !important;
+
+white-space: normal !important; /* Wraps nicely if step title runs long */
+
+margin: 0 !important;
+
+}
+
+
+
+/* 5. Keep numbers perfectly round and centered */
+
+body:has(.registration-layout) .step-num {
+
+display: inline-flex !important;
+
+align-items: center !important;
+
+justify-content: center !important;
+
+width: 26px !important; /* Slightly upscaled touch targets */
+
+height: 26px !important;
+
+line-height: 0 !important;
+
+padding: 0 !important;
+
+flex-shrink: 0 !important; /* Protects round dimensions from compression */
+
+font-size: 0.8rem !important;
+
+}
+
+}
+
+/* ==========================================================================
+   ── INACTIVE STEPS ACCESSIBILITY OPACITY TUNING (LIGHT & DARK MODES) ──
+   ========================================================================== */
+
+/* 1. Global & Desktop Override: Lower baseline opacity for non-active steps */
+.step:not(.step-active),
+body.dark-mode .step:not(.step-active) {
+    opacity: 0.35 !important; /* Lowers opacity for standard and dark views to keep focus on the active step */
+    transition: opacity 0.25s ease;
+}
+
+/* Ensures the current step always stands out cleanly at full brightness */
+.step.step-active,
+body.dark-mode .step.step-active {
+    opacity: 1 !important;
+}
+
+/* 2. Mobile Grid Context: Applies the same dimming rule inside the 2x2 mobile layout override */
+@media screen and (max-width: 768px) {
+    /* Dim the inactive grid items */
+    body:has(.registration-layout) .step:not(.step-active) {
+        opacity: 0.35 !important;
+    }
+    
+    /* Make sure text, labels, and numbers inside inactive steps carry the lower opacity */
+    body:has(.registration-layout) .step:not(.step-active) .step-label,
+    body:has(.registration-layout) .step:not(.step-active) .step-num {
+        opacity: 0.7 !important; /* Secondary soft dimming factor for text inside inactive slots */
+    }
+
+    /* Keep the active step in the grid perfectly bright */
+    body:has(.registration-layout) .step.step-active,
+    body:has(.registration-layout) .step.step-active .step-label,
+    body:has(.registration-layout) .step.step-active .step-num {
+        opacity: 1 !important;
+    }
+}
+/* ==========================================================================
+   ── DISABILITY CATEGORY TILES DARK MODE ENGINE (image_b43e7b.png) ──
+   ========================================================================== */
+
+/* 1. Inverts the bright white card containers into the deep ink-black matrix style */
+body.dark-mode .disability-cat-block {
+    background: #070b07 !important; /* Matches your ultra-deep background theme */
+    background-color: #070b07 !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp, clean dark-green frame border line */
+    box-shadow: none !important;
+}
+
+/* 2. Changes the category header dashed separating lines to look cyber-clean */
+body.dark-mode .cat-block-title {
+    color: #4caf72 !important; /* Signature glowing green for "LEARNING DISABILITIES", etc. */
+    border-bottom-color: #1f3d24 !important; /* Tints the dashed boundary line green */
+}
+
+/* 3. Forces all checkbox textual strings (ADHD, Dyslexia, Mentally Ill) to turn readable white */
+body.dark-mode .checkbox-tile {
+    background-color: #0d160e !important; /* Slightly distinct dark shade inside the cards */
+    color: #ffffff !important; /* High contrast white text for perfect legibility */
+    border: 1.5px solid #1f3d24 !important;
+}
+
+/* 4. Keeps the checkbox borders glowing and clean when hovering */
+body.dark-mode .checkbox-tile:hover {
+    background-color: #122215 !important;
+    border-color: #4caf72 !important;
+}
+
+/* ==========================================================================
+   ── CORE ATTACHMENTS STEP DARK MODE STABILIZER (image_b3ec26.png) ──
+   ========================================================================== */
+
+/* 1. Forces all main attachment label titles to turn a bright, crisp off-white */
+body.dark-mode .file-upload-container h6,
+body.dark-mode .file-meta-info h6,
+body.dark-mode .form-group h5,
+body.dark-mode h5,
+body.dark-mode .form-group[class*="upload"] label,
+body.dark-mode div:has(> .custom-file-dropzone) {
+    color: #eaf4ec !important; /* Perfect high-contrast off-white readability match */
+}
+
+/* 2. Direct brute-force fix for the gray titles seen at the top of image_b3ec26.png */
+body.dark-mode .form-wizard-panel,
+body.dark-mode .form-wizard-panel div,
+body.dark-mode .form-wizard-panel p,
+body.dark-mode .form-wizard-panel span {
+    color: #9ecba9; /* Tints descriptive instructions like "Formats: JPEG..." a soft sage green */
+}
+
+/* 3. Specifically anchors the strong standalone headers to turn your matrix off-white */
+body.dark-mode .form-wizard-panel h5,
+body.dark-mode .form-wizard-panel h6,
+body.dark-mode .form-wizard-panel strong {
+    color: #eaf4ec !important;
+}
+
+/* 4. Inverts the bright white upload card boxes into the deep ink-black matrix container style */
+body.dark-mode .file-attachment-upload-row {
+    background: #070b07 !important; /* Matches your pristine black background theme precisely */
+    background-color: #070b07 !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp dark-green structural border outline */
+    box-shadow: none !important;
+}
+
+/* 5. Tints the "No file chosen" indicator text so it remains cleanly readable */
+body.dark-mode .file-preview-name,
+body.dark-mode .file-meta-info p,
+body.dark-mode div[id*="file"] {
+    color: #6a9c78 !important; /* Uniform muted green for default empty states */
+}
+
+/* 6. Makes the underlying button label hover tracks crisp and dark-themed */
+body.dark-mode .dropzone-label {
+    background-color: #0d160e !important;
+    border-color: #1f3d24 !important;
+    color: #4caf72 !important; /* Gives the inner button text a glowing green appearance */
+}
+
+body.dark-mode .dropzone-label:hover {
+    background-color: #122215 !important;
+    border-color: #4caf72 !important;
+    color: #ffffff !important;
+}
+/* ==========================================================================
+   ── BRUTE FORCE FIXED ATTACHMENTS OVERRIDE (image_b3e867.png) ──
+   ========================================================================== */
+
+/* Forces the sub-container block cards to match your pristine black theme precisely */
+body.dark-mode .file-attachment-upload-row,
+body.dark-mode [class*="upload-row"],
+body.dark-mode div:has(> .custom-file-dropzone) {
+    background: #070b07 !important; 
+    background-color: #070b07 !important;
+    border: 1.5px solid #1f3d24 !important; /* Sharp dark-green frame border */
+    box-shadow: none !important;
+}
+
+/* Brightens those card headers ("BARANGAY CERT...") so they turn a beautiful, high-contrast off-white */
+body.dark-mode .file-meta-info h6,
+body.dark-mode [class*="upload-row"] h6,
+body.dark-mode [class*="upload"] h6,
+body.dark-mode .file-attachment-upload-row h6,
+body.dark-mode div:has(> .custom-file-dropzone) h6 {
+    color: #eaf4ec !important; /* Crisp readability matching your text main theme */
+}
