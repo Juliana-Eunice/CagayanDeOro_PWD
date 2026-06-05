@@ -1008,4 +1008,77 @@ if (themeToggleBtn && themeIconIndicator) {
             themeIconIndicator.textContent = 'dark_mode';
         }
     });
+}// ── AUTOMATIC FORM AUTOFILL & SAVE ENGINE ──
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("pwd-application-form");
+    if (!form) return;
+
+    // 1. Load any previously saved data into fields on page load
+    loadFormProgress(form);
+
+    // 2. Listen for any inputs on the form and cache them immediately
+    form.addEventListener("input", (e) => {
+        saveField(e.target);
+    });
+
+    form.addEventListener("change", (e) => {
+        saveField(e.target);
+    });
+});
+
+// Function to save a single field's data to localStorage
+function saveField(field) {
+    if (!field.id && !field.name) return;
+
+    let storageKey = `autofill_${field.id || field.name}`;
+
+    if (field.type === "checkbox") {
+        localStorage.setItem(storageKey, field.checked);
+    } else if (field.type === "radio") {
+        // For radio arrays, save the value using the group name
+        if (field.checked) {
+            localStorage.setItem(`autofill_radio_${field.name}`, field.value);
+        }
+    } else {
+        localStorage.setItem(storageKey, field.value);
+    }
 }
+
+// Function to scan localStorage and fill out the form
+function loadFormProgress(form) {
+    // Find all inputs, selects, and textareas inside your application card
+    const fields = form.querySelectorAll("input, select, textarea");
+
+    fields.forEach((field) => {
+        if (!field.id && !field.name) return;
+
+        if (field.type === "checkbox") {
+            const savedState = localStorage.getItem(`autofill_${field.id}`);
+            if (savedState !== null) {
+                field.checked = savedState === "true";
+                // Fire a manual event in case your layout changes colors dynamically
+                field.dispatchEvent(new Event('change'));
+            }
+        } else if (field.type === "radio") {
+            const savedValue = localStorage.getItem(`autofill_radio_${field.name}`);
+            if (savedValue !== null && field.value === savedValue) {
+                field.checked = true;
+            }
+        } else if (field.type !== "file") { 
+            // Standard text inputs and selects (Skipping file inputs for security)
+            const savedValue = localStorage.getItem(`autofill_${field.id}`);
+            if (savedValue !== null && savedValue !== "") {
+                field.value = savedValue;
+            }
+        }
+    });
+}
+
+// Clear autofill cache when application is successfully submitted
+document.getElementById("pwd-application-form").addEventListener("submit", () => {
+    const fields = document.querySelectorAll("#pwd-application-form input, #pwd-application-form select, #pwd-application-form textarea");
+    fields.forEach(field => {
+        localStorage.removeItem(`autofill_${field.id}`);
+        localStorage.removeItem(`autofill_radio_${field.name}`);
+    });
+});

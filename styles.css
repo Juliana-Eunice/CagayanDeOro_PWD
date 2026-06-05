@@ -567,7 +567,7 @@ img.logo[src*="placeholder"] {
 .btn-green { background: linear-gradient(135deg, #4caf72, var(--card-green)); }
 
 .modal-yellow .modal-header { 
-    background: linear-gradient(135deg, #f3be43, var(--feedback-yellow)); 
+    background: linear-gradient(135deg, #f1c40f, #d4ac0d); 
     color: #2a1a00;
 }
 
@@ -576,7 +576,7 @@ img.logo[src*="placeholder"] {
 }
 
 .btn-yellow { 
-    background: linear-gradient(135deg, #f0b429, var(--feedback-yellow)); 
+    background: linear-gradient(135deg, #f1c40f, #d4ac0d); 
     color: #2a1a00;
     border: none;
 }
@@ -1815,7 +1815,6 @@ img.logo[src*="placeholder"] {
     }
 
     /* 3. Re-architect the sidebar card as a slide-out overlay drawer panel */
-    /* 3. Re-architect the sidebar card as a slide-out overlay drawer panel */
     #mobile-fab-container .sidebar-card {
         position: absolute;
         bottom: 64px; 
@@ -2170,10 +2169,22 @@ body.dark-mode .help-section {
     background: var(--bg-surface) !important;
     background-color: var(--bg-surface) !important;
     color: var(--text-main) !important;
-    border-left-color: var(--border-ui) !important;
-    border-right-color: var(--border-ui) !important;
-    border-bottom-color: var(--border-ui) !important;
+    border-color: var(--border-ui) !important;
     box-shadow: var(--card-shadow) !important;
+}
+
+/* ── SPECIFIC EXCEPTION: STOP GLOBAL DARK BORDERS FROM OVERRIDING MODAL HEADERS ── */
+body.dark-mode .modal-content.modal-blue { 
+    border-top: 6px solid #4285F4 !important; 
+}
+body.dark-mode .modal-content.modal-red { 
+    border-top: 6px solid #EA4335 !important; 
+}
+body.dark-mode .modal-content.modal-green { 
+    border-top: 6px solid #34A853 !important; 
+}
+body.dark-mode .modal-content.modal-yellow { 
+    border-top: 6px solid #E9A820 !important; 
 }
 
 body.dark-mode .panel-inner-header h4 {
@@ -2479,7 +2490,7 @@ body.dark-mode .portal-reference-tag-card strong {
 @media (max-width: 960px) {
     body.dark-mode .nav-links {
         background: #1e2e21 !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+        /*box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.3) !important;*/
     }
 
     body.dark-mode .nav-links::before {
@@ -2495,5 +2506,54 @@ body.dark-mode .portal-reference-tag-card strong {
     body.dark-mode .nav-links a.active {
         background: #1e3324 !important;
         color: #4caf72 !important;
+    }
+}
+/* ── ENHANCED MOBILE STEP TRACKER LAYOUT DECK ── */
+@media screen and (max-width: 768px) {
+    
+    /* 1. Transform the row into a clean, balanced 2-column grid */
+    body:has(.registration-layout) .step-tracker {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 2 uniform steps per row */
+        gap: 12px 16px !important;                       /* Clean vertical and horizontal spacing */
+        padding: 16px !important;                        /* Balanced inner padding */
+        background: rgba(0, 0, 0, 0.25) !important;
+        border-radius: 12px !important;
+    }
+
+    /* 2. Anchor the individual step items cleanly inside their grid track cells */
+    body:has(.registration-layout) .step {
+        display: inline-flex !important;
+        align-items: center !important;     /* Centers text and circle cross-axis vertically */
+        justify-content: flex-start !important; /* Left-aligns items within their grid slot */
+        opacity: 0.45;
+        transition: opacity 0.25s ease;
+    }
+
+    /* 3. Keep the active step standing out cleanly */
+    body:has(.registration-layout) .step-active {
+        opacity: 1 !important;
+    }
+
+    /* 4. Force all step text labels to stay completely visible on mobile viewports */
+    body:has(.registration-layout) .step .step-label {
+        display: inline-block !important;   /* Cancels display: none rules */
+        font-size: 0.82rem !important;      /* Optimized text scale for smaller screens */
+        line-height: 1.2 !important;
+        white-space: normal !important;      /* Wraps nicely if step title runs long */
+        margin: 0 !important;
+    }
+
+    /* 5. Keep numbers perfectly round and centered */
+    body:has(.registration-layout) .step-num {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 26px !important;             /* Slightly upscaled touch targets */
+        height: 26px !important;
+        line-height: 0 !important;
+        padding: 0 !important;
+        flex-shrink: 0 !important;          /* Protects round dimensions from compression */
+        font-size: 0.8rem !important;
     }
 }
