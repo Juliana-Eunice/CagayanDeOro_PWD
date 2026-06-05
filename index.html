@@ -13,16 +13,21 @@
 </head>
 <body>
 
-    <!-- ── Navbar ── -->
-    <header class="navbar">
+<header class="navbar">
         <div class="grid-container nav-wrapper">
             <div class="nav-brand">
                 <h1>CDO PWD Portal</h1>
                 <span>Cagayan de Oro City</span>
             </div>
+
             <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
+
+            <button id="theme-toggle-btn" class="theme-btn" style="background: none; border: none; cursor: pointer; color: inherit; display: flex; align-items: center;" aria-label="Toggle dark mode theme">
+                <span class="material-icons" id="theme-icon-indicator" style="font-size: 20px;">dark_mode</span>
+            </button>
+
             <nav class="nav-links" id="nav-links">
                 <a href="index.html" class="active">Home</a>
                 <a href="faqs.html">FAQs</a>

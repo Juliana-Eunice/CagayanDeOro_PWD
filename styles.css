@@ -1,4 +1,15 @@
 :root {
+    --bg-global: #EAECEF;        /* Light grey main canvas */
+    --bg-surface: #FFFFFF;       /* Crisp white for cards/modals */
+    --border-ui: rgba(0,0,0,0.07);
+    --border-input: #d0d5dd;
+    --bg-input: #fafafa;
+    
+    /* Typography Theme Variants */
+    --text-main: #1a1a1a;
+    --text-mid: #444444;
+    --text-light: #777777;
+
     --primary-green: #2B7A2B;
     --card-green: #34A853;
     --card-blue: #4285F4;
@@ -11,6 +22,43 @@
     --white: #FFFFFF;
     --card-shadow: 0 6px 24px rgba(0,0,0,0.10);
     --card-hover-shadow: 0 12px 32px rgba(0,0,0,0.16);
+
+    --hero-overlay-bg: rgba(30, 100, 30, 0.82);
+}
+
+body.dark-mode {
+    /* Canvas & Base Layers: Pure pitch-black command terminal */
+    --bg-global: #050805;        
+    --bg-surface: #0a100a;       /* Deep obsidian-green cards */
+    --border-ui: rgba(71, 199, 103, 0.2); /* Clean matrix green border rules */
+    
+    /* Form Elements & Sub-containers */
+    --bg-input: #0d1a0d;         /* Cyber-green text fields */
+    --border-input: #1b3d1f;     /* Distinct green input walls */
+    
+    /* Typography Hierarchy (Pure stark whites and glowing neon matrix accents) */
+    --text-main: #ffffff;        /* High-contrast crisp white for body copy */
+    --text-mid: #aae0bc;         /* Soft matrix terminal green for descriptions */
+    --text-light: #52a364;       /* Muted digital moss green for captions */
+    
+    /* Structural Layout Anchors */
+    --primary-green: #050805;    /* Navbar blends completely flush with the background */
+    --hero-overlay-bg: rgba(5, 8, 5, 0.88); /* Atmospheric terminal mask over banner images */
+    
+    /* Neon Digital Box Shadows */
+    --card-shadow: 0 8px 24px rgba(71, 199, 103, 0.08);
+    --card-hover-shadow: 0 12px 32px rgba(71, 199, 103, 0.2);
+
+}
+
+
+/* ── Smooth Global Transitions ── */
+body {
+    background-color: var(--bg-global) !important;
+    background-image: none !important; 
+    color: var(--text-main);
+    transition: background-color 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                color 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 * {
@@ -26,14 +74,22 @@ body {
 }
 
 /* ── Navbar ── */
+.navbar, .card, .requirements-card, .form-card, .sidebar-card, .doc-content-block, .faq-dropdown, .help-section, input, select, textarea {
+    transition: background-color 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                border-color 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                box-shadow 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+                color 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
 .navbar {
-    background-color: var(--primary-green);
+    /* Stays solid green in Light Mode */
+    background-color: var(--primary-green); 
     color: var(--white);
     padding: 14px 0;    
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     position: sticky;
     top: 0;
     z-index: 200;
+    
 }
 
 .nav-wrapper {
@@ -93,7 +149,8 @@ body {
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(30, 100, 30, 0.82);
+    background: var(--hero-overlay-bg) !important;
+    transition: background 0.25 ease;
 }
 
 .hero-content {
@@ -1511,6 +1568,34 @@ img.logo[src*="placeholder"] {
         position: sticky;
         top: 100px; /* Gives a clean 100px padding down from the top of the viewport on desktop layout */
     }
+.nav-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important; 
+        width: 100%;
+    }
+
+    /* 2. Forces the brand logo block to stay anchored on the left */
+    .nav-brand {
+        order: 1 !important;
+    }
+
+    /* 3. Pushes the text navigation links menu to the right */
+    .nav-links {
+        display: flex !important;
+        align-items: center !important;
+        order: 2 !important; /* Visual rank 2 sits first on the right side */
+        margin-left: auto !important; /* Consumes center gap space entirely */
+        gap: 20px !important;
+    }
+
+    /* 4. GLUES THE BUTTON RIGHT ALONGSIDE HOME/FAQS/ABOUT US */
+    #theme-toggle-btn {
+        display: flex !important;
+        order: 3 !important; /* Visual rank 3 forces it right after 'About Us' */
+        margin-left: 15px !important; /* Adds clear spacing right after your last text link */
+        padding: 0 !important;
+    }
 }
 
 /* ── Dynamic Component Helper Color Styles ── */
@@ -1586,6 +1671,73 @@ img.logo[src*="placeholder"] {
     /* Hide the text label on mobile screens */
     body:has(.registration-layout) .nav-links .back-text {
         display: none !important;
+    }
+
+.nav-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Keeps the brand title locked on the far left */
+    .nav-brand {
+        order: 1 !important;
+    }
+
+    /* Pushes the theme toggle button all the way to the right side next to the hamburger */
+    #theme-toggle-btn {
+        display: flex !important;
+        order: 2 !important;
+        margin-left: auto !important; /* Devours empty space to push itself right */
+        margin-right: 15px !important; /* Perfect breathing room before the menu icon */
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }
+
+    /* Locks the hamburger menu icon at the absolute far right edge */
+    /* ── GLOBAL MOBILE HAMBURGER SPACING (Works for BOTH Light and Dark Mode) ── */
+    .hamburger,
+    #hamburger {
+        display: flex !important;
+        order: 3 !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        width: 24px !important;  /* Sets a clean, standard width */
+        height: 18px !important; /* FORCES the 3 bars to separate and breathe */
+        background: none !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        cursor: pointer;
+    }
+
+    /* Sets the global thickness and shape of the 3 lines */
+    .hamburger span {
+        display: block !important;
+        width: 100% !important;
+        height: 2px !important; /* Modern, clean line thickness */
+        border-radius: 2px;
+        transition: background-color 0.3s ease;
+    }
+
+    /* ── DYNAMIC THEME COLORS ── */
+    /* Light Mode Color: Falls back to your default dark charcoal/green menu bar color */
+    body:not(.dark-mode) .hamburger span,
+    body:not(.dark-mode) #hamburger span {
+        background-color: #ffffff !important; /* Changed from green to white so it won't blend into the header! */
+        opacity: 1 !important;
+    }
+
+    /* DARK MODE: Keeps your sharp glowing matrix green over the black background canvas */
+    body.dark-mode .hamburger span,
+    body.dark-mode #hamburger span {
+        background-color: #47c767 !important;
+        box-shadow: 0 0 6px rgba(71, 199, 103, 0.4) !important;
     }
 }
 
@@ -1948,4 +2100,343 @@ img.logo[src*="placeholder"] {
 .modal-preview-card:has(.image-fullscreen-active) .sub-option-box {
     cursor: default !important;
 }
+/* ==========================================================================
+   ── LIVE CYBER MATRIX DARK MODE ACTIVATION RULES (COMPLETE DEFINITIVE) ──
+   ========================================================================== */
 
+body.dark-mode .card, 
+body.dark-mode .requirements-card, 
+body.dark-mode .form-card, 
+body.dark-mode .sidebar-card, 
+body.dark-mode .modal-content, 
+body.dark-mode .doc-content-block, 
+body.dark-mode .faq-dropdown,
+body.dark-mode .about-hero-header,
+body.dark-mode .faq-hero-section,
+body.dark-mode .faq-content-block,
+body.dark-mode .help-section {
+    background: var(--bg-surface) !important;
+    background-color: var(--bg-surface) !important;
+    color: var(--text-main) !important;
+    border: 1.5px solid var(--border-ui) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+/* ── 2. FLOATING TOP TERMINAL NAVIGATION BAR ── */
+body.dark-mode .navbar {
+    background-color: var(--primary-green) !important;
+    border-bottom: 1px solid var(--border-ui) !important;
+    box-shadow: 0 4px 16px rgba(5, 8, 5, 0.5) !important;
+}
+
+/* Navbar Links Setup */
+body.dark-mode .nav-links a {
+    color: var(--text-mid) !important;
+    opacity: 0.85;
+}
+
+body.dark-mode .nav-links a:hover {
+    opacity: 1;
+    color: #47c767 !important; /* Sharp glowing neon highlight on hover */
+}
+
+body.dark-mode .nav-links a.active {
+    opacity: 1;
+    font-weight: 700;
+    color: #47c767 !important;
+    border-bottom-color: #47c767 !important;
+}
+
+body.dark-mode .hamburger span {
+    background: #47c767 !important; 
+}
+
+/* ── 3. GLOWING CYBER TYPOGRAPHY COLOR OVERRIDES ── */
+/* Update this group inside Section 3 at the bottom of your styles.css */
+body.dark-mode .card h3,
+body.dark-mode .requirements-card h2,
+body.dark-mode .contact-info h2,
+body.dark-mode .main-page-title,
+body.dark-mode .doc-content-block h3,
+body.dark-mode .faq-question,
+body.dark-mode .faq-content-block h2,
+body.dark-mode .form-step-title,        /* ADD THIS: Targets registration step text */
+body.dark-mode .form-card h3,             /* ADD THIS: Targets form headers */
+body.dark-mode .step-header,             /* ADD THIS: Catch-all for wizard headers */
+body.dark-mode .step-header i,           /* ADD THIS: Ensures the little icon glows too */
+body.dark-mode .step-header span {       /* ADD THIS: Forces specific text spans to light up */
+    color: #47c767 !important; /* Radiant Matrix green override */
+    text-shadow: 0 0 8px rgba(71, 199, 103, 0.2) !important;
+}
+
+/* Subheadings & Inner Labels across views */
+body.dark-mode .doc-content-block h4,
+body.dark-mode .sub-info-card h4,
+body.dark-mode .agency-detail-strip h5,
+body.dark-mode .faq-question-text {
+    color: var(--text-main) !important; /* Secondary headers remain bright white */
+}
+
+/* Paragraphs & Core Informational Text Strings */
+body.dark-mode .card p,
+body.dark-mode .requirements-card > p,
+body.dark-mode .contact-info p,
+body.dark-mode .doc-content-block p,
+body.dark-mode .mandate-item p,
+body.dark-mode .faq-answer,
+body.dark-mode .faq-hero-section p,
+body.dark-mode .breadcrumb-nav .current,
+body.dark-mode .breadcrumb-nav .separator,
+body.dark-mode .faq-container .faq-trigger {
+    color: var(--text-mid) !important; /* Standardized text drops back safely to terminal sage-green */
+}
+
+/* Fixes the header block container so the title never disappears */
+body.dark-mode .sidebar-card > :first-child,
+body.dark-mode .sidebar-header {
+    background-color: #112213 !important; /* Accent dark neon block background */
+    border-bottom: 1.5px solid var(--border-ui) !important;
+}
+
+body.dark-mode .sidebar-header-title {
+    color: #47c767 !important; /* Sharp radiant title text visibility */
+}
+
+body.dark-mode .sidebar-anchor {
+    color: var(--text-mid) !important;
+    background: var(--bg-surface);
+}
+
+body.dark-mode .sidebar-anchor:hover {
+    background: #112213 !important;
+    color: #47c767 !important;
+}
+
+body.dark-mode .sidebar-anchor.active-anchor {
+    background: #112213 !important;
+    color: #47c767 !important;
+    border-left-color: #47c767 !important;
+}
+
+body.dark-mode .card-inner-body,
+body.dark-mode .faq-answer-block {
+    background-color: #050805 !important; /* Immersive pure terminal black inset box */
+    border: 1.5px solid rgba(71, 199, 103, 0.2) !important;
+}
+
+body.dark-mode .card-inner-body p,
+body.dark-mode .faq-answer-block p {
+    color: var(--text-mid) !important;
+}
+
+/* ── 6. DATA STRIPS, REQUIREMENT LISTS, & CHIPS ── */
+body.dark-mode .technical-attribution-badge {
+    background-color: #0d1a0d !important;
+    border: 1.5px solid var(--border-ui) !important;
+}
+
+body.dark-mode .technical-attribution-badge span {
+    color: var(--text-mid) !important;
+}
+
+body.dark-mode .agency-detail-strip,
+body.dark-mode .framework-logo-container {
+    background: var(--bg-input) !important;
+    border-color: var(--border-ui) !important;
+}
+
+body.dark-mode .agency-detail-strip p {
+    color: var(--text-main) !important;
+}
+
+body.dark-mode .req-list li,
+body.dark-mode .faq-item-row {
+    color: var(--text-main) !important;
+    background: var(--bg-input) !important;
+    border-color: var(--border-ui) !important;
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode .radio-card,
+body.dark-mode .checkbox-tile,
+body.dark-mode .sub-option-box,
+body.dark-mode .single-preview-frame {
+    background-color: var(--bg-input) !important;
+    color: var(--text-main) !important;
+    border: 1.5px solid var(--border-input) !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: rgba(71, 199, 103, 0.4) !important; /* Matrix matrix green placeholder text */
+}
+
+body.dark-mode input:focus,
+body.dark-mode select:focus,
+body.dark-mode textarea:focus {
+    border-color: #47c767 !important;
+    box-shadow: 0 0 8px rgba(71, 199, 103, 0.3) !important;
+}
+
+/* ── 8. HOVER INTERACTIONS ── */
+body.dark-mode .card:hover {
+    background: #0f1c10 !important;
+    border-color: #47c767 !important;
+    box-shadow: var(--card-hover-shadow) !important;
+}
+
+body.dark-mode .req-list li:hover {
+    background: #112613 !important;
+    border-color: #47c767 !important;
+}
+
+body.dark-mode .forgot-code-link {
+    color: var(--text-light) !important;
+}
+body.dark-mode .forgot-code-link:hover {
+    color: #47c767 !important;
+}
+
+/* Ultimate high-priority fallback specifically for the identifying step container text */
+body.dark-mode [class*="step"] h2,
+body.dark-mode [class*="step"] h3,
+body.dark-mode [class*="step"] div,
+body.dark-mode [class*="form-title"] {
+    color: #47c767 !important;
+}
+
+/* ── Matrix Step Wizard Circle & Number Overrides ── */
+body.dark-mode .step-number,
+body.dark-mode .step-indicator,
+body.dark-mode .wizard-step,
+body.dark-mode .step-circle {
+    background-color: #0d1a0d !important; /* Cyber terminal input background */
+    border: 2px solid rgba(71, 199, 103, 0.4) !important; /* Matrix green outline */
+    color: #aae0bc !important; /* Clear sage green for inactive numbers */
+}
+
+/* When the step is currently active (e.g., Step 1 when you are filling it out) */
+body.dark-mode .step-item.active .step-number,
+body.dark-mode .step-item.active .step-circle,
+body.dark-mode .step-indicator.active,
+body.dark-mode .wizard-step.active {
+    background-color: #112213 !important;
+    border-color: #47c767 !important; /* Glowing neon border */
+    color: #47c767 !important; /* Sharp glowing text number */
+    box-shadow: 0 0 10px rgba(71, 199, 103, 0.4) !important;
+}
+
+/* Connecting lines between the steps */
+body.dark-mode .step-line,
+body.dark-mode .progress-line,
+body.dark-mode .wizard-progress-bar {
+    background-color: #1b3d1f !important; /* Muted digital green line */
+}
+
+body.dark-mode .step-item.completed .step-line,
+body.dark-mode .step-item.completed ~ .step-line {
+    background-color: #47c767 !important; /* Lights up neon when completed */
+}
+/* ==========================================================================
+   ── ULTIMATE BRUTE-FORCE STEP WIZARD MATRIX OVERRIDES ──
+   ========================================================================== */
+/* Targets absolutely any element containing the word "step" in its class name */
+body.dark-mode [class*="step"] h1,
+body.dark-mode [class*="step"] h2,
+body.dark-mode [class*="step"] h3,
+body.dark-mode [class*="step"] h4,
+body.dark-mode [class*="step"] h5,
+body.dark-mode [class*="step"] h6,
+body.dark-mode [class*="step"] span,
+body.dark-mode [class*="step"] div,
+body.dark-mode [class*="step"] p,
+body.dark-mode [class*="step"] i,
+body.dark-mode [class*="step"] strong,
+body.dark-mode [class*="step"] b,
+body.dark-mode .step-header-container,
+body.dark-mode .registration-container [class*="title"] {
+    color: #47c767 !important; /* Force radiant matrix green */
+    text-shadow: 0 0 8px rgba(71, 199, 103, 0.25) !important;
+}
+
+/* Force the little identity card icon on the left to light up too */
+body.dark-mode [class*="step"] svg,
+body.dark-mode [class*="step"] img {
+    filter: invert(64%) sepia(50%) saturate(500%) hue-rotate(85deg) brightness(100%) contrast(100%) !important;
+}
+
+/* ==========================================================================
+   ── THE ABSOLUTE ULTIMATE HEADING BLANKET OVERRIDE ──
+   ========================================================================== */
+/* Targets every heading inside the form, registration sheets, or wizard layouts */
+body.dark-mode form h1,
+body.dark-mode form h2,
+body.dark-mode form h3,
+body.dark-mode form h4,
+body.dark-mode form h5,
+body.dark-mode form h6,
+body.dark-mode .form-container h1,
+body.dark-mode .form-container h2,
+body.dark-mode .form-container h3,
+body.dark-mode .form-card h2,
+body.dark-mode .form-card h3,
+body.dark-mode .registration-container h2,
+body.dark-mode .registration-container h3,
+body.dark-mode [id*="step"] h2,
+body.dark-mode [id*="step"] h3,
+body.dark-mode .wizard h2,
+body.dark-mode .wizard h3,
+body.dark-mode .step h2,
+body.dark-mode .step h3 {
+    color: #47c767 !important; /* Force neon Matrix green */
+    text-shadow: 0 0 8px rgba(71, 199, 103, 0.25) !important;
+}
+
+/* Force standard paragraph/span subtitles inside form headers to light up too */
+body.dark-mode form .title,
+body.dark-mode form .header,
+body.dark-mode .form-header h2,
+body.dark-mode .form-header h3,
+body.dark-mode .form-header span {
+    color: #47c767 !important;
+}
+/* ==========================================================================
+   ── MOBILE RESPONSIVE DROPDOWN MENU MATRIX OVERRIDES ──
+   ========================================================================== */
+/* Targets the responsive dropdown menu container bubble */
+body.dark-mode .nav-links,
+body.dark-mode .nav-menu,
+body.dark-mode .mobile-menu,
+body.dark-mode [class*="nav-links"].active,
+body.dark-mode [id="nav-links"] {
+    background-color: var(--bg-surface) !important; /* Forces obsidian Matrix black #0a100a */
+    background: var(--bg-surface) !important;
+    border: 1.5px solid var(--border-ui) !important; /* Clean matrix border rule */
+    box-shadow: 0 8px 24px rgba(71, 199, 103, 0.15) !important;
+}
+
+/* Fixes the tiny pointer arrow box sitting at the top right of the bubble card */
+body.dark-mode .nav-links::before,
+body.dark-mode .nav-links::after,
+body.dark-mode [class*="nav-links"]::before {
+    background-color: var(--bg-surface) !important;
+    border-top: 1.5px solid var(--border-ui) !important;
+    border-left: 1px solid var(--border-ui) !important;
+}
+
+/* Fixes the active/highlighted menu link wrapper (e.g., the "Home" pill box background) */
+body.dark-mode .nav-links a.active,
+body.dark-mode .nav-links a:hover {
+    background-color: #112213 !important; /* Muted tech neon green chamber block */
+    color: #47c767 !important;            /* Glowing terminal text */
+    border-radius: 6px;
+}
+
+/* Fixes inactive links inside the mobile dropdown list container */
+body.dark-mode .nav-links a {
+    color: var(--text-mid) !important; /* Soft terminal sage green for readability */
+    padding: 10px 15px;
+    display: block;
+}

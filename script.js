@@ -52,14 +52,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /* ==========================================================================
+       ── AUTOMATIC BIRTHDATE CALENDAR MAXIMUM CEILING CONSTRAINT ──
+       ========================================================================== */
+    const birthDateInput = document.getElementById('birth-date');
+    if (birthDateInput) {
+        // Sets the date picker constraint to today's exact date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        birthDateInput.setAttribute('max', today);
+    }
+
+    /* ==========================================================================
        ── NEW REGISTRATION ENTRY ROUTER ──
        ========================================================================== */
     const btnStart = document.getElementById('btn-start');
     if (btnStart) {
         btnStart.addEventListener('click', () => {
-            // Wipes out ALL history states completely when initiating a clean profile path
             localStorage.removeItem('isDraftSaved');
-            localStorage.removeItem('isApplicationSubmitted'); // FIXED: Resets tracking status state for new forms
+            localStorage.removeItem('isApplicationSubmitted'); 
             localStorage.removeItem('activeStepNum');
             localStorage.removeItem('pwdFormDraftData');
             window.location.href = 'registration.html';
@@ -89,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnConfirmExit = document.getElementById('btn-confirm-exit');
         const btnCancelExit = document.getElementById('btn-cancel-exit');
 
-        // Basic structural checklist check: code format match
         if (value === "" || value !== VALID_SAMPLE_CODE) {
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
@@ -97,7 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
-        // CONTINUE ROUTE VALIDATION: Requires an active, unsubmitted draft profile session
         if (isContinueField && !isDraftSaved) {
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
@@ -114,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
-        // CHECK STATUS ROUTER LOGIC: Block if the application hasn't passed the final confirmation submission
         if (isStatusField && !isApplicationSubmitted) {
             inputElement.value = "";
             inputElement.classList.add('input-field-error');
@@ -147,8 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (submitContinue && continueInput) {
         submitContinue.addEventListener('click', () => {
             if (validateField(continueInput)) {
-                const savedStep = localStorage.getItem('activeStepNum') || '1';
-                window.location.href = `registration.html?step=${savedStep}`;
+                window.location.href = `registration.html?step=1`;
                 clearErrors(); 
             }
         });
@@ -380,6 +385,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* ==========================================================================
+       ── WIZARD PANEL NAVIGATION VALIDATION CONTROLLER ──
+       ========================================================================== */
     nextButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const targetNextStep = parseInt(btn.getAttribute('data-next'));
@@ -396,10 +404,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // STEP 1 CONSTRAINT: Validate birthdate logic constraints
+            if (currentForm.getAttribute('id') === 'panel-step-1' && panelIsValid) {
+                const bdayField = document.getElementById('birth-date');
+                if (bdayField && bdayField.value) {
+                    const selectedDate = new Date(bdayField.value);
+                    const todayDate = new Date();
+                    
+                    // Strip hours from date values for accurate day comparisons
+                    todayDate.setHours(0,0,0,0);
+                    selectedDate.setHours(0,0,0,0);
+
+                    if (selectedDate > todayDate) {
+                        alert("Invalid Date: Your birthdate cannot be a date in the future.");
+                        bdayField.classList.add('input-field-error');
+                        panelIsValid = false;
+                    } else {
+                        bdayField.classList.remove('input-field-error');
+                    }
+                }
+            }
+
+            // STEP 2 CONSTRAINT: Checkbox entry logic verification
             if (currentForm.getAttribute('id') === 'panel-step-2' && panelIsValid) {
                 const checkedBoxes = currentForm.querySelectorAll('input[name="disability_types"]:checked');
                 if (checkedBoxes.length === 0) {
                     alert("Error: You must check at least one type of disability category to proceed.");
+                    panelIsValid = false;
+                }
+            }
+
+            // STEP 4 CONSTRAINT: File attachments presence tracking checks
+            if (currentForm.getAttribute('id') === 'panel-step-4' && panelIsValid) {
+                const photoInput = document.getElementById('file-id-pic');
+                const medInput = document.getElementById('file-med-cert');
+                const residencyInput = document.getElementById('file-brgy-cert');
+
+                if ((photoInput && photoInput.files.length === 0) || 
+                    (medInput && medInput.files.length === 0) || 
+                    (residencyInput && residencyInput.files.length === 0)) {
+                    
+                    alert("Missing Document Files: For your data protection, browser security requires you to re-attach your image/document files each time you resume a draft application session. Please re-select your files before proceeding.");
                     panelIsValid = false;
                 }
             }
@@ -410,25 +455,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    prevButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetPrevStep = parseInt(btn.getAttribute('data-prev'));
-            updateWizardProgress(targetPrevStep);
-        });
-    });
-
     const primaryFormAsset = document.getElementById('pwd-application-form');
     if (primaryFormAsset) {
         primaryFormAsset.addEventListener('submit', (e) => {
             e.preventDefault();
+            
+            const photoInput = document.getElementById('file-id-pic');
+            const medInput = document.getElementById('file-med-cert');
+            const residencyInput = document.getElementById('file-brgy-cert');
+
+            if ((photoInput && photoInput.files.length === 0) || 
+                (medInput && medInput.files.length === 0) || 
+                (residencyInput && residencyInput.files.length === 0)) {
+                alert("Missing Document Files: Please fill all required document slots before proceeding.");
+                return;
+            }
+
             alert("Application Form Packed Successfully! Sent to Persons with Disability Affairs Office (PDAO) for data review validation.");
-            
-            // ── THE LOGIC TRANSITION ──
-            localStorage.setItem('isApplicationSubmitted', 'true'); // FIXED: Unlocks registration tracking status screen
-            localStorage.removeItem('pwdFormDraftData');             // Strips old input fields data
-            localStorage.removeItem('isDraftSaved');                 // Blocks the continue panel option
+            localStorage.setItem('isApplicationSubmitted', 'true'); 
+            localStorage.removeItem('pwdFormDraftData');             
+            localStorage.removeItem('isDraftSaved');                 
             localStorage.removeItem('activeStepNum');
-            
             window.location.href = "index.html";
         });
     }
@@ -440,31 +487,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const forgotPhoneInput = document.getElementById('forgot-phone-input');
     const submitForgotPhone = document.getElementById('submit-forgot-phone');
 
-    triggerForgotLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const activeModal = link.closest('.modal');
-            const isFromStatus = activeModal && activeModal.id === 'modal-status';
-            if (activeModal) activeModal.style.display = 'none';
-            
-            if (forgotStepPhone) forgotStepPhone.style.display = 'block';
-            if (forgotStepSuccess) forgotStepSuccess.style.display = 'none';
-            if (forgotPhoneInput) {
-                forgotPhoneInput.value = "";
-                forgotPhoneInput.classList.remove('input-field-error');
-                forgotPhoneInput.placeholder = "e.g. 09XXXXXXXXX";
-            }
-            
-            if (isFromStatus && forgotStepPhone && submitForgotPhone) {
-                forgotStepPhone.className = "modal-content modal-red";
-                submitForgotPhone.className = "modal-submit btn-red";
-            } else if (forgotStepPhone && submitForgotPhone) {
-                forgotStepPhone.className = "modal-content modal-blue";
-                submitForgotPhone.className = "modal-submit btn-blue";
-            }
-            if (modalForgotCode) modalForgotCode.style.display = 'flex';
+    if (triggerForgotLinks.length > 0) {
+        triggerForgotLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const activeModal = link.closest('.modal');
+                const isFromStatus = activeModal && activeModal.id === 'modal-status';
+                if (activeModal) activeModal.style.display = 'none';
+                
+                if (forgotStepPhone) forgotStepPhone.style.display = 'block';
+                if (forgotStepSuccess) forgotStepSuccess.style.display = 'none';
+                if (forgotPhoneInput) {
+                    forgotPhoneInput.value = "";
+                    forgotPhoneInput.classList.remove('input-field-error');
+                    forgotPhoneInput.placeholder = "e.g. 09XXXXXXXXX";
+                }
+                
+                if (isFromStatus && forgotStepPhone && submitForgotPhone) {
+                    forgotStepPhone.className = "modal-content modal-red";
+                    submitForgotPhone.className = "modal-submit btn-red";
+                } else if (forgotStepPhone && submitForgotPhone) {
+                    forgotStepPhone.className = "modal-content modal-blue";
+                    submitForgotPhone.className = "modal-submit btn-blue";
+                }
+                if (modalForgotCode) modalForgotCode.style.display = 'flex';
+            });
         });
-    });
+    }
 
     if (submitForgotPhone && forgotPhoneInput) {
         submitForgotPhone.addEventListener('click', () => {
@@ -506,9 +555,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeDraftModal = document.getElementById('close-draft-modal');
     const closeDraftSuccessModal = document.getElementById('close-draft-success-modal');
 
+    /* ==========================================================================
+       ── SAVE DRAFT MODAL CONTROLS (LOGIC LOOP FIX) ──
+       ========================================================================== */
     if (btnSaveDraft && modalSaveDraft) {
         btnSaveDraft.onclick = () => {
-            if (!isDraftSaved) {
+            const liveDraftCheck = localStorage.getItem('isDraftSaved') === 'true';
+
+            if (!liveDraftCheck) {
                 if (draftStepPhone) draftStepPhone.style.display = 'block';
                 if (draftStepSuccess) draftStepSuccess.style.display = 'none';
                 if (draftPhoneInput) {
@@ -537,7 +591,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Inside your save draft verification block:
             isDraftSaved = true;
             localStorage.setItem('isDraftSaved', 'true');
             if (draftStepPhone) draftStepPhone.style.display = 'none';
@@ -593,7 +646,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         } else {
-            // Clears runtime draft logs if coming through a fresh route directly
             if (!urlParamsCheck.has('step')) {
                 localStorage.removeItem('pwdFormDraftData');
                 localStorage.removeItem('isDraftSaved');
@@ -638,10 +690,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    /* ==========================================================================
+       ── ENHANCED FILE ATTACHMENT VALIDATION ENGINE WITH REMOVE HANDLERS ──
+       ========================================================================== */
     const uploadRules = {
         'file-id-pic': { maxSize: 2 * 1024 * 1024, allowedTypes: ['image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-id-pic', rowId: 'row-id-pic' },
-        'file-med-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-med-cert', rowId: 'row-med-cert', isMultiple: true, maxFiles: 2},
-        'file-brgy-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-brgy-cert', rowId: 'row-brgy-cert', isMultiple: true, maxFiles: 2}
+        'file-med-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-med-cert', rowId: 'row-med-cert' },
+        'file-brgy-cert': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-brgy-cert', rowId: 'row-brgy-cert' },
+        'file-id-back': { maxSize: 5 * 1024 * 1024, allowedTypes: ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'], previewId: 'preview-id-back', rowId: 'row-brgy-cert' }
     };
 
     Object.keys(uploadRules).forEach(inputId => {
@@ -653,48 +709,85 @@ document.addEventListener('DOMContentLoaded', () => {
             const previewEl = document.getElementById(rule.previewId);
             const rowEl = document.getElementById(rule.rowId);
             
-            const resetInput = () => {
+            if (this.files.length === 0) {
+                if (previewEl) previewEl.textContent = "No file chosen";
+                if (inputId !== 'file-id-back' && rowEl) rowEl.classList.remove('file-row-success');
+                return;
+            }
+
+            const file = this.files[0];
+            
+            if (file.size > rule.maxSize) {
+                const maxMb = rule.maxSize / (1024 * 1024);
+                alert(`Error: "${file.name}" exceeds the maximum limit size of ${maxMb}MB.`);
                 this.value = ""; 
                 if (previewEl) previewEl.textContent = "No file chosen";
-                if (rowEl) rowEl.classList.remove('file-row-success');
-            };
-
-            if (this.files.length === 0) {
-                resetInput();
-                return;
-            }
-            
-            if (rule.isMultiple && this.files.length > rule.maxFiles) {
-                alert(`Error: You can only upload a maximum of ${rule.maxFiles} files.`);
-                resetInput();
+                if (inputId !== 'file-id-back' && rowEl) rowEl.classList.remove('file-row-success');
                 return;
             }
 
-            const fileNames = [];
-            for (let i = 0; i < this.files.length; i++) {
-                const file = this.files[i];
-
-                if (file.size > rule.maxSize) {
-                    const maxMb = rule.maxSize / (1024 * 1024);
-                    alert(`Error: "${file.name}" exceeds the maximum limit size of ${maxMb}MB.`);
-                    resetInput();
-                    return;
-                }
-            
-                if (!rule.allowedTypes.includes(file.type)) {
-                    alert(`Error: Invalid file format type. Please upload approved documents only.`);
-                    resetInput();
-                    return;
-                }
-                fileNames.push(file.name);
+            if (!rule.allowedTypes.includes(file.type) && file.type !== "") {
+                alert(`Error: Invalid file format type. Please upload approved documents only.`);
+                this.value = ""; 
+                if (previewEl) previewEl.textContent = "No file chosen";
+                if (inputId !== 'file-id-back' && rowEl) rowEl.classList.remove('file-row-success');
+                return;
             }
-            if (previewEl) previewEl.textContent = fileNames.join(', ');
-            if (rowEl) rowEl.classList.add('file-row-success');
+
+            if (previewEl) {
+                previewEl.textContent = file.name;
+                previewEl.style.color = "var(--card-green)";
+            }
+            if (rowEl && inputId !== 'file-id-back') {
+                rowEl.classList.add('file-row-success');
+            }
         });
     });
 
+    const fileSlots = [
+        { input: 'file-id-pic', preview: 'preview-id-pic', clear: 'clear-id-pic', row: 'row-id-pic' },
+        { input: 'file-med-cert', preview: 'preview-med-cert', clear: 'clear-med-cert', row: 'row-med-cert' },
+        { input: 'file-brgy-cert', preview: 'preview-brgy-cert', clear: 'clear-brgy-cert', row: 'row-brgy-cert' },
+        { input: 'file-id-back', preview: 'preview-id-back', clear: 'clear-id-back', row: 'row-brgy-cert' }
+    ];
+
+    fileSlots.forEach(slot => {
+        const inputEl = document.getElementById(slot.input);
+        const clearBtn = document.getElementById(slot.clear);
+        const previewEl = document.getElementById(slot.preview);
+        const rowEl = document.getElementById(slot.row);
+
+        if (inputEl && clearBtn) {
+            // Restore clear button visibility on resume load frames
+            if (inputEl.files && inputEl.files.length > 0) clearBtn.style.display = 'inline-block';
+
+            inputEl.addEventListener('change', () => {
+                if (inputEl.files.length > 0) clearBtn.style.display = 'inline-block';
+            });
+
+            clearBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                inputEl.value = ""; 
+                if (previewEl) {
+                    previewEl.textContent = "No file chosen";
+                    previewEl.style.color = "";
+                }
+                clearBtn.style.display = 'none';
+
+                if (slot.input !== 'file-id-back' && rowEl) {
+                    rowEl.classList.remove('file-row-success');
+                } else if (slot.input === 'file-id-back') {
+                    const frontInput = document.getElementById('file-brgy-cert');
+                    if (frontInput && frontInput.files.length === 0 && rowEl) {
+                        rowEl.classList.remove('file-row-success');
+                    }
+                }
+            });
+        }
+    });
+
     /* ==========================================================================
-       ── VISUAL PREVIEW MODAL INTERACTIVE LOGIC ──
+       ── VISUAL PREVIEW MODAL INTERACTIVE LOGIC (FIXED POSITIONING) ──
        ========================================================================== */
     const linkPreviewId = document.getElementById('link-preview-id'); 
     const modalVisualPreview = document.getElementById('modal-visual-preview');
@@ -710,12 +803,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const previewImgIdFront = document.getElementById('preview-img-idfront');
     const previewImgIdBack = document.getElementById('preview-img-idback');
 
-    // Home view selectors
     const reqTriggerPhoto = document.getElementById('req-trigger-photo');
     const reqTriggerMedical = document.getElementById('req-trigger-medical');
     const reqTriggerBarangay = document.getElementById('req-trigger-barangay');
 
-    // FAQ view selectors
     const faqTriggerPhoto = document.getElementById('faq-req-photo');
     const faqTriggerMedical = document.getElementById('faq-req-medical');
     const faqTriggerBarangay = document.getElementById('faq-req-barangay');
@@ -750,7 +841,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Bind item launches for Photo spec sheet triggers
     [reqTriggerPhoto, faqTriggerPhoto].forEach(trigger => {
         if (trigger) {
             trigger.addEventListener('click', () => {
@@ -764,7 +854,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Bind item launches for Medical abstract triggers
     [reqTriggerMedical, faqTriggerMedical].forEach(trigger => {
         if (trigger) {
             trigger.addEventListener('click', () => {
@@ -778,7 +867,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Bind item launches for Barangay residency multi-view triggers
     [reqTriggerBarangay, faqTriggerBarangay].forEach(trigger => {
         if (trigger) {
             trigger.addEventListener('click', () => {
@@ -859,3 +947,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
 });
+
+// ==========================================================================
+// ── PERSISTENT DARK MODE ENGINE ──
+// ==========================================================================
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+const themeIconIndicator = document.getElementById('theme-icon-indicator');
+
+const currentThemePreference = localStorage.getItem('portalTheme');
+
+if (currentThemePreference === 'dark') {
+    document.body.classList.add('dark-mode');
+    if (themeIconIndicator) themeIconIndicator.textContent = 'light_mode'; 
+} else {
+    document.body.classList.remove('dark-mode');
+    if (themeIconIndicator) themeIconIndicator.textContent = 'dark_mode';  
+}
+
+if (themeToggleBtn && themeIconIndicator) {
+    themeToggleBtn.addEventListener('click', () => {
+        const isDarkActive = document.body.classList.toggle('dark-mode');
+        
+        if (isDarkActive) {
+            localStorage.setItem('portalTheme', 'dark');
+            themeIconIndicator.textContent = 'light_mode';
+        } else {
+            localStorage.setItem('portalTheme', 'light');
+            themeIconIndicator.textContent = 'dark_mode';
+        }
+    });
+}
